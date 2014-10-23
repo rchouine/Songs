@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{83C8BF7C-C758-4F4F-8FBF-1069B01D7BDF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Songs</RootNamespace>
+    <AssemblyName>Songs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Songs.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <IncludeIisSettings>false</IncludeIisSettings>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Songs.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="Images\buttonback.gif" />
+    <Content Include="Images\FlecheBas.gif" />
+    <Content Include="Images\FlecheHaut.gif" />
+    <Content Include="Images\Fonds\marbre.jpg" />
+    <Content Include="Images\glossyback1.gif" />
+    <Content Include="Images\glossyback2.gif" />
+    <Content Include="Images\glossyback3.jpg" />
+    <Content Include="Images\glossyback4.jpg" />
+    <Content Include="Images\Logo.gif" />
+    <Content Include="Images\Logo100.gif" />
+    <Content Include="Images\logo_ccc.png" />
+    <Content Include="Images\logo_ccc_100.png" />
+    <Content Include="Images\pictosBoutons\AJOUTER.GIF" />
+    <Content Include="Images\pictosBoutons\AJOUTERETQUITTER.GIF" />
+    <Content Include="Images\pictosBoutons\effacer.gif" />
+    <Content Include="Images\pictosBoutons\ENREGISTRER.GIF" />
+    <Content Include="Images\pictosBoutons\fermer.gif" />
+    <Content Include="Images\pictosBoutons\imprimer.gif" />
+    <Content Include="Images\pictosBoutons\modifier.gif" />
+    <Content Include="Images\pictosBoutons\QUITTER.GIF" />
+    <Content Include="Images\pictosBoutons\supprimer.gif" />
+    <Content Include="Images\pictosBoutons\VALIDER.GIF" />
+    <Content Include="Lib\datepicker-fr.js" />
+    <Content Include="Login\Login.aspx" />
+    <Content Include="Login\NewPwd.aspx" />
+    <Content Include="Menu.aspx" />
+    <Content Include="Ref\GestionThemes.aspx" />
+    <Content Include="Ref\UpdateTheme.aspx" />
+    <Content Include="Songs\Chants.aspx" />
+    <Content Include="Songs\Chant4.js" />
+    <Content Include="Songs\ChordPro.aspx" />
+    <Content Include="Songs\DatePicker.aspx" />
+    <Content Include="Songs\Default.aspx" />
+    <Content Include="Songs\Frameset.aspx" />
+    <Content Include="Songs\Top10.aspx" />
+    <Content Include="Songs\UpdateSong.aspx" />
+    <Content Include="StyleChordPro.css" />
+    <Content Include="StyleSheet.css" />
+    <Content Include="Users\GestionUsers.aspx" />
+    <Content Include="Users\UpdateUser.aspx" />
+    <Content Include="Utils\s1.JPG" />
+    <Content Include="Utils\s2.JPG" />
+    <Content Include="Utils\s3.JPG" />
+    <Content Include="Utils\s4.JPG" />
+    <Content Include="Utils\Securite.htm" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Default.aspx.designer.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Login.aspx.designer.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login\NewPwd.aspx.designer.vb">
+      <DependentUpon>NewPwd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Menu.aspx.designer.vb">
+      <DependentUpon>Menu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AppUtils.vb" />
+    <Compile Include="Modules\ChordUtils.vb" />
+    <Compile Include="Modules\SQLUtils.vb" />
+    <Compile Include="Modules\strUtils.vb" />
+    <Compile Include="Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login\Login.aspx.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login\NewPwd.aspx.vb">
+      <DependentUpon>NewPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Menu.aspx.vb">
+      <DependentUpon>Menu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWebExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.Web.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Ref\GestionThemes.aspx.designer.vb">
+      <DependentUpon>GestionThemes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Ref\GestionThemes.aspx.vb">
+      <DependentUpon>GestionThemes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ref\UpdateTheme.aspx.designer.vb">
+      <DependentUpon>UpdateTheme.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Ref\UpdateTheme.aspx.vb">
+      <DependentUpon>UpdateTheme.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\Chants.aspx.designer.vb">
+      <DependentUpon>Chants.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\Chants.aspx.vb">
+      <DependentUpon>Chants.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\ChordPro.aspx.designer.vb">
+      <DependentUpon>ChordPro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\ChordPro.aspx.vb">
+      <DependentUpon>ChordPro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\DatePicker.aspx.designer.vb">
+      <DependentUpon>DatePicker.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\DatePicker.aspx.vb">
+      <DependentUpon>DatePicker.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\Default.aspx.designer.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\Frameset.aspx.designer.vb">
+      <DependentUpon>Frameset.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\Frameset.aspx.vb">
+      <DependentUpon>Frameset.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\Top10.aspx.designer.vb">
+      <DependentUpon>Top10.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\Top10.aspx.vb">
+      <DependentUpon>Top10.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Songs\UpdateSong.aspx.designer.vb">
+      <DependentUpon>UpdateSong.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Songs\UpdateSong.aspx.vb">
+      <DependentUpon>UpdateSong.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\GestionUsers.aspx.designer.vb">
+      <DependentUpon>GestionUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\GestionUsers.aspx.vb">
+      <DependentUpon>GestionUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\UpdateUser.aspx.designer.vb">
+      <DependentUpon>UpdateUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UpdateUser.aspx.vb">
+      <DependentUpon>UpdateUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="Utils\Chants.doc" />
+    <Content Include="Utils\Chants.DOT" />
+    <Content Include="Utils\Modele.DOT" />
+    <Content Include="vwd.webinfo" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="bin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppUtils\AppUtils.vbproj">
+      <Project>{b70965bc-c57f-4942-a073-cd2da1e2677d}</Project>
+      <Name>AppUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Songs.Controller\Songs.Controller.vbproj">
+      <Project>{9629bda2-0d3b-4deb-8874-e37f49ead15a}</Project>
+      <Name>Songs.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Songs.Model\Songs.Model.vbproj">
+      <Project>{9381fc6f-8824-4899-986f-9d1a2fd90d10}</Project>
+      <Name>Songs.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>65071</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49375/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
