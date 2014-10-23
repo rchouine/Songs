@@ -6,9 +6,7 @@
 End Code
 
 @Scripts.Render("~/Scripts/jquery-ui-1.11.2/external/jquery/jquery.js")
-@Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.js")
 @Scripts.Render("~/Scripts/gridmvc.js")
-
 
 <style type="text/css">
     a.btnEdit {
@@ -69,11 +67,12 @@ End Code
                                                         End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
         <td valign="top">
-            <button class="ui-button" id='button 1'>hello world</button>
-            <button id="createUser" class="ui-button-text-icon-primary">Test dialogue</button>
+            <button id="createUser">Test dialogue</button>
             <div id="dialog1" title="Dialogue de test" style="display: none;">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
+            @Html.Hidden("HFCurrTabIndex", 0)
+
 
             <div id="tabs">
                 <ul>
@@ -81,14 +80,13 @@ End Code
                     <li><a href="#tabs-2">Accords</a></li>
                     <li><a href="#tabs-3">Sélection</a></li>
                 </ul>
-                <div id="tabs-1">1</div>
-                <div id="tabs-2">2</div>
-                <div id="tabs-3">3</div>
+                <div id="tabs-1"><div id="divParoles"></div></div>
+                <div id="tabs-2"></div>
+                <div id="tabs-3">@Html.Partial("TestChildView")</div>
             </div>
 
-            @Html.TextBox("HFCurrTabIndex", 1)
 
-            <div id="divParoles"></div>
+            
         </td>
     </tr>
 </table>
@@ -99,9 +97,11 @@ End Code
         var w = $(window).width();
         if (w > 1024) w = 1024;
 
-        $(".grid-wrap").height($(window).height() - 350);
-        $("#divParoles").height($(window).height() - 220);
-        $("#divParoles").width(w - 415);
+        $(".grid-wrap").height($(window).height() - 330);
+        $("#tabs").height($(window).height() - 250);
+        $("#tabs").width(w - 415);
+        $("#divParoles").height($(window).height() - 310);
+        $("#divParoles").width(w - 435);
     }
 
     $(document).ready(function () {

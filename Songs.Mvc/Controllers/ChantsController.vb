@@ -29,6 +29,10 @@ Public Class ChantsController
         Dim songCtrl As New SongController
         Dim chantTrouve = songCtrl.GetById(id)
         chantTrouve.Lyrics = FormatterParoles(chantTrouve.Lyrics)
+
+        'Dim cu As New ChordUtils
+        'cu.ShowChords(cu.Shift(aSong.ChordPro, 0, rbSharp.Checked), divAccords)
+
         Return PartialView("Chant", chantTrouve)
     End Function
 

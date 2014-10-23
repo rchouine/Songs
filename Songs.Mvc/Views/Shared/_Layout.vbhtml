@@ -9,7 +9,7 @@
 
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css")
+        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/smoothness/jquery-ui.css")
         @Styles.Render("~/Content/Gridmvc.css")
 
     </head>
@@ -49,7 +49,6 @@
 
         @Scripts.Render("~/Scripts/jquery-ui-1.11.2/external/jquery/jquery.js")
         @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.js")
-        @Scripts.Render("~/Scripts/gridmvc.js")
         @RenderSection("scripts", required:=False)
     </body>
 </html>

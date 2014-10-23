@@ -53,7 +53,6 @@ Namespace Modules
             Dim pos As Integer
             Dim accordEnCours As Boolean = False
 
-            'Parcourir la ligne
             Dim i As Integer
             For i = 0 To data.Length - 1
                 Select Case data.Substring(i, 1)
@@ -89,6 +88,13 @@ Namespace Modules
                 End Select
             Next
             Return resultat
+        End Function
+
+        Public Function GetChordsHtml(ByVal data As String) As String
+            Using newDiv As New HtmlElement
+                ShowChords(data, newDiv)
+                Return newDiv.InnerHtml
+            End Using
         End Function
 
         Public Sub ShowChords(ByVal data As String, ByRef mainContainer As Control)

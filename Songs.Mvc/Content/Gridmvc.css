@@ -12,7 +12,7 @@ table.grid-table {
 }
 
 .grid-header, .grid-cell {
-    color: navy;
+    /*color: navy;*/
     background-color: white;
     border: 1px solid lightgray;
 }

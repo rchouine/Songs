@@ -769,6 +769,7 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Chants\Recherche.vbhtml" />
     <Content Include="Views\Chants\Chant.vbhtml" />
+    <Content Include="Views\Chants\TestChildView.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
