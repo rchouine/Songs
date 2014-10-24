@@ -1,4 +1,5 @@
 ﻿Imports Songs.Controller
+Imports Songs.web
 
 Public Class ChantsController
     Inherits System.Web.Mvc.Controller
@@ -25,15 +26,16 @@ Public Class ChantsController
         Return View("Recherche", liste)
     End Function
 
-    Function Chant(id As Integer) As PartialViewResult
+    Function Chant(id As Integer) As JsonResult
         Dim songCtrl As New SongController
         Dim chantTrouve = songCtrl.GetById(id)
-        chantTrouve.Lyrics = FormatterParoles(chantTrouve.Lyrics)
 
-        'Dim cu As New ChordUtils
-        'cu.ShowChords(cu.Shift(aSong.ChordPro, 0, rbSharp.Checked), divAccords)
+        Dim cu As New ChordProController
 
-        Return PartialView("Chant", chantTrouve)
+        Dim retour(1) As String
+        retour(0) = FormatterParoles(chantTrouve.Lyrics)
+        retour(1) = cu.GetChordsHtml(cu.Shift(chantTrouve.ChordPro, 0, True))
+        Return Json(retour, JsonRequestBehavior.AllowGet)
     End Function
 
     Public Function FormatterParoles(ByVal text As Object) As String

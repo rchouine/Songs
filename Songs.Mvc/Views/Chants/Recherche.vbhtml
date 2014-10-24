@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
+<link href="~/Content/StyleChordPro.css" rel="stylesheet" />
+
 @Scripts.Render("~/Scripts/jquery-ui-1.11.2/external/jquery/jquery.js")
 @Scripts.Render("~/Scripts/gridmvc.js")
 
@@ -23,7 +25,7 @@ End Code
         overflow-y: auto;
     }
 
-    #divParoles {
+    .childTab {
         height: 200px;
         text-align: center;
         overflow-x: auto;
@@ -80,13 +82,10 @@ End Code
                     <li><a href="#tabs-2">Accords</a></li>
                     <li><a href="#tabs-3">Sélection</a></li>
                 </ul>
-                <div id="tabs-1"><div id="divParoles"></div></div>
-                <div id="tabs-2"></div>
+                <div id="tabs-1"><div id="divParoles" class="childTab"></div></div>
+                <div id="tabs-2"><div id="divAccords" class="childTab"></div></div>
                 <div id="tabs-3">@Html.Partial("TestChildView")</div>
             </div>
-
-
-            
         </td>
     </tr>
 </table>
@@ -100,8 +99,8 @@ End Code
         $(".grid-wrap").height($(window).height() - 330);
         $("#tabs").height($(window).height() - 250);
         $("#tabs").width(w - 415);
-        $("#divParoles").height($(window).height() - 310);
-        $("#divParoles").width(w - 435);
+        $(".childTab").height($(window).height() - 310);
+        $(".childTab").width(w - 435);
     }
 
     $(document).ready(function () {
@@ -113,11 +112,8 @@ End Code
 
         pageGrids.SongGrid.onRowSelect(function (e) {
             $.post("/Chants/Chant?id=" + e.row.Id, function (data) {
-                if (data.Status <= 0) {
-                    alert(data.Message);
-                    return;
-                }
-                $('#divParoles').html(data);
+                $('#divParoles').html(data[0]);
+                $('#divAccords').html(data[1]);
                 $("#tabs").tabs();
             });
         });

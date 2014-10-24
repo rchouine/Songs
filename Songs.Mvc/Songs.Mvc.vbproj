@@ -249,6 +249,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\StyleChordPro.css" />
     <Content Include="Grid.mvc.readme" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -768,7 +769,6 @@
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Chants\Recherche.vbhtml" />
-    <Content Include="Views\Chants\Chant.vbhtml" />
     <Content Include="Views\Chants\TestChildView.vbhtml" />
   </ItemGroup>
   <ItemGroup>
@@ -830,6 +830,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Songs.Controller\Songs.Controller.vbproj">
@@ -839,6 +840,10 @@
     <ProjectReference Include="..\Songs.Model\Songs.Model.vbproj">
       <Project>{9381fc6f-8824-4899-986f-9d1a2fd90d10}</Project>
       <Name>Songs.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Songs.web\Songs.web.vbproj">
+      <Project>{0b8ada02-c9f0-4689-954f-b64cec8361de}</Project>
+      <Name>Songs.web</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

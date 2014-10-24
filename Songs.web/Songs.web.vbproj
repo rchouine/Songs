@@ -97,6 +97,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChordProController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
