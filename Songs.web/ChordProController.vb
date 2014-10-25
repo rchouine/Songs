@@ -67,7 +67,7 @@ Public Class ChordProController
                         If data.Substring(i + 1, 1) = "#" OrElse data.Substring(i + 1, 1) = "b" Then
                             pos = RechercheTon(data.Substring(i, 2))
                             If pos > -1 Then
-                                resultat &= _tons((pos + nb) Mod 12, If(displaySharp, 0, 1))
+                                resultat &= _tons((pos + nb + 12) Mod 12, If(displaySharp, 0, 1))
                             Else
                                 resultat &= data.Substring(i, 1)
                             End If
@@ -75,7 +75,7 @@ Public Class ChordProController
                         Else
                             pos = RechercheTon(data.Substring(i, 1))
                             If pos > -1 Then
-                                resultat &= _tons((pos + nb) Mod 12, If(displaySharp, 0, 1))
+                                resultat &= _tons((pos + nb + 12) Mod 12, If(displaySharp, 0, 1))
                             Else
                                 resultat &= data.Substring(i, 1)
                             End If

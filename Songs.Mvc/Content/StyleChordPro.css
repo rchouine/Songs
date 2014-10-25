@@ -22,7 +22,7 @@
         }
 
         .songTable td {
-            border: 0;
+            text-align: left;
             margin: 0;
             padding: 0;
         }

@@ -10,10 +10,14 @@ Public Class ChantsController
     Function Chants() As ActionResult
         Dim songCtrl As New SongController
         Dim liste = songCtrl.GetList(1, Model.SearchType.Title, "", 1)
-        Return View("Recherche", liste)
+
+        Dim vm As New ChantsViewModel
+        vm.Chants = liste
+        vm.TabIndex = 0
+        Return View("Recherche", vm)
     End Function
 
-    Function Rechercher(typeRecherche As String, texteRecherche As String) As ActionResult
+    Function Rechercher(typeRecherche As String, texteRecherche As String, TabIndex As Integer) As ActionResult
         Dim leType As Model.SearchType
         Select Case typeRecherche
             Case "code" : leType = Model.SearchType.Code
@@ -23,18 +27,24 @@ Public Class ChantsController
 
         Dim songCtrl As New SongController
         Dim liste = songCtrl.GetList(1, leType, texteRecherche, 0)
-        Return View("Recherche", liste)
+
+        Dim vm As New ChantsViewModel
+        vm.Chants = liste
+        vm.TabIndex = TabIndex
+        Return View("Recherche", vm)
     End Function
 
-    Function Chant(id As Integer) As JsonResult
+    Function Chant(id As Integer, shift As Integer, sharp As Integer) As JsonResult
         Dim songCtrl As New SongController
         Dim chantTrouve = songCtrl.GetById(id)
 
         Dim cu As New ChordProController
 
-        Dim retour(1) As String
-        retour(0) = FormatterParoles(chantTrouve.Lyrics)
-        retour(1) = cu.GetChordsHtml(cu.Shift(chantTrouve.ChordPro, 0, True))
+        Dim retour(3) As String
+        retour(0) = id
+        retour(1) = (shift + 12) Mod 12
+        retour(2) = FormatterParoles(chantTrouve.Lyrics)
+        retour(3) = cu.GetChordsHtml(cu.Shift(chantTrouve.ChordPro, shift, sharp = 1))
         Return Json(retour, JsonRequestBehavior.AllowGet)
     End Function
 
