@@ -18,6 +18,10 @@ End Code
         background-position: center;
     }
 
+    a.btnEdit:hover {
+        background-color: #c7d1d6;
+    }
+
     .grid-wrap {
         height: 200px;
         width: 380px;
@@ -72,9 +76,9 @@ End Code
                                                                End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
         <td valign="top">
-            <button id="createUser">Test dialogue</button>
-            <div id="dialog1" title="Dialogue de test" style="display: none;">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <button id="ChordPro">ChordPro</button>
+            <div id="dialogChordPro" title="Dialogue de test" style="display: none;">
+                <div id="dialogContentChordPro"></div>
             </div>
 
             <div id="tabs">
@@ -149,14 +153,14 @@ End Code
             $.post(url, function (data) {
                 $('#id').val(data[0]);
                 $('#shift').val(data[1]);
-                $('#divParoles').html(data[2]);
-                $('#divAccords').html(data[3]);
+                $('#divParoles').html(data[3]);
+                $('#divAccords').html(data[4]);
                 $("#tabs").tabs();
             });
         }
 
         function getSharp() {
-            if ($('#rbSharp').is(':checked'))
+            if ($('#rbSharp').prop('checked'))
                 return "1";
             else
                 return "0";
@@ -173,29 +177,83 @@ End Code
         //Styliser les boutons
         $("button, input:submit, input:button").button();
 
-        // Link to open the dialog
-        $("#createUser").click(function (event) {
-            $("#dialog1").dialog({
-                autoOpen: false,
-                height: 300,
-                width: 350,
-                modal: true,
-                buttons: [
-                    {
-                        text: "Ok",
-                        click: function () {
-                            $(this).dialog("close");
-                        }
-                    },
-                    {
-                        text: "Cancel",
-                        click: function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                ]
+
+        $("#ChordPro").click(function (event) {
+            var h = $(window).height() - 50;
+            var w = $(window).width() - 200;
+
+            var url = "/Chants/Chant?id=" + $('#id').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
+            $.post(url, function (data) {
+                $('#dialogContentChordPro').html(data[4]);
+                $("#dialogChordPro").attr("title", data[2])
+                $("#dialogChordPro").dialog({
+                    autoOpen: false,
+                    height: h,
+                    width: w,
+                    modal: true,
+                    closeText: "Fermer",
+                    buttons: [
+                        {
+                            text: "↓b",
+                            title: "Déscendre d'un demi-ton",
+                            style: "float: left",
+                            click: function () {
+                                $('#shift').val(eval($('#shift').val()) - 1);
+                                ShiftSong();
+                            }
+                        },
+                        {
+                            text: "↑#",
+                            title: "Monter d'un demi-ton",
+                            style: "float: left",
+                            click: function () {
+                                $('#shift').val(eval($('#shift').val()) + 1);
+                                ShiftSong();
+                            }
+                        },
+                        {
+                            text: "b",
+                            title: "Afficher les demi-tons en b",
+                            style: "float: left; margin-left: 10px;",
+                            click: function () {
+                                $('#rbBemol').prop('checked', true);
+                                $('#rbSharp').prop('checked', false);
+                                ShiftSong();
+                            }
+                        },
+                        {
+                            text: "#",
+                            title: "Afficher les demi-tons en #",
+                            style: "float: left",
+                            click: function () {
+                                $('#rbBemol').prop('checked', false);
+                                $('#rbSharp').prop('checked', true);
+                                ShiftSong();
+                            }
+                        },
+                        {
+                            text: "Ok",
+                            title: "Fermer cette fenêtre",
+                            style: "float: right",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        },
+                    ]
+                });
+
+                $(".ui-dialog-buttonset").width("100%");
+                $("#dialogChordPro").dialog("open");
             });
-            $("#dialog1").dialog("open");
+
+            function ShiftSong() {
+                var url = "/Chants/Chant?id=" + $('#id').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
+                $.post(url, function (data) {
+                    $('#shift').val(data[1]);
+                    $('#dialogContentChordPro').html(data[4]);
+                });
+            }
+
         });
     });
 </script>

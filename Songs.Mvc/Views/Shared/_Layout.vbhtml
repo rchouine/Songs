@@ -26,6 +26,7 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Chants", "Chants", "Chants")</li>
+                            <li>@Html.ActionLink("Utilisateurs", "Index", "Utilisateurs")</li>
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                         </ul>

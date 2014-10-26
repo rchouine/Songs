@@ -1,5 +1,6 @@
 ﻿
 Public Enum UserLevel
+
     MeMyself = 0
     Admin = 10
     PowerUser = 20

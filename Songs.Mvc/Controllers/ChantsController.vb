@@ -38,14 +38,28 @@ Public Class ChantsController
         Dim songCtrl As New SongController
         Dim chantTrouve = songCtrl.GetById(id)
 
-        Dim cu As New ChordProController
+        Dim ctrl As New ChordProController
 
-        Dim retour(3) As String
+        Dim retour(4) As String
         retour(0) = id
         retour(1) = (shift + 12) Mod 12
-        retour(2) = FormatterParoles(chantTrouve.Lyrics)
-        retour(3) = cu.GetChordsHtml(cu.Shift(chantTrouve.ChordPro, shift, sharp = 1))
+        retour(2) = chantTrouve.Title
+        retour(3) = FormatterParoles(chantTrouve.Lyrics)
+        retour(4) = ctrl.GetChordsHtml(ctrl.Shift(chantTrouve.ChordPro, shift, sharp = 1))
         Return Json(retour, JsonRequestBehavior.AllowGet)
+    End Function
+
+    Function ChordPro(id As Integer, shift As Integer, sharp As Integer) As ActionResult
+        Dim songCtrl As New SongController
+        Dim chantTrouve = songCtrl.GetById(id)
+
+        Dim ctrl As New ChordProController
+        Dim cp As New ChordProModel
+
+        cp.Id = id
+        cp.Text = chantTrouve.ChordPro
+        cp.Html = ctrl.GetChordsHtml(ctrl.Shift(chantTrouve.ChordPro, shift, sharp = 1))
+        Return View(cp)
     End Function
 
     Public Function FormatterParoles(ByVal text As Object) As String

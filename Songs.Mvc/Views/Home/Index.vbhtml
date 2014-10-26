@@ -1,10 +1,6 @@
 ﻿@Code
     ViewData("Title") = "Home Page"
 End Code
-@imports GridMvc.Html
-@imports Songs.model
-
-@ModelType List(Of User)
 
 <link href="~/Content/Gridmvc.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-1.8.2.js"></script>
@@ -43,12 +39,6 @@ End Section
         overflow-y: auto;
     }
 </style>
-
-    @Html.Grid(Model).Columns(Sub(col)
-                                  col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Nom")
-                                  col.Add(Function(o) o.Name).SetWidth(150).Titled("Prénom")
-                                  col.Add(Function(o) o.Code).SetWidth(50).Titled("").RenderValueAs(Function(o) Html.ActionLink("XXXXX", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
-                              End Sub).Selectable(True).Sortable()
 
 <h3>We suggest the following:</h3>
 <ol class="round">

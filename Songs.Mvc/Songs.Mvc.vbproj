@@ -216,11 +216,14 @@
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\ChantsController.vb" />
+    <Compile Include="Controllers\UtilisateursController.vb" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChantsViewModel.vb" />
+    <Compile Include="Models\ChordProModel.vb" />
+    <Compile Include="Models\UtilisateurModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -771,6 +774,9 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Chants\Recherche.vbhtml" />
     <Content Include="Views\Chants\TestChildView.vbhtml" />
+    <Content Include="Views\Chants\ChordPro.vbhtml" />
+    <Content Include="Views\Utilisateurs\Index.vbhtml" />
+    <Content Include="Views\Utilisateurs\Utilisateur.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

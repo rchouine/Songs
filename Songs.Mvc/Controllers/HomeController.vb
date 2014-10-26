@@ -11,11 +11,7 @@ Public Class HomeController
             ViewData("Message") = "T'es logué"
             'ViewData("Message") = "Modify this template to jump-start your ASP.NET MVC application."
         End If
-
-        Dim userCtrl As New UserController
-        Dim liste = userCtrl.GetList
-
-        Return View(liste)
+        Return View()
     End Function
 
     Function About() As ActionResult
