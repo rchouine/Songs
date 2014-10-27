@@ -11,6 +11,3 @@ End Code
 
 @Html.Partial("_ChangePasswordPartial")
 
-@Section Scripts
-    @Scripts.Render("~/bundles/jqueryval")
-End Section

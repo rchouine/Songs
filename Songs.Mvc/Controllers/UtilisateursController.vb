@@ -39,8 +39,12 @@ Public Class UtilisateursController
     Function Index() As ActionResult
         Dim userCtrl As New UserController
         Dim liste = userCtrl.GetList
-
-        Return View(liste)
+        If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") = UserLevel.MeMyself Then
+            Return View(liste)
+        Else
+            Dim listeFiltre = (From x In liste Where x.Level <> UserLevel.MeMyself And x.Level <> UserLevel.Suppressed)
+            Return View(listeFiltre)
+        End If
     End Function
 
     Function Utilisateur(id As Integer) As PartialViewResult

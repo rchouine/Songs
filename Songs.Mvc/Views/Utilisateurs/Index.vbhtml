@@ -1,4 +1,4 @@
-﻿@ModelType List(Of Songs.Model.User)
+﻿@ModelType IEnumerable(Of Songs.Model.User)
 
 @imports GridMvc.Html
 

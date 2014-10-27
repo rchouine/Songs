@@ -32,6 +32,3 @@ End Code
 End Using
 </section>
 
-@Section Scripts
-    @Scripts.Render("~/bundles/jqueryval")
-End Section

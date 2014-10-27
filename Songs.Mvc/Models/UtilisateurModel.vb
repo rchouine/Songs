@@ -31,14 +31,17 @@ Public Class UtilisateurModel
     Property LevelList As SelectList
         Get
             If _LevelList Is Nothing Then
-
                 Dim newList As New List(Of SelectListItem)
-                newList.Add(New SelectListItem With {.Text = "Concepteur", .Value = UserLevel.MeMyself})
+                If HttpContext.Current.Session("USER_LEVEL") = UserLevel.MeMyself Then
+                    newList.Add(New SelectListItem With {.Text = "Concepteur", .Value = UserLevel.MeMyself})
+                End If
                 newList.Add(New SelectListItem With {.Text = "Administrateur", .Value = UserLevel.Admin})
                 newList.Add(New SelectListItem With {.Text = "Gestionnaire", .Value = UserLevel.PowerUser})
                 newList.Add(New SelectListItem With {.Text = "Utilisateur", .Value = UserLevel.User})
                 newList.Add(New SelectListItem With {.Text = "Désactivé", .Value = UserLevel.Deactivate})
-                newList.Add(New SelectListItem With {.Text = "Supprimé", .Value = UserLevel.Suppressed})
+                If HttpContext.Current.Session("USER_LEVEL") = UserLevel.MeMyself Then
+                    newList.Add(New SelectListItem With {.Text = "Supprimé", .Value = UserLevel.Suppressed})
+                End If
                 _LevelList = New SelectList(newList, "Value", "Text")
             End If
 
