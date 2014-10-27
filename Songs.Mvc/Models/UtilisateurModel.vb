@@ -17,7 +17,7 @@ Public Class UtilisateurModel
     Property FirstName As String
 
     <Display(Name:="Mot de passe")> _
-    Property Password As String
+    Property Password As String = ConfigurationManager.AppSettings.Item("DefaultPassword")
 
     <Display(Name:="Niveau")> _
     Property Level As UserLevel

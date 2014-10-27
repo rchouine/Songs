@@ -7,8 +7,22 @@ Public Class UtilisateursController
     '
     ' GET: /Utilisateurs
 
-    Function ConvertUserToUtilisateur(unUser As User) As UtilisateurModel
+    Function ConvertUserToModel(unUser As User) As UtilisateurModel
         Dim newUser As New UtilisateurModel
+        newUser.Id = unUser.Id
+        newUser.Code = unUser.Code
+        newUser.Name = unUser.Name
+        newUser.FirstName = unUser.FirstName
+        newUser.Password = unUser.Password
+        newUser.Level = unUser.Level
+        newUser.DateCreate = unUser.DateCreate
+        newUser.DatePasswordExpires = unUser.DatePasswordExpires
+        newUser.DateLastAcces = unUser.DateLastAcces
+        newUser.NbLogin = unUser.NbLogin
+        Return newUser
+    End Function
+    Function ConvertModelToUser(unUser As UtilisateurModel) As User
+        Dim newUser As New User
         newUser.Id = unUser.Id
         newUser.Code = unUser.Code
         newUser.Name = unUser.Name
@@ -30,9 +44,61 @@ Public Class UtilisateursController
     End Function
 
     Function Utilisateur(id As Integer) As PartialViewResult
-        Dim userCtrl As New UserController
-        Dim unUser = userCtrl.GetById(id)
-        Dim unUserModel = ConvertUserToUtilisateur(userCtrl.GetById(id))
-        Return PartialView(unUserModel)
+        Dim model As UtilisateurModel
+        If id = 0 Then
+            model = New UtilisateurModel
+        Else
+            Dim userCtrl As New UserController
+            model = ConvertUserToModel(userCtrl.GetById(id))
+        End If
+        Return PartialView(model)
+    End Function
+
+    <HttpPost()> _
+    <ValidateAntiForgeryToken()> _
+    Public Function SaveUtilisateur(ByVal model As UtilisateurModel) As ActionResult
+        If ModelState.IsValid Then
+            ' Attempt to register the user
+            Try
+                Dim userCtrl As New UserController
+                If userCtrl.ValidateIfCodeExists(model.Id, model.Code) Then
+                    ModelState.AddModelError("Code", "Erreur: Ce code utilisateur est déjà utilisé.")
+                Else
+                    userCtrl.Save(ConvertModelToUser(model))
+                    ModelState.AddModelError("", "Enregistrement effectué.")
+                    'Mettre à jour le Id
+                    If model.Id = 0 Then
+                        Dim newUser = userCtrl.GetByCode(model.Code)
+                        model.Id = newUser.Id
+                    End If
+                End If
+                Return PartialView("Utilisateur", model)
+                'Return RedirectToAction("Index", "Utilisateurs")
+            Catch e As Exception
+                ModelState.AddModelError("", e.Message)
+            End Try
+        End If
+
+        ' If we got this far, something failed, redisplay form
+        Return PartialView("Utilisateur", model)
+    End Function
+
+    <HttpPost()> _
+<ValidateAntiForgeryToken()> _
+    Public Function ResetPassword(ByVal model As UtilisateurModel) As ActionResult
+        ' Attempt to register the user
+        Try
+            Dim userCtrl As New UserController
+            model.Password = ConfigurationManager.AppSettings.Item("DefaultPassword")
+            userCtrl.ResetPassword(model.Id, model.Password, True)
+            ModelState.AddModelError("", "Le mot de pass a été changé pour " & model.Password)
+            Return PartialView("Utilisateur", model)
+            'Return RedirectToAction("Index", "Utilisateurs")
+        Catch e As Exception
+            ModelState.AddModelError("", e.Message)
+        End Try
+
+        ' If we got this far, something failed, redisplay form
+        Return PartialView("Utilisateur", model)
     End Function
 End Class

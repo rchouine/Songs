@@ -28,7 +28,7 @@
 </style>
 
 <h2>Gestion des utilisateurs</h2>
-<div id="divGrille" class="childTab" style="float: left;">
+<div id="divGrille" class="childTab" style="float: left; margin-right: 20px;">
     @Html.Grid(Model).Named("UserGrid").Columns(Sub(col)
                                                     col.Add(Function(o) o.Id, True).Titled("Id")
                                                     col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
@@ -37,6 +37,10 @@
                                                     col.Add(Function(o) o.DateLastAcces).SetWidth(50).Titled("").RenderValueAs(Function(o) Html.ActionLink("XXXXX", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
                                                 End Sub).Selectable(True).Sortable()
 </div>
+<div>
+    <button id="btnAddUser">Ajouter un utilisateur</button>
+</div>
+<br />
 <div id="divDetail" class="childTab" style="float: left;"></div>
 
 <script type="text/javascript">
@@ -64,6 +68,14 @@
                 $('#divDetail').html(data);
             });
         });
+
+        $("#btnAddUser").click(function () {
+            var url = "/Utilisateurs/Utilisateur?id=0";
+            $.post(url, function (data) {
+                $('#divDetail').html(data);
+            });
+        });
+
 
     });
 

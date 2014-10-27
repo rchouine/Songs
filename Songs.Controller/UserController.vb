@@ -44,11 +44,11 @@ Public Class UserController
     Sub Save(aUser As User)
         Using cnx As New ConnectionSql
             cnx.AddParameter("@user_id", SqlDbType.Int, aUser.Id, False)
-            cnx.AddParameter("@user_code", SqlDbType.VarChar, aUser.Code, False)
-            cnx.AddParameter("@user_name", SqlDbType.VarChar, aUser.Name, False)
+            cnx.AddParameter("@user_code", SqlDbType.VarChar, aUser.Code, True)
+            cnx.AddParameter("@user_name", SqlDbType.VarChar, aUser.Name, True)
             cnx.AddParameter("@user_fname", SqlDbType.VarChar, aUser.FirstName, True)
             cnx.AddParameter("@user_password", SqlDbType.VarChar, aUser.Password, True)
-            cnx.AddParameter("@user_level", SqlDbType.Int, aUser.Level, True)
+            cnx.AddParameter("@user_level", SqlDbType.Int, aUser.Level, False)
 
             cnx.ExecuteSql("uUser")
         End Using

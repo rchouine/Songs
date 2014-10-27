@@ -7,8 +7,8 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
 
-        @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Styles.Render("~/Content/css")
         @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/smoothness/jquery-ui.css")
         @Styles.Render("~/Content/Gridmvc.css")
 
