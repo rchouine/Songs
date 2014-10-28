@@ -32,6 +32,9 @@ Public Class RegisterExternalLoginModel
 End Class
 
 Public Class LocalPasswordModel
+    <Required(ErrorMessage:="Erreur: L'identifiant de l'utilisateur est inconnu.")> _
+    Public Property Id As Integer
+
     <Required(ErrorMessage:="L'ancien mot de passe est requis")> _
     <DataType(DataType.Password)> _
     <Display(Name:="Ancien mot de passe")> _

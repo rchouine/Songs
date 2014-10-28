@@ -16,7 +16,7 @@ Public Class UtilisateursController
         newUser.Password = unUser.Password
         newUser.Level = unUser.Level
         newUser.DateCreate = unUser.DateCreate
-        newUser.DatePasswordExpires = unUser.DatePasswordExpires
+        newUser.DatePasswordExpires = unUser.DatePassword
         newUser.DateLastAcces = unUser.DateLastAcces
         newUser.NbLogin = unUser.NbLogin
         Return newUser
@@ -30,7 +30,7 @@ Public Class UtilisateursController
         newUser.Password = unUser.Password
         newUser.Level = unUser.Level
         newUser.DateCreate = unUser.DateCreate
-        newUser.DatePasswordExpires = unUser.DatePasswordExpires
+        newUser.DatePassword = unUser.DatePasswordExpires
         newUser.DateLastAcces = unUser.DateLastAcces
         newUser.NbLogin = unUser.NbLogin
         Return newUser

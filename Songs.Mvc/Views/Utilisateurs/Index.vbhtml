@@ -9,6 +9,7 @@
 
 <style type="text/css">
     a.btnEdit {
+        white-space: pre-wrap;
         color: transparent !important;
         background-image: url('../../Images/pictosBoutons/modifier.gif');
         background-repeat: no-repeat;
@@ -34,7 +35,7 @@
                                                     col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
                                                     col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
                                                     col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
-                                                    col.Add(Function(o) o.DateLastAcces).SetWidth(50).Titled("").RenderValueAs(Function(o) Html.ActionLink("XXXXX", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
+                                                    col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.ActionLink("         ", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
                                                 End Sub).Selectable(True).Sortable()
 </div>
 <div>

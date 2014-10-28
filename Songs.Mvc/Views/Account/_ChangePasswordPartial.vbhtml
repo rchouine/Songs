@@ -5,7 +5,7 @@
     @Html.ValidationSummary()
 
     @<fieldset>
-        <legend>Changement de mot de passe</legend>
+         @Html.HiddenFor(Function(m) m.Id)
         <ol>
             <li>
                 @Html.LabelFor(Function(m) m.OldPassword)

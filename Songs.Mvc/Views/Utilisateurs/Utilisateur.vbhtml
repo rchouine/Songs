@@ -42,7 +42,9 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input id="btnResetPassword" type="button" value="Réinitialiser le mot de passe" /></td>
+                    @If Model.Id > 0 Then
+                        @<td><input id="btnResetPassword" type="button" value="Réinitialiser le mot de passe" /></td>
+                    End If
                 </tr>
                 <tr>
                     <td></td>

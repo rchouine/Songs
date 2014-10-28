@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@Imports Songs.Model
+
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -26,7 +28,9 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Chants", "Chants", "Chants")</li>
-                            <li>@Html.ActionLink("Utilisateurs", "Index", "Utilisateurs")</li>
+                            @If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") < UserLevel.PowerUser Then
+                                @<li>@Html.ActionLink("Utilisateurs", "Index", "Utilisateurs")</li>
+                            End If
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                         </ul>

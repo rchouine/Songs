@@ -12,6 +12,7 @@ End Code
 
 <style type="text/css">
     a.btnEdit {
+        white-space: pre-wrap;
         color: transparent !important;
         background-image: url('../../Images/pictosBoutons/modifier.gif');
         background-repeat: no-repeat;
@@ -72,11 +73,10 @@ End Code
                                                                    col.Add(Function(o) o.Code).SetWidth(60).Titled("Code")
                                                                    col.Add(Function(o) o.Title).SetWidth(300).Titled("Titre")
                                                                    col.Add(Function(o) o.Tone).SetWidth(50).Titled("Ton")
-                                                                   col.Add().SetWidth(50).Titled("").RenderValueAs(Function(o) Html.ActionLink("XXXXX", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
+                                                                   col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.ActionLink("       ", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
                                                                End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
         <td valign="top">
-            <button id="ChordPro">ChordPro</button>
             <div id="dialogChordPro" title="Dialogue de test" style="display: none;">
                 <div id="dialogContentChordPro"></div>
             </div>
@@ -89,16 +89,17 @@ End Code
                 </ul>
                 <div id="tabs-1"><div id="divParoles" class="childTab"></div></div>
                 <div id="tabs-2">
-                    <table>
+                    <table style="width: 100%;">
                         <tr>
-                            <td><input type="button" id="btnBemol" value="b" title="Déscendre d'un demi-ton" /></td>
-                            <td><input type="button" id="btnShift" value="#" title="Monter d'un demi-ton" /></td>
-                            <td>&nbsp;&nbsp;&nbsp;</td>
-                            <td>Affichage: </td>
-                            <td><input type="radio" id="rbBemol" name="rbFlat" checked="checked" title="Afficher en bémol" /></td>
-                            <td><label for="rbBemol" style="font-size: inherit; font-weight: inherit;">b</label></td>
-                            <td><input type="radio" id="rbSharp" name="rbFlat" title="Afficher en dièse" /></td>
-                            <td><label for="rbSharp" style="font-size: inherit; font-weight: inherit;">#</label></td>
+                            <td style="width: 24px;"><input type="button" style="width: 24px;" id="btnBemol" value="b" title="Déscendre d'un demi-ton" /></td>
+                            <td style="width: 24px;"><input type="button" style="width: 24px;" id="btnShift" value="#" title="Monter d'un demi-ton" /></td>
+                            <td style="width: 10px;">&nbsp;&nbsp;&nbsp;</td>
+                            <td style="width: 10px;">Affichage:</td>
+                            <td style="width: 10px;"><input type="radio" id="rbBemol" name="rbFlat" checked="checked" title="Afficher en bémol" /></td>
+                            <td style="width: 10px;"><label for="rbBemol" style="font-size: inherit; font-weight: inherit;">b</label></td>
+                            <td style="width: 10px;"><input type="radio" id="rbSharp" name="rbFlat" title="Afficher en dièse" /></td>
+                            <td style="width: 10px;"><label for="rbSharp" style="font-size: inherit; font-weight: inherit;">#</label></td>
+                            <td style="width: 80%; text-align: right;"><button id="ChordPro">Fenetre</button></td>
                         </tr>
                     </table>
                     <hr />
@@ -118,11 +119,11 @@ End Code
         if (w > 1024) w = 1024;
 
         $(".grid-wrap").height(h - 330);
-        $("#tabs").height(h - 250);
+        $("#tabs").height(h - 225);
         $("#tabs").width(w - 415);
-        $(".childTab").height(h - 310);
+        $(".childTab").height(h - 280);
         $(".childTab").width(w - 435);
-        $("#divAccords").height(h - 354); //Moins d'espace pour les boutons de shift
+        $("#divAccords").height(h - 340); //Moins d'espace pour les boutons de shift
     }
 
     $(document).ready(function () {

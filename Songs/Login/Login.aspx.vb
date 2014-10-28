@@ -31,7 +31,7 @@ Public Class Login
                     userCtrl.UpdateLoginStastitics(user.Id)
 
                     'Validate password expires
-                    If user.DatePasswordExpires < DateAdd(DateInterval.Day, -365, Now) Then
+                    If user.DatePassword < DateAdd(DateInterval.Day, -365, Now) Then
                         Response.Redirect("NewPwd.aspx")
                     Else
                         Response.Redirect("../Songs/Chants.aspx")

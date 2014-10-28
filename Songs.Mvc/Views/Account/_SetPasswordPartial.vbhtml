@@ -1,16 +1,16 @@
 ﻿@ModelType Songs.Mvc.LocalPasswordModel
 
 <p>
-    You do not have a local password for this site. Add a local
-    password so you can log in without an external login.
+    Vous devez saisir un nouveau mot de passe.
 </p>
 
-@Using Html.BeginForm("Manage", "Account")
+@Using Html.BeginForm("MettreJourMotPasse", "Account")
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
+    @Html.HiddenFor(Function(m) m.Id)
+    @Html.HiddenFor(Function(m) m.OldPassword)
     @<fieldset>
-        <legend>Set Password Form</legend>
         <ol>
             <li>
                 @Html.LabelFor(Function(m) m.NewPassword)
@@ -21,6 +21,6 @@
                 @Html.PasswordFor(Function(m) m.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Set password" />
+        <input type="submit" value="Enregistrer" />
     </fieldset>
 End Using

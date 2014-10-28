@@ -115,9 +115,9 @@ Public Class UserController
         End If
 
         If IsDBNull(reader("USER_DATE_PASS")) Then
-            retour.DatePasswordExpires = Nothing
+            retour.DatePassword = Nothing
         Else
-            retour.DatePasswordExpires = CDate(reader("USER_DATE_PASS"))
+            retour.DatePassword = CDate(reader("USER_DATE_PASS"))
         End If
 
         retour.FirstName = reader("USER_FNAME").ToString

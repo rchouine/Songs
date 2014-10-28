@@ -17,7 +17,7 @@ Public Class User
     Property Password As String
     Property Level As UserLevel
     Property DateCreate As DateTime?
-    Property DatePasswordExpires As DateTime?
+    Property DatePassword As DateTime?
     Property DateLastAcces As DateTime?
     Property NbLogin As Integer
 End Class
