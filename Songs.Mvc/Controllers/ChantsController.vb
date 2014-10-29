@@ -1,13 +1,9 @@
 ﻿Imports Songs.Controller
-Imports Songs.web
 
 Public Class ChantsController
     Inherits System.Web.Mvc.Controller
 
-    '
-    ' GET: /Songs
-
-    Function Chants() As ActionResult
+    Function Index() As ActionResult
         Dim songCtrl As New SongController
         Dim liste = songCtrl.GetList(1, Model.SearchType.Title, "", 1)
 
@@ -38,7 +34,7 @@ Public Class ChantsController
         Dim songCtrl As New SongController
         Dim chantTrouve = songCtrl.GetById(id)
 
-        Dim ctrl As New ChordProController
+        Dim ctrl As New ChordProManager
 
         Dim retour(4) As String
         retour(0) = id
@@ -53,7 +49,7 @@ Public Class ChantsController
         Dim songCtrl As New SongController
         Dim chantTrouve = songCtrl.GetById(id)
 
-        Dim ctrl As New ChordProController
+        Dim ctrl As New ChordProManager
         Dim cp As New ChordProModel
 
         cp.Id = id

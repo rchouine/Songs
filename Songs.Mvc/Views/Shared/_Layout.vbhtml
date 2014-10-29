@@ -27,7 +27,7 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Chants", "Chants", "Chants")</li>
+                            <li>@Html.ActionLink("Chants", "Index", "Chants")</li>
                             @If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") < UserLevel.PowerUser Then
                                 @<li>@Html.ActionLink("Utilisateurs", "Index", "Utilisateurs")</li>
                             End If

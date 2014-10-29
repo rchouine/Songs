@@ -41,8 +41,8 @@ End Code
 <table>
     <tr>
         <td valign="top">
-            <form method="post" action="Rechercher">
-                <fieldset style="width: 370px; margin-bottom: 4px;">
+            @Using Html.BeginForm("Rechercher", "Chants", FormMethod.Post)
+                @<fieldset style="width: 370px; margin-bottom: 4px;">
                     <legend>Recherche</legend>
                     <table>
                         <tr>
@@ -66,7 +66,7 @@ End Code
                 @Html.HiddenFor(Function(x) x.TabIndex)
                 @Html.Hidden("id", "0")
                 @Html.Hidden("shift", "0")
-            </form>
+            End Using
 
             @Html.Grid(Model.Chants).Named("SongGrid").Columns(Sub(col)
                                                                    col.Add(Function(o) o.Id, True).Titled("Id")

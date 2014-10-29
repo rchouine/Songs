@@ -9,8 +9,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Songs.Model", "Songs.Model\
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Songs.Controller", "Songs.Controller\Songs.Controller.vbproj", "{9629BDA2-0D3B-4DEB-8874-E37F49EAD15A}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Songs.web", "Songs.web\Songs.web.vbproj", "{0B8ADA02-C9F0-4689-954F-B64CEC8361DE}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Songs.Controller.Test", "Songs.Controller.Test\Songs.Controller.Test.vbproj", "{7B73513D-2A6D-46C7-96F1-CF5310BA29FF}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AppUtils", "AppUtils\AppUtils.vbproj", "{B70965BC-C57F-4942-A073-CD2DA1E2677D}"
@@ -37,10 +35,6 @@ Global
 		{9629BDA2-0D3B-4DEB-8874-E37F49EAD15A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9629BDA2-0D3B-4DEB-8874-E37F49EAD15A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9629BDA2-0D3B-4DEB-8874-E37F49EAD15A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B8ADA02-C9F0-4689-954F-B64CEC8361DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B8ADA02-C9F0-4689-954F-B64CEC8361DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B8ADA02-C9F0-4689-954F-B64CEC8361DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B8ADA02-C9F0-4689-954F-B64CEC8361DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B73513D-2A6D-46C7-96F1-CF5310BA29FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B73513D-2A6D-46C7-96F1-CF5310BA29FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B73513D-2A6D-46C7-96F1-CF5310BA29FF}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -4,8 +4,9 @@
 @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.js")
 
 <div id="container">
+    <p class="message-success">@ViewData("StatusMessage")</p>
 
-    @Using Html.BeginForm("SaveUtilisateur", "Utilisateurs", FormMethod.Post, New With {.id = "formulaire"})
+    @Using Html.BeginForm("Enregistrer", "Utilisateurs", FormMethod.Post, New With {.id = "formulaire"})
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
@@ -76,7 +77,7 @@
         });
 
         $("#btnResetPassword").click(function () {
-            $.post("Utilisateurs/ResetPassword", $('#formulaire').serialize(), function (r, s) {
+            $.post("Utilisateurs/ReinitialiserMotPasse", $('#formulaire').serialize(), function (r, s) {
                 $("#container").html(r);
             });
         });

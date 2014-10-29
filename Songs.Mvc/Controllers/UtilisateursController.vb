@@ -62,7 +62,7 @@ Public Class UtilisateursController
 
     <HttpPost()> _
     <ValidateAntiForgeryToken()> _
-    Public Function SaveUtilisateur(ByVal model As UtilisateurModel) As ActionResult
+    Public Function Enregistrer(ByVal model As UtilisateurModel) As ActionResult
         If ModelState.IsValid Then
             ' Attempt to register the user
             Try
@@ -71,7 +71,7 @@ Public Class UtilisateursController
                     ModelState.AddModelError("Code", "Erreur: Ce code utilisateur est déjà utilisé.")
                 Else
                     userCtrl.Save(ConvertModelToUser(model))
-                    ModelState.AddModelError("", "Enregistrement effectué.")
+                    ViewData("StatusMessage") = "Enregistrement effectué."
                     'Mettre à jour le Id
                     If model.Id = 0 Then
                         Dim newUser = userCtrl.GetByCode(model.Code)
@@ -91,13 +91,13 @@ Public Class UtilisateursController
 
     <HttpPost()> _
     <ValidateAntiForgeryToken()> _
-    Public Function ResetPassword(ByVal model As UtilisateurModel) As ActionResult
+    Public Function ReinitialiserMotPasse(ByVal model As UtilisateurModel) As ActionResult
         ' Attempt to register the user
         Try
             Dim userCtrl As New UserController
             model.Password = ConfigurationManager.AppSettings.Item("DefaultPassword")
             userCtrl.ResetPassword(model.Id, model.Password, True)
-            ModelState.AddModelError("", "Le mot de pass a été changé pour " & model.Password)
+            ViewData("StatusMessage") = "Le mot de pass a été changé pour " & model.Password
             Return PartialView("Utilisateur", model)
             'Return RedirectToAction("Index", "Utilisateurs")
         Catch e As Exception
@@ -109,11 +109,11 @@ Public Class UtilisateursController
     End Function
 
     Public Function Supprimer(ByVal id As Integer) As ActionResult
-        Dim userCtrl As New UserController
-        'userCtrl.Delete(id)
-        If id = 1 Then
-            Return RedirectToAction("Index", "Utilisateurs", New With {.Message = "Ben non coco"})
+        If id = Session("USER_ID") Then
+            Return RedirectToAction("Index", "Utilisateurs", New With {.Message = "Vous ne pouvez vous supprimer vous-même."})
         Else
+            Dim userCtrl As New UserController
+            userCtrl.Delete(id)
             Return RedirectToAction("Index", "Utilisateurs", New With {.Message = "Utilisateur supprimé."})
         End If
     End Function

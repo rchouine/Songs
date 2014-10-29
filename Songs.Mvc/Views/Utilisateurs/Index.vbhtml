@@ -8,12 +8,8 @@
 <script src="~/Scripts/gridmvc.js"></script>
 
 <style type="text/css">
-    a.btnEdit {
-        /*white-space: pre-wrap;
-        color: transparent !important;
-        background-image: url('../../Images/pictosBoutons/modifier.gif');
-        background-repeat: no-repeat;
-        background-position: center;*/
+    .btnEdit {
+        cursor: pointer;
     }
 
     a.btnEdit:hover {
@@ -36,13 +32,13 @@
                                                      col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
                                                      col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
                                                      col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
-                                                     col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.id & "' class='btnEdit' src='../../Images/pictosBoutons/supprimer.gif' alt='Supprimer'/>")).Encoded(False).Sanitized(False)
+                                                     col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.id & "' class='btnEdit' src='../../Images/pictosBoutons/supprimer.gif' title='Supprimer'/>")).Encoded(False).Sanitized(False)
                                                 End Sub).Selectable(True).Sortable()
 </div>
 <div>
     <button id="btnAddUser">Ajouter un utilisateur</button>
 </div>
-<p class="message-success">@ViewData("StatusMessage")</p>
+
 <br />
 <div id="divDetail" class="childTab" style="float: left;"></div>
 
