@@ -9,11 +9,11 @@
 
 <style type="text/css">
     a.btnEdit {
-        white-space: pre-wrap;
+        /*white-space: pre-wrap;
         color: transparent !important;
         background-image: url('../../Images/pictosBoutons/modifier.gif');
         background-repeat: no-repeat;
-        background-position: center;
+        background-position: center;*/
     }
 
     a.btnEdit:hover {
@@ -29,20 +29,27 @@
 </style>
 
 <h2>Gestion des utilisateurs</h2>
+
 <div id="divGrille" class="childTab" style="float: left; margin-right: 20px;">
     @Html.Grid(Model).Named("UserGrid").Columns(Sub(col)
-                                                    col.Add(Function(o) o.Id, True).Titled("Id")
-                                                    col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
-                                                    col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
-                                                    col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
-                                                    col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.ActionLink("         ", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
+                                                     col.Add(Function(o) o.Id, True).Titled("Id")
+                                                     col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
+                                                     col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
+                                                     col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
+                                                     col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.id & "' class='btnEdit' src='../../Images/pictosBoutons/supprimer.gif' alt='Supprimer'/>")).Encoded(False).Sanitized(False)
                                                 End Sub).Selectable(True).Sortable()
 </div>
 <div>
     <button id="btnAddUser">Ajouter un utilisateur</button>
 </div>
+<p class="message-success">@ViewData("StatusMessage")</p>
 <br />
 <div id="divDetail" class="childTab" style="float: left;"></div>
+
+<div id="dlgConfirm" title="Confirmation" style="display: none;">
+    <div id="dlgContent"></div>
+</div>
+
 
 <script type="text/javascript">
     function ResizeGrid() {
@@ -77,7 +84,34 @@
             });
         });
 
-
+        $(".btnEdit").click(function () {
+            var userId = this.id;
+            var leDlg = $("#dlgConfirm");
+            $('#dlgContent').html("Êtes vous certain de vouloir supprimer cet utilisateur?");
+            leDlg.attr("title", "Confirmation de suppression");
+            leDlg.dialog({
+                autoOpen: false,
+                height: 180,
+                width: 300,
+                modal: true,
+                closeText: "Annuler",
+                buttons: [
+                    {
+                        text: "Oui",
+                        click: function () {
+                            window.location = "@Url.Action("Supprimer")/" + userId;
+                            leDlg.dialog("close");
+                        }
+                    },
+                    {
+                        text: "Non",
+                        click: function () {
+                            leDlg.dialog("close");
+                        }
+                    }
+                ]
+            });
+            leDlg.dialog("open");
+        });
     });
-
 </script>

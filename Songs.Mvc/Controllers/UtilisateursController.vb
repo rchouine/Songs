@@ -36,7 +36,9 @@ Public Class UtilisateursController
         Return newUser
     End Function
 
-    Function Index() As ActionResult
+    Function Index(Message As String) As ActionResult
+        ViewData("StatusMessage") = Message
+
         Dim userCtrl As New UserController
         Dim liste = userCtrl.GetList
         If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") = UserLevel.MeMyself Then
@@ -88,7 +90,7 @@ Public Class UtilisateursController
     End Function
 
     <HttpPost()> _
-<ValidateAntiForgeryToken()> _
+    <ValidateAntiForgeryToken()> _
     Public Function ResetPassword(ByVal model As UtilisateurModel) As ActionResult
         ' Attempt to register the user
         Try
@@ -105,4 +107,15 @@ Public Class UtilisateursController
         ' If we got this far, something failed, redisplay form
         Return PartialView("Utilisateur", model)
     End Function
+
+    Public Function Supprimer(ByVal id As Integer) As ActionResult
+        Dim userCtrl As New UserController
+        'userCtrl.Delete(id)
+        If id = 1 Then
+            Return RedirectToAction("Index", "Utilisateurs", New With {.Message = "Ben non coco"})
+        Else
+            Return RedirectToAction("Index", "Utilisateurs", New With {.Message = "Utilisateur supprimé."})
+        End If
+    End Function
+
 End Class

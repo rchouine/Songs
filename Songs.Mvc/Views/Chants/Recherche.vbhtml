@@ -77,7 +77,7 @@ End Code
                                                                End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
         <td valign="top">
-            <div id="dialogChordPro" title="Dialogue de test" style="display: none;">
+            <div id="dialogChordPro" title="ChordPro" style="display: none;">
                 <div id="dialogContentChordPro"></div>
             </div>
 
