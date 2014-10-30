@@ -218,7 +218,6 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\ChantsController.vb" />
     <Compile Include="Controllers\UtilisateursController.vb" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,7 +239,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Controllers\AccountController.vb" />
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="Models\AccountModels.vb" />
     <Compile Include="Utils\ChordProManager.vb" />
@@ -801,15 +799,9 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.vbhtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.vbhtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.vbhtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.vbhtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.vbhtml" />
-    <Content Include="Views\Account\Login.vbhtml" />
-    <Content Include="Views\Account\Manage.vbhtml" />
-    <Content Include="Views\Account\Register.vbhtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.vbhtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.vbhtml" />
+    <Content Include="Views\Utilisateurs\NouveauMotPasse.vbhtml" />
+    <Content Include="Views\Utilisateurs\Enregistrement.vbhtml" />
+    <Content Include="Views\Utilisateurs\ChangerMotPasse.vbhtml" />
     <Content Include="Views\Home\About.vbhtml" />
     <Content Include="Views\Home\Index.vbhtml" />
     <Content Include="Views\Shared\Error.vbhtml" />
@@ -819,6 +811,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Filters\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

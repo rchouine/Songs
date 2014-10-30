@@ -58,9 +58,6 @@
 
     $(document).ready(function () {
 
-        //Styliser les boutons
-        $("button, input:submit, input:button").button();
-
         ResizeGrid();
         $(window).resize(function () {
             ResizeGrid();

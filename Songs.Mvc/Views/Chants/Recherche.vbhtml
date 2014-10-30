@@ -7,7 +7,7 @@ End Code
 
 <link href="~/Content/StyleChordPro.css" rel="stylesheet" />
 
-@Scripts.Render("~/Scripts/jquery-ui-1.11.2/external/jquery/jquery.js")
+@Scripts.Render("~/Scripts/jquery-2.1.1.js")
 @Scripts.Render("~/Scripts/gridmvc.js")
 
 <style type="text/css">
@@ -173,11 +173,6 @@ End Code
             $("#TabIndex").val($("#tabs").tabs('option', 'active'));
         });
         $("#tabs").tabs("option", "active", $("#TabIndex").val());
-
-
-        //Styliser les boutons
-        $("button, input:submit, input:button").button();
-
 
         $("#ChordPro").click(function (event) {
             var h = $(window).height() - 50;

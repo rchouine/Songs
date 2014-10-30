@@ -1,16 +1,17 @@
 ﻿@ModelType Songs.Mvc.LocalPasswordModel
 
-@Using Html.BeginForm("Manage", "Account")
+<p>
+    Vous devez saisir un nouveau mot de passe.
+</p>
+
+@Using Html.BeginForm("MettreJourMotPasse", "Utilisateurs")
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
+    @Html.HiddenFor(Function(m) m.Id)
+    @Html.HiddenFor(Function(m) m.OldPassword)
     @<fieldset>
-         @Html.HiddenFor(Function(m) m.Id)
         <ol>
-            <li>
-                @Html.LabelFor(Function(m) m.OldPassword)
-                @Html.PasswordFor(Function(m) m.OldPassword)
-            </li>
             <li>
                 @Html.LabelFor(Function(m) m.NewPassword)
                 @Html.PasswordFor(Function(m) m.NewPassword)
@@ -20,6 +21,7 @@
                 @Html.PasswordFor(Function(m) m.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Changer mot de passe" />
+        <input type="submit" value="Enregistrer" />
     </fieldset>
 End Using
+

@@ -6,7 +6,7 @@ Public Class HomeController
     Function Index() As ActionResult
         If String.IsNullOrEmpty(Session("USER_ID")) Then
             ViewData("Message") = "T'es pas logué"
-            Return RedirectToAction("Login", "Account")
+            Return RedirectToAction("Enregistrement", "Utilisateurs")
         Else
             ViewData("Message") = "T'es logué"
             'ViewData("Message") = "Modify this template to jump-start your ASP.NET MVC application."
@@ -16,7 +16,6 @@ Public Class HomeController
 
     Function About() As ActionResult
         ViewData("Message") = "Chants intégrés du Carrefour Chrétien de la Capitale"
-
         Return View()
     End Function
 

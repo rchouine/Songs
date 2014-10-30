@@ -11,7 +11,7 @@
 
         @Scripts.Render("~/bundles/modernizr")
         @Styles.Render("~/Content/css")
-        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/smoothness/jquery-ui.css")
+        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css")
         @Styles.Render("~/Content/Gridmvc.css")
 
     </head>
@@ -51,9 +51,17 @@
                 </div>
             </div>
         </footer>
-
-        @Scripts.Render("~/Scripts/jquery-ui-1.11.2/external/jquery/jquery.js")
+        @Scripts.Render("~/Scripts/jquery-2.1.1.js")
         @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.js")
         @RenderSection("scripts", required:=False)
     </body>
 </html>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("button, input:submit, input:button").button();
+    });
+
+
+</script>
