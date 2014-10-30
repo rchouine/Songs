@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewData("Title") - Chants intégrés du Carrefour Chrétien de la Capitale</title>
+        <title>Chants intégrés du Carrefour Chrétien de la Capitale</title>
 
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
@@ -31,8 +31,6 @@
                             @If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") < UserLevel.PowerUser Then
                                 @<li>@Html.ActionLink("Utilisateurs", "Index", "Utilisateurs")</li>
                             End If
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
                         </ul>
                     </nav>
                 </div>

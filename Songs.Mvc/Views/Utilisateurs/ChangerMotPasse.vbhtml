@@ -2,7 +2,6 @@
 @Code
     ViewData("Title") = "Changement de mot de passe"
 End Code
-
 <hgroup class="title">
     <h1>@ViewData("Title").</h1>
 </hgroup>
@@ -29,7 +28,7 @@ End Code
                 @Html.PasswordFor(Function(m) m.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Changer mot de passe" />
+         <input type="submit" value="Changer mot de passe" style="margin-left: 40px;" />
     </fieldset>
 End Using
 

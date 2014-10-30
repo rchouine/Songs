@@ -1,7 +1,7 @@
 ﻿@ModelType  Songs.Mvc.ChantsViewModel
 @imports GridMvc.Html
 @Code
-    ViewData("Title") = "Songs"
+    'ViewData("Title") = "Chants"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
@@ -47,7 +47,11 @@ End Code
                     <table>
                         <tr>
                             <td>@Html.RadioButton("typeRecherche", "titre", True, New With {.id = "typeRecherche1"}) </td>
-                            <td><label for="typeRecherche1">Titre</label></td>
+                            <td style="width: 60px;"><label for="typeRecherche1">Titre</label></td>
+                            <td rowspan="2">
+                                Filtrer par thème<br />
+                                @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name"))
+                            </td>
                         </tr>
                         <tr>
                             <td>@Html.RadioButton("typeRecherche", "code", If(Request("typeRecherche") = "1", True, False), New With {.id = "typeRecherche2"}) </td>
@@ -56,10 +60,8 @@ End Code
                         <tr>
                             <td>@Html.RadioButton("typeRecherche", "paroles", If(Request("typeRecherche") = "3", True, False), New With {.id = "typeRecherche3"})</td>
                             <td><label for="typeRecherche3">Paroles</label></td>
-                            <td>
-                                @Html.TextBox("texteRecherche")
-                                <input type="submit" id="btnRecherche" value="Go" />
-                            </td>
+                            <td>@Html.TextBox("texteRecherche", "", New With {.style = "width: 250px;"})</td>
+                            <td><input type="submit" id="btnRecherche" value="Go" /></td>
                         </tr>
                     </table>
                 </fieldset>

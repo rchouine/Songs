@@ -1,19 +1,34 @@
 ﻿Imports Songs.Controller
+Imports Songs.Model
 
 Public Class ChantsController
     Inherits System.Web.Mvc.Controller
 
-    Function Index() As ActionResult
-        Dim songCtrl As New SongController
-        Dim liste = songCtrl.GetList(1, Model.SearchType.Title, "", 1)
-
-        Dim vm As New ChantsViewModel
-        vm.Chants = liste
-        vm.TabIndex = 0
-        Return View("Recherche", vm)
+    Private Function GetCategoryList(addTous As Boolean) As List(Of Category)
+        Dim ctrl As New CategoryController
+        Dim retour = ctrl.GetList
+        If addTous Then
+            retour.Insert(0, New Category With {.Id = 0, .Name = "[Tous]"})
+        End If
+        Return retour
     End Function
 
-    Function Rechercher(typeRecherche As String, texteRecherche As String, TabIndex As Integer) As ActionResult
+    Function Index() As ActionResult
+        If String.IsNullOrEmpty(Session("USER_ID")) Then
+            Return RedirectToAction("Enregistrement", "Utilisateurs")
+        Else
+            Dim songCtrl As New SongController
+            Dim liste = songCtrl.GetList(1, Model.SearchType.Title, "", 1)
+
+            Dim vm As New ChantsViewModel
+            vm.Chants = liste
+            vm.TabIndex = 0
+            vm.Categories = GetCategoryList(True)
+            Return View("Recherche", vm)
+        End If
+    End Function
+
+    Function Rechercher(typeRecherche As String, texteRecherche As String, categorie As Integer, TabIndex As Integer) As ActionResult
         Dim leType As Model.SearchType
         Select Case typeRecherche
             Case "code" : leType = Model.SearchType.Code
@@ -22,11 +37,12 @@ Public Class ChantsController
         End Select
 
         Dim songCtrl As New SongController
-        Dim liste = songCtrl.GetList(1, leType, texteRecherche, 0)
+        Dim liste = songCtrl.GetList(Session("USER_ID"), leType, texteRecherche, categorie)
 
         Dim vm As New ChantsViewModel
         vm.Chants = liste
         vm.TabIndex = TabIndex
+        vm.Categories = GetCategoryList(True)
         Return View("Recherche", vm)
     End Function
 

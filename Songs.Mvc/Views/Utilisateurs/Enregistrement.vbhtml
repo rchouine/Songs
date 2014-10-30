@@ -1,9 +1,7 @@
 ﻿@ModelType Songs.Mvc.LoginModel
-
 @Code
     ViewData("Title") = "Enregistrement"
 End Code
-
 <hgroup class="title">
     <h1>@ViewData("Title").</h1>
 </hgroup>
@@ -27,7 +25,7 @@ End Code
                 @Html.ValidationMessageFor(Function(m) m.Password)
             </li>
         </ol>
-        <input type="submit" value="Se connecter" />
+        <input type="submit" value="Se connecter" style="margin-left: 40px;" />
     </fieldset>
 End Using
 </section>

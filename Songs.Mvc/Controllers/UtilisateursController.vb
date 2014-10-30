@@ -82,7 +82,7 @@ Public Class UtilisateursController
                     SetSessionUser(aUser)
                 End If
 
-                Return RedirectToAction("Index", "Home")
+                Return RedirectToAction("Index", "Chants")
             End If
         End If
 
@@ -112,7 +112,7 @@ Public Class UtilisateursController
                 userCtrl.ResetPassword(model.Id, model.NewPassword, False)
                 Dim currentUser = userCtrl.GetById(model.Id)
                 SetSessionUser(currentUser)
-                Return RedirectToAction("Index", "Home", New With {.Message = "Votre mot de pass a été modifié."})
+                Return RedirectToAction("Index", "Chants", New With {.Message = "Votre mot de pass a été modifié."})
             End If
         End If
 
@@ -131,7 +131,7 @@ Public Class UtilisateursController
         Session.Remove("USER_NAME")
         Session.Remove("USER_FNAME")
 
-        Return RedirectToAction("Index", "Home")
+        Return RedirectToAction("Index", "Chants")
     End Function
 
     Function Utilisateur(id As Integer) As PartialViewResult

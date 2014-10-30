@@ -239,7 +239,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="Models\AccountModels.vb" />
     <Compile Include="Utils\ChordProManager.vb" />
   </ItemGroup>
@@ -802,8 +801,6 @@
     <Content Include="Views\Utilisateurs\NouveauMotPasse.vbhtml" />
     <Content Include="Views\Utilisateurs\Enregistrement.vbhtml" />
     <Content Include="Views\Utilisateurs\ChangerMotPasse.vbhtml" />
-    <Content Include="Views\Home\About.vbhtml" />
-    <Content Include="Views\Home\Index.vbhtml" />
     <Content Include="Views\Shared\Error.vbhtml" />
     <Content Include="Views\Shared\_LoginPartial.vbhtml" />
     <Content Include="Views\Shared\_Layout.vbhtml" />

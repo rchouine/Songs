@@ -2,7 +2,6 @@
 
 @imports GridMvc.Html
 
-
 <link href="~/Content/Gridmvc.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-1.8.2.js"></script>
 <script src="~/Scripts/gridmvc.js"></script>

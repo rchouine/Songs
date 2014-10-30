@@ -21,7 +21,7 @@
                 @Html.PasswordFor(Function(m) m.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Enregistrer" />
+         <input type="submit" value="Enregistrer" style="margin-left: 40px;" />
     </fieldset>
 End Using
 

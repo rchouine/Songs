@@ -58,6 +58,8 @@
 
     <script type="text/javascript">
 
+        $("#btnSubmitFormulaire, #btnResetPassword, #btnRefresh").button();
+
         $(document).ready(function () {
             $("#Level").val(@CInt(Model.Level));
         });
