@@ -6,26 +6,28 @@ End Code
     <h1>@ViewData("Title").</h1>
 </hgroup>
 
-<section id="loginForm">
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
 @Using Html.BeginForm(New With { .ReturnUrl = ViewData("ReturnUrl") })
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @Html.ValidationSummary()
 
-    @<fieldset>
-        <legend></legend>
-        <ol>
-            <li>
-                @Html.LabelFor(Function(m) m.UserName)
-                @Html.TextBoxFor(Function(m) m.UserName)
-                @Html.ValidationMessageFor(Function(m) m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(Function(m) m.Password)
-                @Html.PasswordFor(Function(m) m.Password)
-                @Html.ValidationMessageFor(Function(m) m.Password)
-            </li>
-        </ol>
-        <input type="submit" value="Se connecter" style="margin-left: 40px;" />
+    @<fieldset class="ui-widget ui-widget-content" style="width: 400px;">
+        <table>
+            <tr>
+                <td>@Html.LabelFor(Function(m) m.UserName)</td>
+                <td>@Html.TextBoxFor(Function(m) m.UserName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(Function(m) m.Password)</td>
+                <td>@Html.PasswordFor(Function(m) m.Password)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Se connecter" /></td>
+            </tr>
+        </table>
     </fieldset>
 End Using
-</section>
+

@@ -25,7 +25,7 @@ End Code
 
     .grid-wrap {
         height: 200px;
-        width: 380px;
+        width: 384px;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -36,21 +36,28 @@ End Code
         overflow-x: auto;
         overflow-y: auto;
     }
+
 </style>
 
 <table>
     <tr>
         <td valign="top">
             @Using Html.BeginForm("Rechercher", "Chants", FormMethod.Post)
-                @<fieldset style="width: 370px; margin-bottom: 4px;">
-                    <legend>Recherche</legend>
+                @<fieldset class="ui-widget ui-widget-content" style="width: 360px; margin-bottom: 10px;">
+                    <legend class="">Recherche</legend>
                     <table>
                         <tr>
                             <td>@Html.RadioButton("typeRecherche", "titre", True, New With {.id = "typeRecherche1"}) </td>
                             <td style="width: 60px;"><label for="typeRecherche1">Titre</label></td>
-                            <td rowspan="2">
-                                Filtrer par thème<br />
-                                @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name"))
+                            <td rowspan="2" colspan="2">
+                                <div style="float: left;">
+                                    Filtrer par thème<br />
+                                    @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name"))
+
+                                </div>
+                                <div style="float: right; margin-top: 16px;">
+                                    <input type="Button" value="Ajouter un chant" onclick="window.location = '/Chants/Modifier?id=12'" />
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -78,7 +85,7 @@ End Code
                                                                    col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.ActionLink("       ", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
                                                                End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
-        <td valign="top">
+        <td style="vertical-align: top; padding: 10px;">
             <div id="dialogChordPro" title="ChordPro" style="display: none;">
                 <div id="dialogContentChordPro"></div>
             </div>
@@ -120,12 +127,12 @@ End Code
         var w = $(window).width();
         if (w > 1024) w = 1024;
 
-        $(".grid-wrap").height(h - 330);
-        $("#tabs").height(h - 225);
+        $(".grid-wrap").height(h - 340);
+        $("#tabs").height(h - 228);
         $("#tabs").width(w - 415);
-        $(".childTab").height(h - 280);
+        $(".childTab").height(h - 284);
         $(".childTab").width(w - 435);
-        $("#divAccords").height(h - 340); //Moins d'espace pour les boutons de shift
+        $("#divAccords").height(h - 344); //Moins d'espace pour les boutons de shift
     }
 
     $(document).ready(function () {

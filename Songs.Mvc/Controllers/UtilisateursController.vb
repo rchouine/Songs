@@ -36,17 +36,23 @@ Public Class UtilisateursController
         Return newUser
     End Function
 
+
     Function Index(Message As String) As ActionResult
         ViewData("StatusMessage") = Message
 
-        Dim userCtrl As New UserController
-        Dim liste = userCtrl.GetList
-        If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") = UserLevel.MeMyself Then
-            Return View(liste)
+        If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") < UserLevel.PowerUser Then
+            Dim userCtrl As New UserController
+            Dim liste = userCtrl.GetList
+            If Session("USER_LEVEL") = UserLevel.MeMyself Then
+                Return View(liste)
+            Else
+                Dim listeFiltre = (From x In liste Where x.Level <> UserLevel.MeMyself And x.Level <> UserLevel.Suppressed)
+                Return View(listeFiltre)
+            End If
         Else
-            Dim listeFiltre = (From x In liste Where x.Level <> UserLevel.MeMyself And x.Level <> UserLevel.Suppressed)
-            Return View(listeFiltre)
+            Return RedirectToAction("Index", "Chants")
         End If
+
     End Function
 
     Private Sub SetSessionUser(aUser As User)
@@ -101,7 +107,6 @@ Public Class UtilisateursController
     <HttpPost()> _
     <ValidateAntiForgeryToken()> _
     Public Function MettreJourMotPasse(ByVal model As LocalPasswordModel) As ActionResult
-        ViewData("ReturnUrl") = Url.Action("Manage")
         If ModelState.IsValid Then
 
             ' ChangePassword will throw an exception rather than return false in certain failure scenarios.
@@ -117,7 +122,7 @@ Public Class UtilisateursController
         End If
 
         ' If we got this far, something failed, redisplay form 
-        Return View("MettreJourMotPasse", model)
+        Return View("ChangerMotPasse", model)
     End Function
 
     <HttpPost()> _

@@ -14,36 +14,29 @@ Public Class ChantsController
     End Function
 
     Function Index() As ActionResult
-        If String.IsNullOrEmpty(Session("USER_ID")) Then
-            Return RedirectToAction("Enregistrement", "Utilisateurs")
-        Else
-            Dim songCtrl As New SongController
-            Dim liste = songCtrl.GetList(1, Model.SearchType.Title, "", 1)
-
-            Dim vm As New ChantsViewModel
-            vm.Chants = liste
-            vm.TabIndex = 0
-            vm.Categories = GetCategoryList(True)
-            Return View("Recherche", vm)
-        End If
+        Return Rechercher("titre", "", 1, 0)
     End Function
 
     Function Rechercher(typeRecherche As String, texteRecherche As String, categorie As Integer, TabIndex As Integer) As ActionResult
-        Dim leType As Model.SearchType
-        Select Case typeRecherche
-            Case "code" : leType = Model.SearchType.Code
-            Case "paroles" : leType = Model.SearchType.Lyrics
-            Case Else : leType = Model.SearchType.Title
-        End Select
+        If String.IsNullOrEmpty(Session("USER_ID")) Then
+            Return RedirectToAction("Enregistrement", "Utilisateurs")
+        Else
+            Dim leType As Model.SearchType
+            Select Case typeRecherche
+                Case "code" : leType = Songs.Model.SearchType.Code
+                Case "paroles" : leType = Songs.Model.SearchType.Lyrics
+                Case Else : leType = Songs.Model.SearchType.Title
+            End Select
 
-        Dim songCtrl As New SongController
-        Dim liste = songCtrl.GetList(Session("USER_ID"), leType, texteRecherche, categorie)
+            Dim songCtrl As New SongController
+            Dim liste = songCtrl.GetList(Session("USER_ID"), leType, texteRecherche, categorie)
 
-        Dim vm As New ChantsViewModel
-        vm.Chants = liste
-        vm.TabIndex = TabIndex
-        vm.Categories = GetCategoryList(True)
-        Return View("Recherche", vm)
+            Dim model As New ChantsViewModel
+            model.Chants = liste
+            model.TabIndex = TabIndex
+            model.Categories = GetCategoryList(True)
+            Return View("Recherche", model)
+        End If
     End Function
 
     Function Chant(id As Integer, shift As Integer, sharp As Integer) As JsonResult
@@ -103,4 +96,46 @@ Public Class ChantsController
             Return ""
         End If
     End Function
+
+    Function Modifier(id As Integer) As ActionResult
+        Dim model As ChantViewModel
+        If id > 0 Then
+            Dim songCtrl As New SongController
+            Dim chantTrouve = songCtrl.GetById(id)
+
+            model = ConvertChantToModel(chantTrouve)
+        Else
+            model = New ChantViewModel
+        End If
+
+        Return View("Chant", model)
+    End Function
+
+    Function Enregistrer(model As ChantViewModel) As JsonResult
+        Return Json(True, JsonRequestBehavior.AllowGet)
+    End Function
+
+    Function ConvertChantToModel(aSong As Song) As ChantViewModel
+        Dim newSong As New ChantViewModel
+        newSong.Id = aSong.Id
+        newSong.Code = aSong.Code
+        newSong.Title = aSong.Title
+        newSong.Author = aSong.Author
+        newSong.Translator = aSong.Translator
+        newSong.Lyrics = aSong.Lyrics
+        newSong.ChordPro = aSong.ChordPro
+        Return newSong
+    End Function
+    Function ConvertModelToChant(aSong As ChantViewModel) As Song
+        Dim newSong As New Song
+        newSong.Id = aSong.Id
+        newSong.Code = aSong.Code
+        newSong.Title = aSong.Title
+        newSong.Author = aSong.Author
+        newSong.Translator = aSong.Translator
+        newSong.Lyrics = aSong.Lyrics
+        newSong.ChordPro = aSong.ChordPro
+        Return newSong
+    End Function
+
 End Class

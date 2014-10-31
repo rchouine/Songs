@@ -36,4 +36,17 @@ Public Class CategoryController
         End Using
         Return retour
     End Function
+
+    Function GetListId(songId As Integer) As List(Of Integer)
+        Dim retour As New List(Of Integer)
+        Using cnx As New ConnectionSql
+            cnx.AddParameter("@song_id", SqlDbType.Int, songId, False)
+            cnx.OpenReader("sSongCategory")
+            While cnx.Reader.Read
+                retour.Add(CInt(cnx.Reader("CAT_ID")))
+            End While
+            cnx.Reader.Close()
+        End Using
+        Return retour
+    End Function
 End Class

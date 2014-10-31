@@ -222,6 +222,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChantsViewModel.vb" />
+    <Compile Include="Models\ChantViewModel.vb" />
     <Compile Include="Models\ChordProModel.vb" />
     <Compile Include="Models\UtilisateurModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -240,6 +241,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Models\AccountModels.vb" />
+    <Compile Include="Utils\CategoryManager.vb" />
     <Compile Include="Utils\ChordProManager.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -765,6 +767,8 @@
     <Content Include="Views\Chants\ChordPro.vbhtml" />
     <Content Include="Views\Utilisateurs\Index.vbhtml" />
     <Content Include="Views\Utilisateurs\Utilisateur.vbhtml" />
+    <Content Include="Views\Chants\Chant.vbhtml" />
+    <Content Include="Views\Chants\EditorTemplates\SongCategotyViewModel.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

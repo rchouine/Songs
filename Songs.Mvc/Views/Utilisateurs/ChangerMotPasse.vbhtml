@@ -6,29 +6,37 @@ End Code
     <h1>@ViewData("Title").</h1>
 </hgroup>
 
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
 <p class="message-success">@ViewData("StatusMessage")</p>
 
 @Using Html.BeginForm("MettreJourMotPasse", "Utilisateurs")
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
-    @<fieldset>
-        @Html.HiddenFor(Function(m) m.Id)
-        <ol>
-            <li>
-                @Html.LabelFor(Function(m) m.OldPassword)
-                @Html.PasswordFor(Function(m) m.OldPassword)
-            </li>
-            <li>
-                @Html.LabelFor(Function(m) m.NewPassword)
-                @Html.PasswordFor(Function(m) m.NewPassword)
-            </li>
-            <li>
-                @Html.LabelFor(Function(m) m.ConfirmPassword)
-                @Html.PasswordFor(Function(m) m.ConfirmPassword)
-            </li>
-        </ol>
-         <input type="submit" value="Changer mot de passe" style="margin-left: 40px;" />
-    </fieldset>
+    @Html.HiddenFor(Function(m) m.Id)
+    
+    @<fieldset class="ui-widget ui-widget-content" style="width: 480px;">
+    <table>
+        <tr>
+            <td>@Html.LabelFor(Function(m) m.OldPassword)</td>
+            <td>@Html.PasswordFor(Function(m) m.OldPassword)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(Function(m) m.NewPassword)</td>
+            <td>@Html.PasswordFor(Function(m) m.NewPassword)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(Function(m) m.ConfirmPassword)</td>
+            <td>@Html.PasswordFor(Function(m) m.ConfirmPassword)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Changer mot de passe" /></td>
+        </tr>
+    </table>
+
+</fieldset>
 End Using
 

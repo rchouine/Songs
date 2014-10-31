@@ -3,8 +3,8 @@
 @imports GridMvc.Html
 
 <link href="~/Content/Gridmvc.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-1.8.2.js"></script>
-<script src="~/Scripts/gridmvc.js"></script>
+@Scripts.Render("~/Scripts/jquery-2.1.1.js")
+@Scripts.Render("~/Scripts/gridmvc.js")
 
 <style type="text/css">
     .btnEdit {
@@ -20,6 +20,10 @@
         width: 380px;
         overflow-x: hidden;
         overflow-y: auto;
+    }
+
+    label {
+        font-size: inherit;
     }
 </style>
 
@@ -37,10 +41,7 @@
 <div>
     <button id="btnAddUser">Ajouter un utilisateur</button>
 </div>
-
-<br />
 <div id="divDetail" class="childTab" style="float: left;"></div>
-
 <div id="dlgConfirm" title="Confirmation" style="display: none;">
     <div id="dlgContent"></div>
 </div>

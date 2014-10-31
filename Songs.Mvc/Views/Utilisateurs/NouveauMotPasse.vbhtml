@@ -10,18 +10,21 @@
 
     @Html.HiddenFor(Function(m) m.Id)
     @Html.HiddenFor(Function(m) m.OldPassword)
-    @<fieldset>
-        <ol>
-            <li>
-                @Html.LabelFor(Function(m) m.NewPassword)
-                @Html.PasswordFor(Function(m) m.NewPassword)
-            </li>
-            <li>
-                @Html.LabelFor(Function(m) m.ConfirmPassword)
-                @Html.PasswordFor(Function(m) m.ConfirmPassword)
-            </li>
-        </ol>
-         <input type="submit" value="Enregistrer" style="margin-left: 40px;" />
-    </fieldset>
+    @<fieldset class="ui-widget ui-widget-content" style="width: 480px;">
+    <table>
+        <tr>
+            <td>@Html.LabelFor(Function(m) m.NewPassword)</td>
+            <td>@Html.PasswordFor(Function(m) m.NewPassword)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(Function(m) m.ConfirmPassword)</td>
+            <td>@Html.PasswordFor(Function(m) m.ConfirmPassword)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Enregistrer" /></td>
+        </tr>
+    </table>
+</fieldset>
 End Using
 
