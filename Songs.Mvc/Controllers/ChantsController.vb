@@ -21,7 +21,7 @@ Public Class ChantsController
         'Session.Add("USER_NAME", "rachou")
         'Session.Add("USER_FNAME", "rachou")
 
-        Return Rechercher("Titre", "", 1, 0)
+        Return Rechercher("Titre", "", 0, 0)
     End Function
 
     Private Sub SetLastCriteresRecherche(ByVal typeRecherche As String, ByVal texteRecherche As String, ByVal categorie As Integer, ByVal tabIndex As Integer)
