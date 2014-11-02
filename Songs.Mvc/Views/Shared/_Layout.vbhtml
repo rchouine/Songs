@@ -9,11 +9,13 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
 
-        @Styles.Render("~/Content/css")
-        @Styles.Render("~/Content/Gridmvc.css")
+        @Styles.Render("~/Content/Site.css")
         @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css")
-        @Scripts.Render("~/bundles/modernizr")
 
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")
 
     </head>
     <body>
@@ -50,9 +52,6 @@
                 </div>
             </div>
         </footer>
-        @Scripts.Render("~/Scripts/jquery-2.1.1.js")
-        @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.js")
-        @RenderSection("scripts", required:=False)
     </body>
 </html>
 

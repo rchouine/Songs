@@ -5,18 +5,14 @@
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
-<link href="~/Content/StyleChordPro.css" rel="stylesheet" />
-
-@Scripts.Render("~/Scripts/jquery-2.1.1.js")
+@Styles.Render("~/Content/StyleChordPro.css")
+@Styles.Render("~/Content/Gridmvc.css")
 @Scripts.Render("~/Scripts/gridmvc.js")
 
 <style type="text/css">
-    a.btnEdit {
-        white-space: pre-wrap;
-        color: transparent !important;
-        background-image: url('../../Images/pictosBoutons/modifier.gif');
-        background-repeat: no-repeat;
-        background-position: center;
+    .btnEdit {
+        padding: 0px 8px;
+        cursor: pointer;
     }
 
     a.btnEdit:hover {
@@ -43,35 +39,35 @@ End Code
     <tr>
         <td valign="top">
             @Using Html.BeginForm("Rechercher", "Chants", FormMethod.Post)
-                @<fieldset class="ui-widget ui-widget-content" style="width: 360px; margin-bottom: 10px;">
-                    <legend class="">Recherche</legend>
-                    <table>
-                        <tr>
-                            <td>@Html.RadioButton("typeRecherche", "titre", True, New With {.id = "typeRecherche1"}) </td>
-                            <td style="width: 60px;"><label for="typeRecherche1">Titre</label></td>
-                            <td rowspan="2" colspan="2">
-                                <div style="float: left;">
-                                    Filtrer par thème<br />
-                                    @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name"))
-
-                                </div>
-                                <div style="float: right; margin-top: 16px;">
-                                    <input type="Button" value="Ajouter un chant" onclick="window.location = '/Chants/Modifier?id=12'" />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>@Html.RadioButton("typeRecherche", "code", If(Request("typeRecherche") = "1", True, False), New With {.id = "typeRecherche2"}) </td>
-                            <td><label for="typeRecherche2">Code</label></td>
-                        </tr>
-                        <tr>
-                            <td>@Html.RadioButton("typeRecherche", "paroles", If(Request("typeRecherche") = "3", True, False), New With {.id = "typeRecherche3"})</td>
-                            <td><label for="typeRecherche3">Paroles</label></td>
-                            <td>@Html.TextBox("texteRecherche", "", New With {.style = "width: 250px;"})</td>
-                            <td><input type="submit" id="btnRecherche" value="Go" /></td>
-                        </tr>
-                    </table>
-                </fieldset>
+            @<fieldset class="ui-widget ui-widget-content" style="width: 360px; margin-bottom: 10px;">
+                <legend class="">Recherche</legend>
+                 <table class="songTable">
+                     <tr>
+                         <td>@Html.EditorFor(Function(x) x.TypesRecherche)</td>
+                         <td>
+                             <table class="songTable">
+                                 <tr>
+                                     <td>
+                                         Filtrer par thème<br />
+                                         @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name", Model.CriteresRecherche.CatId))
+                                     </td>
+                                     <td style="text-align: right; vertical-align: bottom;"><input type="Button" value="Ajouter un chant" onclick="javascript: Modifier(0);" /></td>
+                                 </tr>
+                                 <tr>
+                                     <td colspan="2">
+                                         <table>
+                                             <tr>
+                                                 <td>@Html.TextBoxFor(Function(x) x.TexteRecherche, New With {.style = "width: 250px;"})</td>
+                                                 <td style="padding-left: 2px;"><input type="submit" id="btnRecherche" value="Go" /></td>
+                                             </tr>
+                                         </table>
+                                     </td>
+                                 </tr>
+                             </table>
+                         </td>
+                     </tr>
+                 </table>
+            </fieldset>
                 @Html.HiddenFor(Function(x) x.TabIndex)
                 @Html.Hidden("id", "0")
                 @Html.Hidden("shift", "0")
@@ -79,25 +75,28 @@ End Code
 
             @Html.Grid(Model.Chants).Named("SongGrid").Columns(Sub(col)
                                                                    col.Add(Function(o) o.Id, True).Titled("Id")
-                                                                   col.Add(Function(o) o.Code).SetWidth(60).Titled("Code")
+                                                                   col.Add(Function(o) o.Code).SetWidth(30).Titled("Code")
                                                                    col.Add(Function(o) o.Title).SetWidth(300).Titled("Titre")
-                                                                   col.Add(Function(o) o.Tone).SetWidth(50).Titled("Ton")
-                                                                   col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.ActionLink("       ", "About", "Home", New With {.Id = o.Id}, New With {.class = "btnEdit"})).Encoded(False).Sanitized(False)
+                                                                   col.Add(Function(o) o.Tone).SetWidth(20).Titled("Ton")
+                                                                   col.Add().SetWidth(20).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.Id & "' class='btnEdit' src='../../Images/pictosBoutons/modifier.gif' title='Modifier'/>")).Encoded(False).Sanitized(False)
                                                                End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
         <td style="vertical-align: top; padding: 10px;">
             <div id="dialogChordPro" title="ChordPro" style="display: none;">
                 <div id="dialogContentChordPro"></div>
             </div>
+            <div id="dialogChant" title="Modification" style="display: none;">
+                <div id="dialogContentChant"></div>
+            </div>
 
-            <div id="tabs">
+            <div id="tabsSongs">
                 <ul>
-                    <li><a href="#tabs-1">Paroles</a></li>
-                    <li><a href="#tabs-2">Accords</a></li>
-                    <li><a href="#tabs-3">Sélection</a></li>
+                    <li><a href="#tabsSongs-1">Paroles</a></li>
+                    <li><a href="#tabsSongs-2">Accords</a></li>
+                    <li><a href="#tabsSongs-3">Sélection</a></li>
                 </ul>
-                <div id="tabs-1"><div id="divParoles" class="childTab"></div></div>
-                <div id="tabs-2">
+                <div id="tabsSongs-1"><div id="divParoles" class="childTab"></div></div>
+                <div id="tabsSongs-2">
                     <table style="width: 100%;">
                         <tr>
                             <td style="width: 24px;"><input type="button" style="width: 24px;" id="btnBemol" value="b" title="Déscendre d'un demi-ton" /></td>
@@ -114,7 +113,7 @@ End Code
                     <hr />
                     <div id="divAccords" class="childTab"></div>
                 </div>
-                <div id="tabs-3">@Html.Partial("TestChildView")</div>
+                <div id="tabsSongs-3">@Html.Partial("TestChildView")</div>
             </div>
         </td>
     </tr>
@@ -128,8 +127,8 @@ End Code
         if (w > 1024) w = 1024;
 
         $(".grid-wrap").height(h - 340);
-        $("#tabs").height(h - 228);
-        $("#tabs").width(w - 415);
+        $("#tabsSongs").height(h - 228);
+        $("#tabsSongs").width(w - 415);
         $(".childTab").height(h - 284);
         $(".childTab").width(w - 435);
         $("#divAccords").height(h - 344); //Moins d'espace pour les boutons de shift
@@ -165,7 +164,7 @@ End Code
                 $('#shift').val(data[1]);
                 $('#divParoles').html(data[3]);
                 $('#divAccords').html(data[4]);
-                $("#tabs").tabs();
+                $("#tabsSongs").tabs();
             });
         }
 
@@ -177,11 +176,12 @@ End Code
         }
 
         //Gestion des onglets
-        $("#tabs").tabs();
-        $('#tabs').click('tabsselect', function (event, ui) {
-            $("#TabIndex").val($("#tabs").tabs('option', 'active'));
+        var ongletsChants = $("#tabsSongs");
+        ongletsChants.tabs();
+        ongletsChants.click('tabsselect', function (event, ui) {
+            $("#TabIndex").val(ongletsChants.tabs('option', 'active'));
         });
-        $("#tabs").tabs("option", "active", $("#TabIndex").val());
+        ongletsChants.tabs("option", "active", $("#TabIndex").val());
 
         $("#ChordPro").click(function (event) {
             var h = $(window).height() - 50;
@@ -190,12 +190,12 @@ End Code
             var url = "/Chants/Chant?id=" + $('#id').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
             $.post(url, function (data) {
                 $('#dialogContentChordPro').html(data[4]);
-                $("#dialogChordPro").attr("title", data[2])
                 $("#dialogChordPro").dialog({
                     autoOpen: false,
                     height: h,
                     width: w,
                     modal: true,
+                    title:  data[2],
                     closeText: "Fermer",
                     buttons: [
                         {
@@ -261,5 +261,53 @@ End Code
 
         });
     });
+
+    $(".btnEdit").click(function () {
+        Modifier(this.id);
+    });
+
+    function Modifier(id) {
+        var url = "/Chants/Modifier?id=" + id;
+        var leDlg = $("#dialogChant");
+        $.post(url, function (data) {
+            $('#dialogContentChant').html(data);
+            var leTitre;
+            if (id == 0)
+                leTitre = "Ajouter un chant";
+            else
+                leTitre = "Modification";
+            leDlg.dialog({
+                autoOpen: false,
+                height: 430,
+                width: 610,
+                modal: true,
+                closeText: "Fermer",
+                title: leTitre,
+                buttons: [
+                    {
+                        text: "Enregistrer",
+                        click: function () {
+                            var frmEdit = $("#frmEdition");
+                            $.post(frmEdit.attr("action"), frmEdit.serialize(), function (r, s) {
+                                if (r == "") {
+                                    window.location.href = "/Chants/Rechercher";
+                                    leDlg.dialog("close");
+                                }
+                                else
+                                    $('#dialogContentChant').html(r);
+                            });
+                        }
+                    },
+                    {
+                        text: "Annuler",
+                        click: function () {
+                            leDlg.dialog("close");
+                        }
+                    },
+                ]
+            });
+            leDlg.dialog("open");
+        });
+    }
 </script>
 

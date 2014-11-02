@@ -6,9 +6,6 @@ End Code
     <h1>@ViewData("Title").</h1>
 </hgroup>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-
 @Using Html.BeginForm(New With { .ReturnUrl = ViewData("ReturnUrl") })
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()

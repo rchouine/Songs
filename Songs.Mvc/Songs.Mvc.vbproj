@@ -293,6 +293,7 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
+    <None Include="My Project\PublishProfiles\Songs.pubxml" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
@@ -769,6 +770,7 @@
     <Content Include="Views\Utilisateurs\Utilisateur.vbhtml" />
     <Content Include="Views\Chants\Chant.vbhtml" />
     <Content Include="Views\Chants\EditorTemplates\SongCategotyViewModel.vbhtml" />
+    <Content Include="Views\Chants\EditorTemplates\TypeRechercheViewModel.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -19,7 +19,9 @@ Public Class ConnectionSql
     End Sub
 
     Sub AddParameter(name As String, type As System.Data.SqlDbType, value As Object, setNull As Boolean)
-        If setNull Then
+        If value Is Nothing Then
+            value = System.DBNull.Value
+        ElseIf setNull Then
             If (type = System.Data.SqlDbType.VarChar AndAlso value.ToString = String.Empty) _
             OrElse (type = System.Data.SqlDbType.Int AndAlso CInt(value) = 0) Then
                 value = System.DBNull.Value

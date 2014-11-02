@@ -6,9 +6,6 @@ End Code
     <h1>@ViewData("Title").</h1>
 </hgroup>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-
 <p class="message-success">@ViewData("StatusMessage")</p>
 
 @Using Html.BeginForm("MettreJourMotPasse", "Utilisateurs")

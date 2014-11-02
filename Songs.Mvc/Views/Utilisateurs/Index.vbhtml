@@ -2,12 +2,12 @@
 
 @imports GridMvc.Html
 
-<link href="~/Content/Gridmvc.css" rel="stylesheet" />
-@Scripts.Render("~/Scripts/jquery-2.1.1.js")
+@Styles.Render("~/Content/Gridmvc.css")
 @Scripts.Render("~/Scripts/gridmvc.js")
 
 <style type="text/css">
     .btnEdit {
+        padding: 0px 8px;
         cursor: pointer;
     }
 
@@ -31,11 +31,11 @@
 
 <div id="divGrille" class="childTab" style="float: left; margin-right: 20px;">
     @Html.Grid(Model).Named("UserGrid").Columns(Sub(col)
-                                                     col.Add(Function(o) o.Id, True).Titled("Id")
-                                                     col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
-                                                     col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
-                                                     col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
-                                                     col.Add().SetWidth(10).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.id & "' class='btnEdit' src='../../Images/pictosBoutons/supprimer.gif' title='Supprimer'/>")).Encoded(False).Sanitized(False)
+                                                    col.Add(Function(o) o.Id, True).Titled("Id")
+                                                    col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
+                                                    col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
+                                                    col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
+                                                    col.Add().SetWidth(20).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.Id & "' class='btnEdit' src='../../Images/pictosBoutons/supprimer.gif' title='Supprimer'/>")).Encoded(False).Sanitized(False)
                                                 End Sub).Selectable(True).Sortable()
 </div>
 <div>

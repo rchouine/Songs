@@ -14,17 +14,48 @@ Public Class ChantsController
     End Function
 
     Function Index() As ActionResult
-        Return Rechercher("titre", "", 1, 0)
+        'Session.Add("USER_CODE", "raphael")
+        'Session.Add("USER_PWD", "")
+        'Session.Add("USER_ID", 1)
+        'Session.Add("USER_LEVEL", 0)
+        'Session.Add("USER_NAME", "rachou")
+        'Session.Add("USER_FNAME", "rachou")
+
+        Return Rechercher("Titre", "", 1, 0)
     End Function
 
-    Function Rechercher(typeRecherche As String, texteRecherche As String, categorie As Integer, TabIndex As Integer) As ActionResult
+    Private Sub SetLastCriteresRecherche(ByVal typeRecherche As String, ByVal texteRecherche As String, ByVal categorie As Integer, ByVal tabIndex As Integer)
+        Dim last As New CriteresRecherche
+        last.CatId = categorie
+        last.TabIndex = tabIndex
+        last.Text = texteRecherche
+        last.Type = typeRecherche
+        Session.Add("LAST_SEARCH_CRITERE", last)
+    End Sub
+    Private Sub GetLastCriteresRecherche(ByRef typeRecherche As String, ByRef texteRecherche As String, ByRef categorie As Integer, ByRef tabIndex As Integer)
+        If Session("LAST_SEARCH_CRITERE") IsNot Nothing Then
+            Dim last = CType(Session("LAST_SEARCH_CRITERE"), CriteresRecherche)
+            categorie = last.CatId
+            tabIndex = last.TabIndex
+            texteRecherche = last.Text
+            typeRecherche = last.Type
+        End If
+    End Sub
+
+    Function Rechercher(Optional typeRecherche As String = "", Optional texteRecherche As String = "", Optional categorie As Integer = 0, Optional tabIndex As Integer = -1) As ActionResult
         If String.IsNullOrEmpty(Session("USER_ID")) Then
             Return RedirectToAction("Enregistrement", "Utilisateurs")
         Else
+            If tabIndex = -1 Then
+                GetLastCriteresRecherche(typeRecherche, texteRecherche, categorie, tabIndex)
+            Else
+                SetLastCriteresRecherche(typeRecherche, texteRecherche, categorie, tabIndex)
+            End If
+
             Dim leType As Model.SearchType
             Select Case typeRecherche
-                Case "code" : leType = Songs.Model.SearchType.Code
-                Case "paroles" : leType = Songs.Model.SearchType.Lyrics
+                Case "Code" : leType = Songs.Model.SearchType.Code
+                Case "Paroles" : leType = Songs.Model.SearchType.Lyrics
                 Case Else : leType = Songs.Model.SearchType.Title
             End Select
 
@@ -33,8 +64,13 @@ Public Class ChantsController
 
             Dim model As New ChantsViewModel
             model.Chants = liste
-            model.TabIndex = TabIndex
+            model.TabIndex = tabIndex
             model.Categories = GetCategoryList(True)
+            model.CriteresRecherche.CatId = categorie
+            model.CriteresRecherche.TabIndex = tabIndex
+            model.CriteresRecherche.Text = texteRecherche
+            model.UpdateTypeRecherche(typeRecherche)
+
             Return View("Recherche", model)
         End If
     End Function
@@ -108,11 +144,20 @@ Public Class ChantsController
             model = New ChantViewModel
         End If
 
-        Return View("Chant", model)
+        Return PartialView("Chant", model)
     End Function
 
-    Function Enregistrer(model As ChantViewModel) As JsonResult
-        Return Json(True, JsonRequestBehavior.AllowGet)
+    Function Enregistrer(model As ChantViewModel) As ActionResult
+        If ModelState.IsValid Then
+            Dim songCtrl As New SongController
+            songCtrl.Save(ConvertModelToChant(model))
+            Dim catCtrl As New CategoryController
+            catCtrl.SaveSongCategories(model.Id, From x In model.Categories Where x.Selected Select x.id)
+            Return Nothing
+        End If
+
+        ' If we got this far, something failed, redisplay form 
+        Return PartialView("Chant", model)
     End Function
 
     Function ConvertChantToModel(aSong As Song) As ChantViewModel

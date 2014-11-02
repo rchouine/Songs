@@ -49,4 +49,18 @@ Public Class CategoryController
         End Using
         Return retour
     End Function
+
+    Sub SaveSongCategories(songId As Integer, catIds As IEnumerable(Of Integer))
+        Using cnx As New ConnectionSql
+            cnx.AddParameter("@song_id", SqlDbType.Int, songId, False)
+            cnx.ExecuteSql("dSongCat")
+            For Each catId In catIds
+                cnx.ClearParameters()
+                cnx.AddParameter("@song_id", SqlDbType.Int, songId, False)
+                cnx.AddParameter("@cat_id", SqlDbType.Int, catId, False)
+                cnx.ExecuteSql("iSongCat")
+            Next
+        End Using
+    End Sub
+
 End Class

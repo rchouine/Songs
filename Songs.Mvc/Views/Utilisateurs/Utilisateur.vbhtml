@@ -1,8 +1,5 @@
 ﻿@ModelType Songs.Mvc.UtilisateurModel
 
-@Scripts.Render("~/Scripts/jquery-2.1.1.js")
-@Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.js")
-
 <div id="container">
     <p class="message-success">@ViewData("StatusMessage")</p>
 
