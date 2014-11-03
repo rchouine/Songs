@@ -21,7 +21,7 @@ End Code
 
     .grid-wrap {
         height: 200px;
-        width: 384px;
+        width: 424px;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -39,7 +39,7 @@ End Code
     <tr>
         <td valign="top">
             @Using Html.BeginForm("Rechercher", "Chants", FormMethod.Post)
-            @<fieldset class="ui-widget ui-widget-content" style="width: 360px; margin-bottom: 10px;">
+            @<fieldset class="ui-widget ui-widget-content" style="width: 400px; margin-bottom: 10px;">
                 <legend class="">Recherche</legend>
                  <table class="songTable">
                      <tr>
@@ -75,9 +75,9 @@ End Code
 
             @Html.Grid(Model.Chants).Named("SongGrid").Columns(Sub(col)
                                                                    col.Add(Function(o) o.Id, True).Titled("Id")
-                                                                   col.Add(Function(o) o.Code).SetWidth(30).Titled("Code")
+                                                                   col.Add(Function(o) o.Code).SetWidth(10).Titled("Code")
                                                                    col.Add(Function(o) o.Title).SetWidth(300).Titled("Titre")
-                                                                   col.Add(Function(o) o.Tone).SetWidth(20).Titled("Ton")
+                                                                   col.Add(Function(o) o.Tone).SetWidth(10).Titled("Ton")
                                                                    col.Add().SetWidth(20).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.Id & "' class='btnEdit' src='../../Images/pictosBoutons/modifier.gif' title='Modifier'/>")).Encoded(False).Sanitized(False)
                                                                End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
         </td>
@@ -128,9 +128,9 @@ End Code
 
         $(".grid-wrap").height(h - 340);
         $("#tabsSongs").height(h - 228);
-        $("#tabsSongs").width(w - 415);
+        $("#tabsSongs").width(w - 480);
         $(".childTab").height(h - 284);
-        $(".childTab").width(w - 435);
+        $(".childTab").width(w - 500);
         $("#divAccords").height(h - 344); //Moins d'espace pour les boutons de shift
     }
 

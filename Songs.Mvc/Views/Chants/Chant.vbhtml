@@ -40,6 +40,13 @@
                             @Html.EditorFor(Function(x) x.Translator, New With {.htmlAttributes = New With {.class = "form-control"}})
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(Function(x) x.Tone, htmlAttributes:=New With {.class = "control-label col-md-2"})
+                        @Html.ValidationMessageFor(Function(x) x.Tone, "", New With {.class = "text-danger"})
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(Function(x) x.Tone, New SelectList(Model.ToneList, Model.Tone), New With {.htmlAttributes = New With {.class = "form-control"}})
+                        </div>
+                    </div>
                 </fieldset>
             </td>
             <td style="padding-left: 8px; vertical-align: top;">

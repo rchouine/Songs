@@ -138,8 +138,9 @@ Public Class ChantsController
         If id > 0 Then
             Dim songCtrl As New SongController
             Dim chantTrouve = songCtrl.GetById(id)
-
+            Dim tone = songCtrl.GetTone(id, Session("USER_ID"))
             model = ConvertChantToModel(chantTrouve)
+            model.Tone = tone
         Else
             model = New ChantViewModel
         End If
@@ -151,8 +152,11 @@ Public Class ChantsController
         If ModelState.IsValid Then
             Dim songCtrl As New SongController
             songCtrl.Save(ConvertModelToChant(model))
+            songCtrl.SaveUserSong(model.Id, Session("USER_ID"), model.Tone)
+
             Dim catCtrl As New CategoryController
             catCtrl.SaveSongCategories(model.Id, From x In model.Categories Where x.Selected Select x.id)
+
             Return Nothing
         End If
 

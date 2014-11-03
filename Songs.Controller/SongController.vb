@@ -17,6 +17,32 @@ Public Class SongController
         End Using
     End Sub
 
+    Sub SaveUserSong(songId As Integer, userId As Integer, tone As String)
+        Using cnx As New ConnectionSql
+            cnx.AddParameter("@user_id", SqlDbType.VarChar, userId, False)
+            cnx.AddParameter("@song_id", SqlDbType.Int, songId, False)
+            cnx.AddParameter("@usersong_tone", SqlDbType.VarChar, tone, True)
+
+            cnx.ExecuteSql("uUserSong")
+        End Using
+    End Sub
+
+    Function GetTone(songId As Integer, userId As Integer) As String
+
+        Using cnx As New ConnectionSql
+            cnx.AddParameter("@user_id", SqlDbType.VarChar, userId, False)
+            cnx.AddParameter("@song_id", SqlDbType.Int, songId, False)
+            cnx.OpenReader("sUserSong")
+            If cnx.Reader.Read Then
+                Return cnx.Reader("USERSONG_TONE").ToString
+            Else
+                Return String.Empty
+            End If
+            cnx.Reader.Close()
+        End Using
+        Return Nothing
+    End Function
+
     Function GetById(songId As Integer) As Song
 
         Using cnx As New ConnectionSql
