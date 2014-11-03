@@ -10,12 +10,13 @@
         <meta name="viewport" content="width=device-width" />
 
         @Styles.Render("~/Content/Site.css")
-        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css")
+        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/cupertino/jquery-ui.min.css")
 
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryui")
-        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/Scripts/jquery-2.1.1.min.js")
+        @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.min.js")
+        @Scripts.Render("~/Scripts/jquery.validate.min.js")
+        @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+        @Scripts.Render("~/Scripts/modernizr-2.6.2.js")
 
     </head>
     <body>

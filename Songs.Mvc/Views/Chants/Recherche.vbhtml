@@ -7,7 +7,7 @@ End Code
 
 @Styles.Render("~/Content/StyleChordPro.css")
 @Styles.Render("~/Content/Gridmvc.css")
-@Scripts.Render("~/Scripts/gridmvc.js")
+@Scripts.Render("~/Scripts/gridmvc.min.js")
 
 <style type="text/css">
     .btnEdit {

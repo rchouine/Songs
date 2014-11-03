@@ -89,11 +89,12 @@ Public Class UtilisateursController
                 End If
 
                 Return RedirectToAction("Index", "Chants")
+            Else
+                ModelState.AddModelError("", "Le nom d'utilisateur ou mot de passe est incorrect.")
             End If
         End If
 
         ' If we got this far, something failed, redisplay form
-        ModelState.AddModelError("", "Le nom d'utilisateur ou mot de passe est incorrect.")
         Return View(model)
     End Function
 
