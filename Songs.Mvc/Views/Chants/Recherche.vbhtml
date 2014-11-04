@@ -51,7 +51,9 @@ End Code
                                          Filtrer par thème<br />
                                          @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name", Model.CriteresRecherche.CatId))
                                      </td>
-                                     <td style="text-align: right; vertical-align: bottom;"><input type="Button" value="Ajouter un chant" onclick="javascript: Modifier(0);" /></td>
+                                     @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
+                                        @<td style="text-align: right; vertical-align: bottom;"><input type="Button" value="Ajouter un chant" onclick="javascript: Modifier(0);" /></td>
+                                     End If
                                  </tr>
                                  <tr>
                                      <td colspan="2">

@@ -16,7 +16,7 @@
         @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.min.js")
         @Scripts.Render("~/Scripts/jquery.validate.min.js")
         @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
-        @Scripts.Render("~/Scripts/modernizr-2.6.2.js")
+        @Scripts.Render("~/Scripts/modernizr-2.8.3.js")
 
     </head>
     <body>

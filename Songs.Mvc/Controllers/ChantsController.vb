@@ -154,9 +154,10 @@ Public Class ChantsController
             songCtrl.Save(ConvertModelToChant(model))
             songCtrl.SaveUserSong(model.Id, Session("USER_ID"), model.Tone)
 
-            Dim catCtrl As New CategoryController
-            catCtrl.SaveSongCategories(model.Id, From x In model.Categories Where x.Selected Select x.id)
-
+            If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
+                Dim catCtrl As New CategoryController
+                catCtrl.SaveSongCategories(model.Id, From x In model.Categories Where x.Selected Select x.id)
+            End If
             Return Nothing
         End If
 
