@@ -14,12 +14,12 @@ Public Class ChantsController
     End Function
 
     Function Index() As ActionResult
-        'Session.Add("USER_CODE", "raphael")
-        'Session.Add("USER_PWD", "")
-        'Session.Add("USER_ID", 1)
-        'Session.Add("USER_LEVEL", 0)
-        'Session.Add("USER_NAME", "rachou")
-        'Session.Add("USER_FNAME", "rachou")
+        Session.Add("USER_CODE", "raphael")
+        Session.Add("USER_PWD", "")
+        Session.Add("USER_ID", 1)
+        Session.Add("USER_LEVEL", 0)
+        Session.Add("USER_NAME", "rachou")
+        Session.Add("USER_FNAME", "rachou")
 
         Return Rechercher("Titre", "", 0, 0)
     End Function
@@ -52,18 +52,8 @@ Public Class ChantsController
                 SetLastCriteresRecherche(typeRecherche, texteRecherche, categorie, tabIndex)
             End If
 
-            Dim leType As Model.SearchType
-            Select Case typeRecherche
-                Case "Code" : leType = Songs.Model.SearchType.Code
-                Case "Paroles" : leType = Songs.Model.SearchType.Lyrics
-                Case Else : leType = Songs.Model.SearchType.Title
-            End Select
-
-            Dim songCtrl As New SongController
-            Dim liste = songCtrl.GetList(Session("USER_ID"), leType, texteRecherche, categorie)
-
             Dim model As New ChantsViewModel
-            model.Chants = liste
+            model.Chants = Nothing
             model.TabIndex = tabIndex
             model.Categories = GetCategoryList(True)
             model.CriteresRecherche.CatId = categorie
@@ -73,6 +63,20 @@ Public Class ChantsController
 
             Return View("Recherche", model)
         End If
+    End Function
+
+    Function Lancer(type As String, texte As String, categorie As Integer) As JsonResult
+        SetLastCriteresRecherche(type, texte, categorie, 0)
+        Dim leType As Model.SearchType
+        Select Case type
+            Case "Code" : leType = Songs.Model.SearchType.Code
+            Case "Paroles" : leType = Songs.Model.SearchType.Lyrics
+            Case Else : leType = Songs.Model.SearchType.Title
+        End Select
+
+        Dim songCtrl As New SongController
+        Dim liste = songCtrl.GetList(Session("USER_ID"), leType, texte, categorie)
+        Return Json(liste, JsonRequestBehavior.AllowGet)
     End Function
 
     Function Chant(id As Integer, shift As Integer, sharp As Integer) As JsonResult
@@ -138,9 +142,7 @@ Public Class ChantsController
         If id > 0 Then
             Dim songCtrl As New SongController
             Dim chantTrouve = songCtrl.GetById(id)
-            Dim tone = songCtrl.GetTone(id, Session("USER_ID"))
             model = ConvertChantToModel(chantTrouve)
-            model.Tone = tone
         Else
             model = New ChantViewModel
         End If
@@ -152,7 +154,6 @@ Public Class ChantsController
         If ModelState.IsValid Then
             Dim songCtrl As New SongController
             songCtrl.Save(ConvertModelToChant(model))
-            songCtrl.SaveUserSong(model.Id, Session("USER_ID"), model.Tone)
 
             If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
                 Dim catCtrl As New CategoryController
@@ -164,6 +165,11 @@ Public Class ChantsController
         ' If we got this far, something failed, redisplay form 
         Return PartialView("Chant", model)
     End Function
+
+    Sub ChangerTonalite(songId As Integer, newTone As String)
+        Dim songCtrl As New SongController
+        songCtrl.SaveUserSong(songId, Session("USER_ID"), newTone)
+    End Sub
 
     Function ConvertChantToModel(aSong As Song) As ChantViewModel
         Dim newSong As New ChantViewModel

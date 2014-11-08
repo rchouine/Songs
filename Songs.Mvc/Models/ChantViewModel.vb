@@ -31,11 +31,6 @@ Public Class ChantViewModel
     <Display(Name:="Accords Chordpro")> _
     Property ChordPro As String
 
-    <Display(Name:="Tonalité")> _
-    Property Tone As String
-
-    Property ToneList As New List(Of String) From {"", "Ab", "A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#", "G"}
-
     Property Categories As List(Of SongCategotyViewModel)
         Get
             If _categories Is Nothing Then

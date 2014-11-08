@@ -36,21 +36,25 @@ Public Class UtilisateursController
         Return newUser
     End Function
 
-
     Function Index(Message As String) As ActionResult
         ViewData("StatusMessage") = Message
 
         If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") < UserLevel.PowerUser Then
-            Dim userCtrl As New UserController
-            Dim liste = userCtrl.GetList
-            If Session("USER_LEVEL") = UserLevel.MeMyself Then
-                Return View(liste)
-            Else
-                Dim listeFiltre = (From x In liste Where x.Level <> UserLevel.MeMyself And x.Level <> UserLevel.Suppressed)
-                Return View(listeFiltre)
-            End If
+            Return View("Index")
         Else
             Return RedirectToAction("Index", "Chants")
+        End If
+    End Function
+
+    Function Liste() As JsonResult
+
+        Dim userCtrl As New UserController
+        Dim uliste = userCtrl.GetList
+        If Session("USER_LEVEL") = UserLevel.MeMyself Then
+            Return Json(uliste, JsonRequestBehavior.AllowGet)
+        Else
+            Dim listeFiltre = (From x In uliste Where x.Level <> UserLevel.MeMyself And x.Level <> UserLevel.Suppressed)
+            Return Json(listeFiltre, JsonRequestBehavior.AllowGet)
         End If
 
     End Function

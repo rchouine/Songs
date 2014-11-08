@@ -53,12 +53,6 @@
                             @Html.EditorFor(Function(x) x.Translator, New With {.htmlAttributes = New With {.readonly = "readonly"}})
                         </div>
                     End If
-
-                    <div class="form-group">
-                        @Html.LabelFor(Function(x) x.Tone)
-                        @Html.ValidationMessageFor(Function(x) x.Tone, "")<br />
-                        @Html.DropDownListFor(Function(x) x.Tone, New SelectList(Model.ToneList, Model.Tone))
-                    </div>
                 </fieldset>
             </td>
             <td style="padding-left: 8px; vertical-align: top;">

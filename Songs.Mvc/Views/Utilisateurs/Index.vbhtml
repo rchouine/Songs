@@ -1,43 +1,52 @@
 ﻿@ModelType IEnumerable(Of Songs.Model.User)
 
-@imports GridMvc.Html
+<link href="~/Content/JQWidgets/jqx.base.css" rel="stylesheet" />
+<link href="~/Content/JQWidgets/jqx.web.css" rel="stylesheet" />
 
-@Styles.Render("~/Content/Gridmvc.css")
-@Scripts.Render("~/Scripts/gridmvc.min.js")
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxcore.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxdata.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.columnsresize.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxmenu.js"></script>
+
+@*<script type="text/javascript" src="~/Scripts/JQWidgets/jqxcombobox.js"></script>
+    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.edit.js"></script>
+    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.grouping.js"></script>*@
 
 <style type="text/css">
-    .btnEdit {
-        padding: 0px 8px;
+    .btnDelete {
+        padding: 6px;
         cursor: pointer;
     }
 
-    a.btnEdit:hover {
-        background-color: #c7d1d6;
+        .btnDelete:hover {
+            background-color: #c7d1d6;
+        }
+
+    .ui-widget-overlay {
+        z-index: 300;
     }
 
-    .grid-wrap {
-        height: 300px;
-        width: 380px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    label {
-        font-size: inherit;
+    .ui-dialog {
+        z-index: 301;
     }
 </style>
 
 <h2>Gestion des utilisateurs</h2>
 
 <div id="divGrille" class="childTab" style="float: left; margin-right: 20px;">
-    @Html.Grid(Model).Named("UserGrid").Columns(Sub(col)
-                                                    col.Add(Function(o) o.Id, True).Titled("Id")
-                                                    col.Add(Function(o) o.Code).SetWidth(150).Titled("Code")
-                                                    col.Add(Function(o) o.FirstName).SetWidth(150).Titled("Prénom")
-                                                    col.Add(Function(o) o.Name).SetWidth(150).Titled("Nom")
-                                                    col.Add().SetWidth(20).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.Id & "' class='btnEdit' src='../../Images/pictosBoutons/supprimer.gif' title='Supprimer'/>")).Encoded(False).Sanitized(False)
-                                                End Sub).Selectable(True).Sortable()
+    <div id="jqxgrid"></div>
 </div>
+@Html.Hidden("userId")
+
 <div>
     <button id="btnAddUser">Ajouter un utilisateur</button>
 </div>
@@ -48,12 +57,13 @@
 
 
 <script type="text/javascript">
+
     function ResizeGrid() {
         var h = $(window).height();
         var w = $(window).width();
         if (w > 1024) w = 1024;
 
-        $(".grid-wrap").height(h - 260);
+        $("#divGrille").height(h - 260);
     }
 
     $(document).ready(function () {
@@ -63,11 +73,76 @@
             ResizeGrid();
         });
 
-        pageGrids.UserGrid.onRowSelect(function (e) {
-            var url = "/Utilisateurs/Utilisateur?id=" + e.row.Id;
+        // prepare the data
+        var source =
+        {
+            datatype: "json",
+            datafields: [
+                { name: 'Id', type: 'integer' },
+                { name: 'Code', type: 'string' },
+                { name: 'FirstName', type: 'string' },
+                { name: 'Name', type: 'string' }
+            ],
+            url: "Utilisateurs/Liste"
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            {
+                formatData: function (data) {
+                    $.extend(data, {
+                        featureClass: "P",
+                        style: "full",
+                        maxRows: 10,
+                        username: "jqwidgets"
+                    });
+                    return data;
+                }
+            }
+        );
+        $("#jqxgrid").jqxGrid(
+        {
+            theme: "web",
+            width: '350px',
+            height: '100%',
+            source: dataAdapter,
+            columnsresize: true,
+            sortable: true,
+            editable: false,
+            columns: [
+                { text: 'Id', datafield: 'Id', hidden: true },
+                { text: 'Code', datafield: 'Code', width: '30%' },
+                { text: 'Prénom', datafield: 'FirstName', width: '32%' },
+                { text: 'Nom', datafield: 'Name', width: '30%' },
+                {
+                    text: '', datafield: 'edit', width: '8%', columntype: 'number', cellsrenderer: function () {
+                        return '<div><img src="../../Images/pictosBoutons/supprimer.gif" class="btnDelete" /></div>';
+                    }
+                },
+            ],
+            ready: function () {
+
+                var localizationobj = {};
+                localizationobj.sortascendingstring = "Tri ascendant";
+                localizationobj.sortdescendingstring = "Tri descendant";
+                localizationobj.sortremovestring = "Enlever tri";
+                // apply localization.
+                $("#jqxgrid").jqxGrid('localizestrings', localizationobj);
+
+                //Set editButton function
+                SetDeleteButton();
+            },
+        });
+        $("#jqxgrid").on('rowselect', function (event) {
+            var value = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Id');
+            $("#userId").val(value);
+
+            var url = "/Utilisateurs/Utilisateur?id=" + value;
             $.post(url, function (data) {
                 $('#divDetail').html(data);
             });
+        });
+        $("#jqxgrid").on("sort", function (event) {
+            //Reactiver delete button
+            SetDeleteButton();
         });
 
         $("#btnAddUser").click(function () {
@@ -76,9 +151,12 @@
                 $('#divDetail').html(data);
             });
         });
+    });
 
-        $(".btnEdit").click(function () {
-            var userId = this.id;
+    function SetDeleteButton() {
+        $(".btnDelete").click(function () {
+
+            var userId = $("#userId").val();
             var leDlg = $("#dlgConfirm");
             $('#dlgContent').html("Êtes vous certain de vouloir supprimer cet utilisateur?");
             leDlg.attr("title", "Confirmation de suppression");
@@ -87,12 +165,12 @@
                 height: 180,
                 width: 300,
                 modal: true,
-                closeText: "Annuler",
+                zIndex: 300,
                 buttons: [
                     {
                         text: "Oui",
                         click: function () {
-                            window.location = "@Url.Action("Supprimer")/" + userId;
+                            window.location = "/Utilisateurs/Supprimer/" + userId;
                             leDlg.dialog("close");
                         }
                     },
@@ -106,5 +184,5 @@
             });
             leDlg.dialog("open");
         });
-    });
+    }
 </script>

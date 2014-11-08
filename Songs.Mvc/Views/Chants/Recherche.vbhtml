@@ -1,29 +1,46 @@
 ﻿@ModelType  Songs.Mvc.ChantsViewModel
-@imports GridMvc.Html
+
 @Code
     'ViewData("Title") = "Chants"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
+<link href="~/Content/JQWidgets/jqx.base.css" rel="stylesheet" />
+<link href="~/Content/JQWidgets/jqx.web.css" rel="stylesheet" />
+
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxcore.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxdata.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.columnsresize.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxmenu.js"></script>
+
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxdropdownlist.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.edit.js"></script>
+
 @Styles.Render("~/Content/StyleChordPro.css")
-@Styles.Render("~/Content/Gridmvc.css")
-@Scripts.Render("~/Scripts/gridmvc.min.js")
 
 <style type="text/css">
     .btnEdit {
-        padding: 0px 8px;
+        padding: 6px;
         cursor: pointer;
     }
 
-    a.btnEdit:hover {
-        background-color: #c7d1d6;
+        .btnEdit:hover {
+            background-color: #c7d1d6;
+        }
+
+    .ui-widget-overlay {
+        z-index: 300;
     }
 
-    .grid-wrap {
-        height: 200px;
-        width: 424px;
-        overflow-x: hidden;
-        overflow-y: auto;
+    .ui-dialog {
+        z-index: 301;
     }
 
     .childTab {
@@ -32,56 +49,51 @@ End Code
         overflow-x: auto;
         overflow-y: auto;
     }
-
 </style>
 
 <table>
     <tr>
         <td valign="top">
-            @Using Html.BeginForm("Rechercher", "Chants", FormMethod.Post)
-            @<fieldset class="ui-widget ui-widget-content" style="width: 400px; margin-bottom: 10px;">
+            <fieldset class="ui-widget ui-widget-content" style="width: 380px; margin-bottom: 10px;">
                 <legend class="">Recherche</legend>
-                 <table class="songTable">
-                     <tr>
-                         <td>@Html.EditorFor(Function(x) x.TypesRecherche)</td>
-                         <td>
-                             <table class="songTable">
-                                 <tr>
-                                     <td>
-                                         Filtrer par thème<br />
-                                         @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name", Model.CriteresRecherche.CatId))
-                                     </td>
-                                     @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
+                <table class="songTable">
+                    <tr>
+                        <td>@Html.EditorFor(Function(x) x.TypesRecherche)</td>
+                        <td>
+                            <table class="songTable">
+                                <tr>
+                                    <td>
+                                        Filtrer par thème<br />
+                                        @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name", Model.CriteresRecherche.CatId))
+                                    </td>
+                                    @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
                                         @<td style="text-align: right; vertical-align: bottom;"><input type="Button" value="Ajouter un chant" onclick="javascript: Modifier(0);" /></td>
-                                     End If
-                                 </tr>
-                                 <tr>
-                                     <td colspan="2">
-                                         <table>
-                                             <tr>
-                                                 <td>@Html.TextBoxFor(Function(x) x.TexteRecherche, New With {.style = "width: 250px;"})</td>
-                                                 <td style="padding-left: 2px;"><input type="submit" id="btnRecherche" value="Go" /></td>
-                                             </tr>
-                                         </table>
-                                     </td>
-                                 </tr>
-                             </table>
-                         </td>
-                     </tr>
-                 </table>
+                                    End If
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <table>
+                                            <tr>
+                                                <td>@Html.TextBoxFor(Function(x) x.TexteRecherche, New With {.style = "width: 250px;"})</td>
+                                                <td style="padding-left: 2px;"><input type="button" id="btnRecherche" value="Go" /></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </fieldset>
-                @Html.HiddenFor(Function(x) x.TabIndex)
-                @Html.Hidden("id", "0")
-                @Html.Hidden("shift", "0")
-            End Using
+            @Html.HiddenFor(Function(x) x.TabIndex)
+            @Html.Hidden("id", "0")
+            @Html.Hidden("shift", "0")
 
-            @Html.Grid(Model.Chants).Named("SongGrid").Columns(Sub(col)
-                                                                   col.Add(Function(o) o.Id, True).Titled("Id")
-                                                                   col.Add(Function(o) o.Code).SetWidth(10).Titled("Code")
-                                                                   col.Add(Function(o) o.Title).SetWidth(300).Titled("Titre")
-                                                                   col.Add(Function(o) o.Tone).SetWidth(10).Titled("Ton")
-                                                                   col.Add().SetWidth(20).Titled("").RenderValueAs(Function(o) Html.Raw("<img id='" & o.Id & "' class='btnEdit' src='../../Images/pictosBoutons/modifier.gif' title='Modifier'/>")).Encoded(False).Sanitized(False)
-                                                               End Sub).Selectable(True).Sortable().EmptyText("Aucun chant trouvé.")
+            <div id="divGrille" style="float: left;">
+                <div id="jqxgrid"></div>
+            </div>
+            @Html.Hidden("songId")
         </td>
         <td style="vertical-align: top; padding: 10px;">
             <div id="dialogChordPro" title="ChordPro" style="display: none;">
@@ -119,6 +131,7 @@ End Code
             </div>
         </td>
     </tr>
+
 </table>
 
 <script type="text/javascript">
@@ -128,12 +141,32 @@ End Code
         var w = $(window).width();
         if (w > 1024) w = 1024;
 
-        $(".grid-wrap").height(h - 340);
+        $("#divGrille").height(h - 340);
         $("#tabsSongs").height(h - 228);
         $("#tabsSongs").width(w - 480);
         $(".childTab").height(h - 284);
         $(".childTab").width(w - 500);
         $("#divAccords").height(h - 344); //Moins d'espace pour les boutons de shift
+    }
+
+    function GetDataUrl() {
+        return "/Chants/Lancer?type=" + $("input[name=typeRecherche]:checked").val() + "&texte=" + encodeURI($("#TexteRecherche").val()) + "&categorie=" + $("#categorie").val();
+    }
+    var source =
+    {
+        datatype: "json",
+        datafields: [
+            { name: 'Id', type: 'integer' },
+            { name: 'Code', type: 'string' },
+            { name: 'Title', type: 'string' },
+            { name: 'Tone', type: 'string' }
+        ],
+        url: GetDataUrl()
+    }
+
+    function RefreshGrid() {
+        source.url = GetDataUrl();
+        $("#jqxgrid").jqxGrid("updatebounddata");
     }
 
     $(document).ready(function () {
@@ -143,26 +176,112 @@ End Code
             ResizeGrid();
         });
 
-        pageGrids.SongGrid.onRowSelect(function (e) {
-            updateSong(e.row.Id, 0);
+        $("#btnRecherche").click(function () {
+            RefreshGrid();
         });
+
+        // prepare the data
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            {
+                formatData: function (data) {
+                    $.extend(data, {
+                        featureClass: "P",
+                        style: "full",
+                        maxRows: 10,
+                        username: "jqwidgets"
+                    });
+                    return data;
+                }
+            }
+        );
+        var localizationobj = {};
+        localizationobj.sortascendingstring = "Triz ascendant";
+        localizationobj.sortdescendingstring = "Tri descendant";
+        localizationobj.sortremovestring = "Enlever tri";
+        localizationobj.emptydatastring = "Aucun chant trouvé";
+
+        $("#jqxgrid").jqxGrid(
+        {
+            theme: "web",
+            width: '400px',
+            height: '100%',
+            source: dataAdapter,
+            columnsresize: true,
+            sortable: true,
+            editable: true,
+            localization: localizationobj,
+            columns: [
+                { text: 'Id', datafield: 'Id', hidden: true },
+                { text: 'Code', datafield: 'Code', width: '16%', editable: false },
+                { text: 'Titre', datafield: 'Title', width: '66%', editable: false },
+                {
+                    text: 'Ton', datafield: 'Tone', width: '12%', columntype: 'dropdownlist',
+                    createeditor: function (row, column, editor) {
+                        var list = ["", "Ab", "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
+                        editor.jqxDropDownList({ placeHolder: '', autoDropDownHeight: false, source: list });
+                    },
+                    // update the editor's value before saving it.
+                    cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
+                        var songId = $("#jqxgrid").jqxGrid('getcellvalue', row, 'Id')
+                        $.ajax({
+                            url: '@Url.Action("ChangerTonalite")',
+                            type: 'GET',
+                            dataType: 'json',
+                            cache: false,
+                            data: { songId: songId, newTone: newvalue },
+                        });
+                    }
+                },
+                {
+                    text: '', datafield: 'edit', width: '5%', columntype: 'number', cellsrenderer: function () {
+                        return '<div><img src="../../Images/pictosBoutons/modifier.gif" class="btnEdit" /></div>';
+                    }
+                },
+            ],
+            ready: function () { },
+        });
+        $("#jqxgrid").bind('bindingcomplete', function () {
+            //Set editButton function
+            SetEditButton();
+        });
+        $("#jqxgrid").on('rowselect', function (event) {
+            var value = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Id');
+            $("#songId").val(value);
+            updateSong(value, 0);
+        });
+        $("#jqxgrid").on("sort", function (event) {
+            SetEditButton();
+        });
+        $("#jqxgrid").on('cellbeginedit', function (event) {
+            setTimeout(function () { SetEditButton(); }, 1);
+        });
+        $("#jqxgrid").on('cellendedit', function (event) {
+            setTimeout(function () { SetEditButton(); }, 1);
+        });
+
+        function SetEditButton() {
+            $(".btnEdit").click(function () {
+                Modifier($("#songId").val());
+            });
+        }
+
         $("#btnBemol").click(function () {
-            updateSong($('#id').val(), eval($('#shift').val()) - 1);
+            updateSong($('#songId').val(), eval($('#shift').val()) - 1);
         });
         $("#btnShift").click(function () {
-            updateSong($('#id').val(), eval($('#shift').val()) + 1);
+            updateSong($('#songId').val(), eval($('#shift').val()) + 1);
         });
         $("#rbBemol").click(function () {
-            updateSong($('#id').val(), eval($('#shift').val()));
+            updateSong($('#songId').val(), eval($('#shift').val()));
         });
         $("#rbSharp").click(function () {
-            updateSong($('#id').val(), eval($('#shift').val()));
+            updateSong($('#songId').val(), eval($('#shift').val()));
         });
 
         function updateSong(id, shift) {
             var url = "/Chants/Chant?id=" + id + "&shift=" + shift + "&sharp=" + getSharp();
             $.post(url, function (data) {
-                $('#id').val(data[0]);
+                $('#songId').val(data[0]);
                 $('#shift').val(data[1]);
                 $('#divParoles').html(data[3]);
                 $('#divAccords').html(data[4]);
@@ -189,7 +308,7 @@ End Code
             var h = $(window).height() - 50;
             var w = $(window).width() - 200;
 
-            var url = "/Chants/Chant?id=" + $('#id').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
+            var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
             $.post(url, function (data) {
                 $('#dialogContentChordPro').html(data[4]);
                 $("#dialogChordPro").dialog({
@@ -197,7 +316,7 @@ End Code
                     height: h,
                     width: w,
                     modal: true,
-                    title:  data[2],
+                    title: data[2],
                     closeText: "Fermer",
                     buttons: [
                         {
@@ -254,7 +373,7 @@ End Code
             });
 
             function ShiftSong() {
-                var url = "/Chants/Chant?id=" + $('#id').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
+                var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
                 $.post(url, function (data) {
                     $('#shift').val(data[1]);
                     $('#dialogContentChordPro').html(data[4]);
@@ -264,9 +383,6 @@ End Code
         });
     });
 
-    $(".btnEdit").click(function () {
-        Modifier(this.id);
-    });
 
     function Modifier(id) {
         var url = "/Chants/Modifier?id=" + id;
@@ -292,7 +408,7 @@ End Code
                             var frmEdit = $("#frmEdition");
                             $.post(frmEdit.attr("action"), frmEdit.serialize(), function (r, s) {
                                 if (r == "") {
-                                    window.location.href = "/Chants/Rechercher";
+                                    RefreshGrid();
                                     leDlg.dialog("close");
                                 }
                                 else
@@ -312,4 +428,5 @@ End Code
         });
     }
 </script>
+
 
