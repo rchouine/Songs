@@ -131,7 +131,6 @@ End Code
             </div>
         </td>
     </tr>
-
 </table>
 
 <script type="text/javascript">
@@ -141,7 +140,7 @@ End Code
         var w = $(window).width();
         if (w > 1024) w = 1024;
 
-        $("#divGrille").height(h - 340);
+        $("#divGrille").height(h - 333);
         $("#tabsSongs").height(h - 228);
         $("#tabsSongs").width(w - 480);
         $(".childTab").height(h - 284);
@@ -213,7 +212,15 @@ End Code
             columns: [
                 { text: 'Id', datafield: 'Id', hidden: true },
                 { text: 'Code', datafield: 'Code', width: '16%', editable: false },
-                { text: 'Titre', datafield: 'Title', width: '66%', editable: false },
+                @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
+                    @<Text>
+                        { text: 'Titre', datafield: 'Title', width: '66%', editable: false },
+                    </Text>
+                Else
+                     @<Text>
+                        { text: 'Titre', datafield: 'Title', width: '72%', editable: false },
+                    </Text>
+                End If
                 {
                     text: 'Ton', datafield: 'Tone', width: '12%', columntype: 'dropdownlist',
                     createeditor: function (row, column, editor) {
@@ -232,11 +239,15 @@ End Code
                         });
                     }
                 },
-                {
-                    text: '', datafield: 'edit', width: '5%', columntype: 'number', cellsrenderer: function () {
-                        return '<div><img src="../../Images/pictosBoutons/modifier.gif" class="btnEdit" /></div>';
-                    }
-                },
+                @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
+                    @<Text>
+                    {
+                        text: '', datafield: 'edit', width: '5%', columntype: 'number', cellsrenderer: function () {
+                            return '<div><img src="../../Images/pictosBoutons/modifier.gif" class="btnEdit" /></div>';
+                        }
+                    },
+                    </Text>
+                End If
             ],
             ready: function () { },
         });

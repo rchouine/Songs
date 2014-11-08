@@ -14,12 +14,12 @@ Public Class ChantsController
     End Function
 
     Function Index() As ActionResult
-        Session.Add("USER_CODE", "raphael")
-        Session.Add("USER_PWD", "")
-        Session.Add("USER_ID", 1)
-        Session.Add("USER_LEVEL", 0)
-        Session.Add("USER_NAME", "rachou")
-        Session.Add("USER_FNAME", "rachou")
+        'Session.Add("USER_CODE", "raphael")
+        'Session.Add("USER_PWD", "")
+        'Session.Add("USER_ID", 1)
+        'Session.Add("USER_LEVEL", 0)
+        'Session.Add("USER_NAME", "rachou")
+        'Session.Add("USER_FNAME", "rachou")
 
         Return Rechercher("Titre", "", 0, 0)
     End Function

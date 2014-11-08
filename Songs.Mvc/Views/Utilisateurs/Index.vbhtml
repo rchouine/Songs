@@ -13,14 +13,6 @@
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxbuttons.js"></script>
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxmenu.js"></script>
 
-@*<script type="text/javascript" src="~/Scripts/JQWidgets/jqxcombobox.js"></script>
-    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxlistbox.js"></script>
-    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.edit.js"></script>
-    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.filter.js"></script>
-    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.pager.js"></script>
-    <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.grouping.js"></script>*@
-
 <style type="text/css">
     .btnDelete {
         padding: 6px;
