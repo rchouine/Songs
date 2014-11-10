@@ -49,7 +49,6 @@ Globalize.addCultureInfo( "fr-FR", "default", {
 	},
 	calendars: {
 		standard: {
-			firstDay: 1,
 			days: {
 				names: ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"],
 				namesAbbr: ["dim.","lun.","mar.","mer.","jeu.","ven.","sam."],

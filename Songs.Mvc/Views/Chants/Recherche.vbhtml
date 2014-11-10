@@ -22,6 +22,13 @@ End Code
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxlistbox.js"></script>
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxdragdrop.js"></script>
+
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxtooltip.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/globalization/globalize.js"></script>
+<script type="text/javascript" src="~/Scripts/JQWidgets/globalization/globalize.culture.fr-FR.js"></script>
 
 @Styles.Render("~/Content/StyleChordPro.css")
 
@@ -31,9 +38,9 @@ End Code
         cursor: pointer;
     }
 
-        .btnEdit:hover {
-            background-color: #c7d1d6;
-        }
+    .btnEdit:hover {
+        background-color: #c7d1d6;
+    }
 
     .ui-widget-overlay {
         z-index: 300;
@@ -45,7 +52,6 @@ End Code
 
     .childTab {
         height: 200px;
-        text-align: center;
         overflow-x: auto;
         overflow-y: auto;
     }
@@ -109,7 +115,7 @@ End Code
                     <li><a href="#tabsSongs-2">Accords</a></li>
                     <li><a href="#tabsSongs-3">Sélection</a></li>
                 </ul>
-                <div id="tabsSongs-1"><div id="divParoles" class="childTab"></div></div>
+                <div id="tabsSongs-1"><div id="divParoles" class="childTab" style="text-align: center;"></div></div>
                 <div id="tabsSongs-2">
                     <table style="width: 100%;">
                         <tr>
@@ -127,13 +133,15 @@ End Code
                     <hr />
                     <div id="divAccords" class="childTab"></div>
                 </div>
-                <div id="tabsSongs-3">@Html.Partial("TestChildView")</div>
+                <div id="tabsSongs-3"><div id="divSelection" class="childTab">@Html.Partial("Selection")</div></div>
             </div>
         </td>
     </tr>
 </table>
 
 <script type="text/javascript">
+
+    var tonalites = ["", "Ab", "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
 
     function ResizeGrid() {
         var h = $(window).height();
@@ -199,17 +207,7 @@ End Code
         localizationobj.sortremovestring = "Enlever tri";
         localizationobj.emptydatastring = "Aucun chant trouvé";
 
-        $("#jqxgrid").jqxGrid(
-        {
-            theme: "web",
-            width: '400px',
-            height: '100%',
-            source: dataAdapter,
-            columnsresize: true,
-            sortable: true,
-            editable: true,
-            localization: localizationobj,
-            columns: [
+        var columns = [
                 { text: 'Id', datafield: 'Id', hidden: true },
                 { text: 'Code', datafield: 'Code', width: '16%', editable: false },
                 @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
@@ -224,8 +222,7 @@ End Code
                 {
                     text: 'Ton', datafield: 'Tone', width: '12%', columntype: 'dropdownlist',
                     createeditor: function (row, column, editor) {
-                        var list = ["", "Ab", "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
-                        editor.jqxDropDownList({ placeHolder: '', autoDropDownHeight: false, source: list });
+                        editor.jqxDropDownList({ placeHolder: '', autoDropDownHeight: false, source: tonalites });
                     },
                     // update the editor's value before saving it.
                     cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
@@ -248,12 +245,100 @@ End Code
                     },
                     </Text>
                 End If
-            ],
-            ready: function () { },
+            ];
+
+        $("#jqxgrid").jqxGrid(
+        {
+            theme: "web",
+            width: '400px',
+            height: '100%',
+            source: dataAdapter,
+            columnsresize: true,
+            sortable: true,
+            editable: true,
+            localization: localizationobj,
+            columns: columns,
+            rendered: function () {
+                // select all grid cells.
+                var gridCells = $('#jqxgrid').find('.jqx-grid-cell');
+                if ($('#jqxgrid').jqxGrid('groups').length > 0) {
+                    gridCells = $('#jqxgrid').find('.jqx-grid-group-cell');
+                }
+                // initialize the jqxDragDrop plug-in. Set its drop target to the second Grid.
+                gridCells.jqxDragDrop({
+                    appendTo: 'body',  dragZIndex: 99999,
+                    dropAction: 'none',
+                    initFeedback: function (feedback) {
+                        feedback.height(25);
+                        feedback.width(300);
+                    },
+                    dropTarget: $('#divSelection'), revert: true
+                });
+                // initialize the dragged object.
+                gridCells.off('dragStart');
+                gridCells.on('dragStart', function (event) {
+                    var value = $(this).text();
+                    var position = $.jqx.position(event.args);
+                    var cell = $("#jqxgrid").jqxGrid('getcellatposition', position.left, position.top);
+                    $(this).jqxDragDrop('data', $("#jqxgrid").jqxGrid('getrowdata', cell.row));
+                    var groupslength = $('#jqxgrid').jqxGrid('groups').length;
+                    // update feedback's display value.
+                    var feedback = $(this).jqxDragDrop('feedback');
+                    var feedbackContent = $(this).parent().clone();
+                    var table = '<div id="divSortable" class="sortableItem ui-widget-content">';
+                    $.each(feedbackContent.children(), function (index) {
+                        if (index < groupslength)
+                            return true;
+                        if (index > 0 && index < 4) {
+                            table += '<div style="float: left;padding-right: 10px; margin: 0;">';
+                            table += $(this).text();
+                            table += '</div>';
+                        }
+                    });
+                    table += '</div>';
+                    feedback.html(table);
+
+                });
+                gridCells.off('dragEnd');
+                gridCells.on('dragEnd', function (event) {
+                    var value = $(this).jqxDragDrop('data');
+                    var position = $.jqx.position(event.args);
+                    var pageX = position.left;
+                    var pageY = position.top;
+                    var $form = $("#divSelection");
+                    var targetX = $form.offset().left;
+                    var targetY = $form.offset().top;
+                    var width = $form.width();
+                    var height = $form.height();
+                    // fill the form if the user dropped the dragged item over it.
+                    if (pageX >= targetX && pageX <= targetX + width) {
+                        if (pageY >= targetY && pageY <= targetY + height) {
+                            $("#SelectionPendant").html($("#SelectionPendant").html() +
+                                "<div id='divSortable' class='sortableItem ui-widget-content'>" +
+                                "<div style='display: none'>" + value.Id + "</div>" +
+                                "<div style='float: left; width: 50px;'>" + value.Code + "</div>" +
+                                "<div style='float: left; padding-left: 10px;'>" + value.Title + "</div>" +
+                                "<div style='float: right;' id='cboSelTone" + value.Id + "' class='cboSelTone'></div>" +
+                                "</div>");
+                            $(this).jqxDragDrop('feedback').html("");
+                            CreateToneCboForSelection("#cboSelTone" + value.Id, value.Tone);
+                            alert("Il faut sauver l'ajout: " + GetNewOrder("SelectionPendant"));
+                        }
+                    }
+                    $form.css('cursor', 'auto');
+                });
+            },
+            ready: function () {
+
+            },
         });
         $("#jqxgrid").bind('bindingcomplete', function () {
             //Set editButton function
             SetEditButton();
+        });
+        $("#jqxgrid").on('rowclick', function () {
+            // put the focus back to the Grid. Otherwise, the focus goes to the drag feedback element.
+            $("#jqxgrid").jqxGrid('focus');
         });
         $("#jqxgrid").on('rowselect', function (event) {
             var value = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Id');
@@ -269,6 +354,32 @@ End Code
         $("#jqxgrid").on('cellendedit', function (event) {
             setTimeout(function () { SetEditButton(); }, 1);
         });
+
+        function CreateToneCboForSelection(cboSelectorName, selectedValue) {
+
+            InitializeDropDown(cboSelectorName, selectedValue);
+
+            //Valider si on perd la fonctionalité du dropdown lors du prochain click
+            $(".cboSelTone").click(function () {
+                if ($("#" + this.id).jqxDropDownList('getItems') == null) {
+                    //Si on a perdu les items, il faut tout reconfigurer
+                    InitializeDropDown("#" + this.id, this.innerText);
+                    $("#" + this.id).jqxDropDownList('open');
+                }
+            });
+        }
+
+        function InitializeDropDown(cboSelectorName, selectedValue) {
+            $(cboSelectorName).jqxDropDownList({ source: tonalites, width: '50', height: '16' });
+            $(cboSelectorName).val(selectedValue);
+            $(cboSelectorName).on('change', function (event) {
+                var args = event.args;
+                if (args) {
+                    var value = args.item.value;
+                    alert("Il faut sauver la nouvelle tonalité: " + value);
+                }
+            });
+        }
 
         function SetEditButton() {
             $(".btnEdit").click(function () {

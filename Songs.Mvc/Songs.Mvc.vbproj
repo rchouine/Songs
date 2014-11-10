@@ -1136,7 +1136,7 @@
     <Content Include="Scripts\JQWidgets\jqxwindow.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Chants\Recherche.vbhtml" />
-    <Content Include="Views\Chants\TestChildView.vbhtml" />
+    <Content Include="Views\Chants\Selection.vbhtml" />
     <Content Include="Views\Chants\ChordPro.vbhtml" />
     <Content Include="Views\Utilisateurs\Index.vbhtml" />
     <Content Include="Views\Utilisateurs\Utilisateur.vbhtml" />

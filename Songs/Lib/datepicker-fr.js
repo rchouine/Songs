@@ -1,4 +1,5 @@
-﻿/* French initialisation for the jQuery UI date picker plugin. */
+﻿/// <reference path="datepicker-fr.js" />
+/* French initialisation for the jQuery UI date picker plugin. */
 /* Written by Keith Wood (kbwood{at}iinet.com.au),
 			  StÃ©phane Nahmani (sholby@sholby.net),
 			  StÃ©phane Raimbault <stephane.raimbault@gmail.com> */

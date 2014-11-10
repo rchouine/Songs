@@ -14,12 +14,12 @@ Public Class ChantsController
     End Function
 
     Function Index() As ActionResult
-        'Session.Add("USER_CODE", "raphael")
-        'Session.Add("USER_PWD", "")
-        'Session.Add("USER_ID", 1)
-        'Session.Add("USER_LEVEL", 0)
-        'Session.Add("USER_NAME", "rachou")
-        'Session.Add("USER_FNAME", "rachou")
+        Session.Add("USER_CODE", "raphael")
+        Session.Add("USER_PWD", "")
+        Session.Add("USER_ID", 1)
+        Session.Add("USER_LEVEL", 0)
+        Session.Add("USER_NAME", "rachou")
+        Session.Add("USER_FNAME", "rachou")
 
         Return Rechercher("Titre", "", 0, 0)
     End Function
@@ -194,4 +194,54 @@ Public Class ChantsController
         Return newSong
     End Function
 
+    'Public Sub Page_Load(sender As Object, e As EventArgs)
+
+    '    'build the content for the dynamic Word document
+    '    'in HTML alongwith some Office specific style properties. 
+    '    Dim strBody As New System.Text.StringBuilder("")
+
+    '    strBody.Append("<html " & _
+    '            "xmlns:o='urn:schemas-microsoft-com:office:office' " & _
+    '            "xmlns:w='urn:schemas-microsoft-com:office:word'" & _
+    '            "xmlns='http://www.w3.org/TR/REC-html40'>" & _
+    '            "<head><title>Time</title>")
+
+    '    'The setting specifies document's view after it is downloaded as Print
+    '    'instead of the default Web Layout
+    '    strBody.Append("<!--[if gte mso 9]>" & _
+    '                             "<xml>" & _
+    '                             "<w:WordDocument>" & _
+    '                             "<w:View>Print</w:View>" & _
+    '                             "<w:Zoom>90</w:Zoom>" & _
+    '                             "<w:DoNotOptimizeForBrowser/>" & _
+    '                             "</w:WordDocument>" & _
+    '                             "</xml>" & _
+    '                             "<![endif]-->")
+
+    '    strBody.Append("<style>" & _
+    '                            "<!-- /* Style Definitions */" & _
+    '                            "@page Section1" & _
+    '                            "   {size:8.5in 11.0in; " & _
+    '                            "   margin:1.0in 1.25in 1.0in 1.25in ; " & _
+    '                            "   mso-header-margin:.5in; " & _
+    '                            "   mso-footer-margin:.5in; mso-paper-source:0;}" & _
+    '                            " div.Section1" & _
+    '                            "   {page:Section1;}" & _
+    '                            "-->" & _
+    '                           "</style></head>")
+
+    '    strBody.Append("<body lang=EN-US style='tab-interval:.5in'>" & _
+    '                            "<div class=Section1>" & _
+    '                            "<h1>Time and tide wait for none</h1>" & _
+    '                            "<p style='color:red'><I>" & _
+    '                            DateTime.Now & "</I></p>" & _
+    '                            "</div></body></html>")
+
+    '    'Force this content to be downloaded 
+    '    'as a Word document with the name of your choice
+    '    Response.AppendHeader("Content-Type", "application/msword")
+    '    Response.AppendHeader("Content-disposition", _
+    '                           "attachment; filename=myword.doc")
+    '    Response.Write(strBody)
+    'End Sub
 End Class
