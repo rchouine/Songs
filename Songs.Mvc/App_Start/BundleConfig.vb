@@ -1,5 +1,4 @@
-﻿Imports System.Web
-Imports System.Web.Optimization
+﻿Imports System.Web.Optimization
 
 Public Class BundleConfig
     ' For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725

@@ -3,7 +3,7 @@ Imports Songs.Model
 
 Public Class SongController
 
-    Sub Save(aSong As Song)
+    Function Save(aSong As Song) As Integer
         Using cnx As New ConnectionSql
             cnx.AddParameter("@song_id", SqlDbType.Int, aSong.Id, False)
             cnx.AddParameter("@song_code", SqlDbType.VarChar, aSong.Code, False)
@@ -13,9 +13,14 @@ Public Class SongController
             cnx.AddParameter("@song_lyrics", SqlDbType.Text, aSong.Lyrics, True)
             cnx.AddParameter("@song_chords", SqlDbType.VarChar, aSong.ChordPro, True)
 
-            cnx.ExecuteSql("uSong")
+            cnx.OpenReader("uSong")
+            If cnx.Reader.Read Then
+                Return CInt(cnx.Reader(0))
+            Else
+                Return aSong.Id
+            End If
         End Using
-    End Sub
+    End Function
 
     Sub SaveUserSong(songId As Integer, userId As Integer, tone As String)
         Using cnx As New ConnectionSql

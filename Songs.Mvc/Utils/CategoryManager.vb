@@ -1,16 +1,16 @@
-﻿Imports Songs.Controller
+﻿Imports Songs.Mvc.Models
+Imports Songs.Controller
 
-Public Class CategoryManager
+Namespace Utils
 
-    Function GetList(songId As Integer) As List(Of SongCategotyViewModel)
-        Dim retour As New List(Of SongCategotyViewModel)
-        Dim catCtrl As New CategoryController
-        Dim liste = catCtrl.GetList()
-        Dim selection = catCtrl.GetListId(songId)
+    Public Class CategoryManager
 
-        For Each item In liste
-            retour.Add(New SongCategotyViewModel With {.id = item.Id, .Name = item.Name, .Selected = selection.Contains(item.Id)})
-        Next
-        Return retour
-    End Function
-End Class
+        Function GetList(songId As Integer) As IEnumerable(Of SongCategotyViewModel)
+            Dim catCtrl As New CategoryController
+            Dim liste = catCtrl.GetList()
+            Dim selection = catCtrl.GetListId(songId)
+
+            Return (From item In liste Select New SongCategotyViewModel With {.Id = item.Id, .Name = item.Name, .Selected = selection.Contains(item.Id)}).ToList()
+        End Function
+    End Class
+End Namespace

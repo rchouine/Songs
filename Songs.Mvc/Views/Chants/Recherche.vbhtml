@@ -70,7 +70,7 @@ End Code
                                 <tr>
                                     <td>
                                         Filtrer par thème<br />
-                                        @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name", Model.CriteresRecherche.CatId))
+                                        @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name"))
                                     </td>
                                     @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
                                         @<td style="text-align: right; vertical-align: bottom;"><input type="Button" value="Ajouter un chant" onclick="javascript: Modifier(0);" /></td>
@@ -80,7 +80,7 @@ End Code
                                     <td colspan="2">
                                         <table>
                                             <tr>
-                                                <td>@Html.TextBoxFor(Function(x) x.TexteRecherche, New With {.style = "width: 250px;"})</td>
+                                                <td>@Html.TextBox("TexteRecherche", "", New With {.style = "width: 250px;"})</td>
                                                 <td style="padding-left: 2px;"><input type="button" id="btnRecherche" value="Go" /></td>
                                                 <td></td>
                                             </tr>
@@ -92,7 +92,6 @@ End Code
                     </tr>
                 </table>
             </fieldset>
-            @Html.HiddenFor(Function(x) x.TabIndex)
             @Html.Hidden("id", "0")
             @Html.Hidden("shift", "0")
 
@@ -153,14 +152,13 @@ End Code
         $("#tabsSongs").width(w - 480);
         $(".childTab").height(h - 284);
         $(".childTab").width(w - 500);
-        $("#divAccords").height(h - 344); //Moins d'espace pour les boutons de shift
+        $("#divAccords").height(h - 344); //Moins d'espace à cause des boutons de shift
     }
 
     function GetDataUrl() {
-        return "/Chants/Lancer?type=" + $("input[name=typeRecherche]:checked").val() + "&texte=" + encodeURI($("#TexteRecherche").val()) + "&categorie=" + $("#categorie").val();
+        return "/Chants/Rechercher?type=" + $("input[name=typeRecherche]:checked").val() + "&texte=" + encodeURI($("#TexteRecherche").val()) + "&categorie=" + $("#categorie").val();
     }
-    var source =
-    {
+    var source = {
         datatype: "json",
         datafields: [
             { name: 'Id', type: 'integer' },
@@ -175,6 +173,9 @@ End Code
         source.url = GetDataUrl();
         $("#jqxgrid").jqxGrid("updatebounddata");
     }
+    $("#btnRecherche").click(function () {
+        RefreshGrid();
+    });
 
     $(document).ready(function () {
 
@@ -183,29 +184,15 @@ End Code
             ResizeGrid();
         });
 
-        $("#btnRecherche").click(function () {
-            RefreshGrid();
-        });
-
         // prepare the data
-        var dataAdapter = new $.jqx.dataAdapter(source,
-            {
-                formatData: function (data) {
-                    $.extend(data, {
-                        featureClass: "P",
-                        style: "full",
-                        maxRows: 10,
-                        username: "jqwidgets"
-                    });
-                    return data;
-                }
-            }
-        );
-        var localizationobj = {};
-        localizationobj.sortascendingstring = "Triz ascendant";
-        localizationobj.sortdescendingstring = "Tri descendant";
-        localizationobj.sortremovestring = "Enlever tri";
-        localizationobj.emptydatastring = "Aucun chant trouvé";
+        var dataAdapter = new $.jqx.dataAdapter(source);
+
+        var localizationobj = {
+            sortascendingstring: "Triz ascendant",
+            sortdescendingstring: "Tri descendant",
+            sortremovestring: "Enlever tri",
+            emptydatastring: "Aucun chant trouvé"
+        };
 
         var columns = [
                 { text: 'Id', datafield: 'Id', hidden: true },
@@ -274,7 +261,8 @@ End Code
                     },
                     dropTarget: $('#divSelection'), revert: true
                 });
-                // initialize the dragged object.
+
+                // Set the dragged object.
                 gridCells.off('dragStart');
                 gridCells.on('dragStart', function (event) {
                     var value = $(this).text();
@@ -297,8 +285,9 @@ End Code
                     });
                     table += '</div>';
                     feedback.html(table);
-
                 });
+
+                // Set the dropped object.
                 gridCells.off('dragEnd');
                 gridCells.on('dragEnd', function (event) {
                     var value = $(this).jqxDragDrop('data');
@@ -421,10 +410,6 @@ End Code
         //Gestion des onglets
         var ongletsChants = $("#tabsSongs");
         ongletsChants.tabs();
-        ongletsChants.click('tabsselect', function (event, ui) {
-            $("#TabIndex").val(ongletsChants.tabs('option', 'active'));
-        });
-        ongletsChants.tabs("option", "active", $("#TabIndex").val());
 
         $("#ChordPro").click(function (event) {
             var h = $(window).height() - 50;

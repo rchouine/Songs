@@ -1,5 +1,4 @@
-﻿Imports Microsoft.Web.WebPages.OAuth
-
+﻿
 Public Class AuthConfig
     Public Shared Sub RegisterAuth()
         ' To let users of this site log in using their accounts from other sites such as Microsoft, Facebook, and Twitter,

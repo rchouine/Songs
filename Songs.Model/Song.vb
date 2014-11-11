@@ -31,3 +31,11 @@ Public Class UserSong
     Property Title As String Implements iSong.Title
     Property Tone As String
 End Class
+
+Public Class SelectedSong
+    Inherits UserSong
+
+    Public Property SelectedDate As Date
+    Public Property Section As Integer
+    Public Property Index As Integer
+End Class
