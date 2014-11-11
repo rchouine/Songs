@@ -1,4 +1,5 @@
-﻿@ModelType Songs.Mvc.LocalPasswordModel
+﻿@Imports Songs.Mvc.Models
+@ModelType LocalPasswordModel
 @Code
     ViewData("Title") = "Changement de mot de passe"
 End Code

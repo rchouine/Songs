@@ -1,4 +1,5 @@
-﻿@ModelType Songs.Mvc.ChantViewModel
+﻿@Imports Songs.Mvc.Models
+@ModelType ChantViewModel
 
 @Using Html.BeginForm("Enregistrer", "Chants", FormMethod.Post, New With {.id = "frmEdition"})
     @Html.AntiForgeryToken()

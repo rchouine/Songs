@@ -1,4 +1,6 @@
-﻿@ModelType Songs.Mvc.LoginModel
+﻿@Imports Songs.Mvc.Models
+@ModelType LoginModel
+
 @Code
     ViewData("Title") = "Enregistrement"
 End Code

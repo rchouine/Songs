@@ -1,4 +1,5 @@
-﻿@ModelType Songs.Mvc.UtilisateurModel
+﻿@Imports Songs.Mvc.Models
+@ModelType UtilisateurModel
 
 <div id="container">
     <p class="message-success">@ViewData("StatusMessage")</p>

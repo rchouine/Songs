@@ -1,4 +1,5 @@
-﻿@ModelType Songs.Mvc.LocalPasswordModel
+﻿@Imports Songs.Mvc.Models
+@ModelType LocalPasswordModel
 
 <p>
     Vous devez saisir un nouveau mot de passe.

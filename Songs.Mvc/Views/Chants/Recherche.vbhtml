@@ -1,4 +1,5 @@
-﻿@ModelType  Songs.Mvc.ChantsViewModel
+﻿@Imports Songs.Mvc.Models
+@ModelType  ChantsViewModel
 
 @Code
     'ViewData("Title") = "Chants"

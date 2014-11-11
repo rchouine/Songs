@@ -1,3 +1,4 @@
-﻿@ModelType Songs.Mvc.ChordProModel
+﻿@Imports Songs.Mvc.Models
+@ModelType ChordProModel
 
 @Html.Raw(Model.Html)

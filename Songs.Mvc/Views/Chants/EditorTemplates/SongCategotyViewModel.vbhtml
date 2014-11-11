@@ -1,4 +1,5 @@
-﻿@ModelType Songs.Mvc.SongCategotyViewModel
+﻿@Imports Songs.Mvc.Models
+@ModelType SongCategotyViewModel
 
 <div style="width: 200px">
     @Html.HiddenFor(Function(x) x.id)

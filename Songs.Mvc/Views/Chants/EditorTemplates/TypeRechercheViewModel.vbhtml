@@ -1,4 +1,5 @@
-﻿@ModelType Songs.Mvc.TypeRechercheViewModel
+﻿@Imports Songs.Mvc.Models
+@ModelType TypeRechercheViewModel
 
 <div style="width: 80px">
     @Html.HiddenFor(Function(x) x.Name)
