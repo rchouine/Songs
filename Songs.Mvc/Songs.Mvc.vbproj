@@ -220,6 +220,7 @@
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\ChantsController.vb" />
+    <Compile Include="Controllers\SelectionsController.vb" />
     <Compile Include="Controllers\UtilisateursController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1185,6 +1186,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Selections\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Songs.Controller\Songs.Controller.vbproj">

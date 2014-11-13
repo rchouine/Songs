@@ -54,17 +54,23 @@ Public Class SelectionController
         End Using
     End Sub
 
-    Private Sub Save(userId As Integer, selDate As Date, liste As List(Of SelectedSong))
+    Public Sub Save(userId As Integer, selDate As Date, liste As List(Of SelectedSong))
 
         Using cnx As New ConnectionSql
             For Each chant In liste
-                cnx.AddParameter("@user_id", SqlDbType.Int, userId, False)
-                cnx.AddParameter("@sel_date", SqlDbType.DateTime, selDate, False)
-                cnx.AddParameter("@sel_section", SqlDbType.Int, chant.Section, False)
-                cnx.AddParameter("@sel_index", SqlDbType.Int, chant.Index, False)
-                cnx.AddParameter("@song_id", SqlDbType.Int, chant.Id, False)
+                Try
+                    cnx.ClearParameters()
+                    cnx.AddParameter("@user_id", SqlDbType.Int, userId, False)
+                    cnx.AddParameter("@sel_date", SqlDbType.DateTime, selDate, False)
+                    cnx.AddParameter("@sel_section", SqlDbType.Int, chant.Section, False)
+                    cnx.AddParameter("@sel_index", SqlDbType.Int, chant.Index, False)
+                    cnx.AddParameter("@song_id", SqlDbType.Int, chant.Id, False)
 
-                cnx.ExecuteSql("iSelection")
+                    cnx.ExecuteSql("iSelection")
+
+                Catch ex As Exception
+                    Throw ex
+                End Try
             Next
         End Using
     End Sub

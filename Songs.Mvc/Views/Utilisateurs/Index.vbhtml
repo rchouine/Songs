@@ -66,8 +66,7 @@
         });
 
         // prepare the data
-        var source =
-        {
+        var source = {
             datatype: "json",
             datafields: [
                 { name: 'Id', type: 'integer' },
@@ -77,19 +76,7 @@
             ],
             url: "Utilisateurs/Liste"
         };
-        var dataAdapter = new $.jqx.dataAdapter(source,
-            {
-                formatData: function (data) {
-                    $.extend(data, {
-                        featureClass: "P",
-                        style: "full",
-                        maxRows: 10,
-                        username: "jqwidgets"
-                    });
-                    return data;
-                }
-            }
-        );
+        var dataAdapter = new $.jqx.dataAdapter(source);
         $("#jqxgrid").jqxGrid(
         {
             theme: "web",

@@ -214,7 +214,7 @@ End Code
                     },
                     // update the editor's value before saving it.
                     cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
-                        var songId = $("#jqxgrid").jqxGrid('getcellvalue', row, 'Id')
+                        var songId = $("#jqxgrid").jqxGrid('getcellvalue', row, 'Id');
                         $.ajax({
                             url: '@Url.Action("ChangerTonalite")',
                             type: 'GET',
@@ -303,16 +303,9 @@ End Code
                     // fill the form if the user dropped the dragged item over it.
                     if (pageX >= targetX && pageX <= targetX + width) {
                         if (pageY >= targetY && pageY <= targetY + height) {
-                            $("#SelectionPendant").html($("#SelectionPendant").html() +
-                                "<div id='divSortable' class='sortableItem ui-widget-content'>" +
-                                "<div style='display: none'>" + value.Id + "</div>" +
-                                "<div style='float: left; width: 50px;'>" + value.Code + "</div>" +
-                                "<div style='float: left; padding-left: 10px;'>" + value.Title + "</div>" +
-                                "<div style='float: right;' id='cboSelTone" + value.Id + "' class='cboSelTone'></div>" +
-                                "</div>");
+                            CreateSelectedSong("SelectionPendant", value.Id, value.Code, value.Title, value.Tone)
                             $(this).jqxDragDrop('feedback').html("");
-                            CreateToneCboForSelection("#cboSelTone" + value.Id, value.Tone);
-                            alert("Il faut sauver l'ajout: " + GetNewOrder("SelectionPendant"));
+                            SaveNewOrder();
                         }
                     }
                     $form.css('cursor', 'auto');
@@ -344,32 +337,6 @@ End Code
         $("#jqxgrid").on('cellendedit', function (event) {
             setTimeout(function () { SetEditButton(); }, 1);
         });
-
-        function CreateToneCboForSelection(cboSelectorName, selectedValue) {
-
-            InitializeDropDown(cboSelectorName, selectedValue);
-
-            //Valider si on perd la fonctionalité du dropdown lors du prochain click
-            $(".cboSelTone").click(function () {
-                if ($("#" + this.id).jqxDropDownList('getItems') == null) {
-                    //Si on a perdu les items, il faut tout reconfigurer
-                    InitializeDropDown("#" + this.id, this.innerText);
-                    $("#" + this.id).jqxDropDownList('open');
-                }
-            });
-        }
-
-        function InitializeDropDown(cboSelectorName, selectedValue) {
-            $(cboSelectorName).jqxDropDownList({ source: tonalites, width: '50', height: '16' });
-            $(cboSelectorName).val(selectedValue);
-            $(cboSelectorName).on('change', function (event) {
-                var args = event.args;
-                if (args) {
-                    var value = args.item.value;
-                    alert("Il faut sauver la nouvelle tonalité: " + value);
-                }
-            });
-        }
 
         function SetEditButton() {
             $(".btnEdit").click(function () {

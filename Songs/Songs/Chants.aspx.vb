@@ -88,7 +88,7 @@ Partial Class Chants
         aSql.SelectCommand = "execute sSelectionDates " & CStr(Session("USER_ID"))
         aSql.DataBind()
         cboDates.DataSource = aSql
-        cboDates.DataBind()
+        'cboDates.DataBind()
 
         aSql.Dispose()
 
