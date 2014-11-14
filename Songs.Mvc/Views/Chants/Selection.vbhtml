@@ -28,6 +28,7 @@
         <tr>
             <td><label style="padding-left: 4px;">Date:</label> </td>
             <td><div id='datepicker'></div></td>
+            <td><button id="btnWord">Télécharger</button></td>
         </tr>
     </table>
     
@@ -68,6 +69,18 @@
             });
         }
 
+        $("#btnWord").click(function () {
+            window.open("/DocumentWord.aspx?selDate=" + JSON.stringify($("#datepicker").jqxDateTimeInput('value')), "DocumentWord")
+            @*$.ajax({
+                url: '@Url.Action("CreerDocumentWord", "Selections")',
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                data: { selDate: JSON.stringify($("#datepicker").jqxDateTimeInput('value')) },
+            });*@
+        });
+
+
         function InitializeDropDown(songId, selectedValue) {
             $("#cboSelTone" + songId).jqxDropDownList({ source: tonalites, width: '50', height: '16' });
             $("#cboSelTone" + songId).val(selectedValue);
@@ -107,7 +120,7 @@
                 data: { selDate: JSON.stringify(event.args.date) },
             }).done(function (data) {
                 if (data.length > 0)
-                    for (var i=0; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         CreateSelectedSong(GetParentContainerName(data[i].Section), data[i].Id, data[i].Code, data[i].Title, data[i].Tone);
                     }
             });

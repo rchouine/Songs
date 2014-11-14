@@ -222,6 +222,13 @@
     <Compile Include="Controllers\ChantsController.vb" />
     <Compile Include="Controllers\SelectionsController.vb" />
     <Compile Include="Controllers\UtilisateursController.vb" />
+    <Compile Include="DocumentWord.aspx.designer.vb">
+      <DependentUpon>DocumentWord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentWord.aspx.vb">
+      <DependentUpon>DocumentWord.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -592,6 +599,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <Content Include="DocumentWord.aspx" />
     <Content Include="Images\logo_ccc_100.png" />
     <Content Include="Images\pictosBoutons\AJOUTER.GIF" />
     <Content Include="Images\pictosBoutons\AJOUTERETQUITTER.GIF" />
