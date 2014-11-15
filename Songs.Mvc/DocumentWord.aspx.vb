@@ -37,8 +37,8 @@ Public Class DocumentWord
         strDoc.Append("<body><div class=""Section1"">")
         strDoc.Append("<h1 style=""text-align: center"">Liste de chants</h1>")
         strDoc.Append("<table style=""width: 100%;""><tr>")
-        strDoc.Append("<td><h2>Animateur: " & Session("USER_FNAME") & " " & Session("USER_NAME") & "</h2></td>")
-        strDoc.Append("<td style=""text-align: right""><h2>Date: " & Format(selectedDate, "yyyy-MM-dd") & "</h2></td>")
+        strDoc.Append(String.Format("<td><h2>Animateur: {0} {1}</h2></td>", Session("USER_FNAME"), Session("USER_NAME")))
+        strDoc.Append(String.Format("<td style=""text-align: right""><h2>Date: {0}</h2></td>", Format(selectedDate, "yyyy-MM-dd")))
         strDoc.Append("</tr></table>")
 
         strDoc.Append("<br /><b>Chants avant la réunion</b>")
@@ -64,13 +64,20 @@ Public Class DocumentWord
         Dim retour As String
         retour = "<table width=""100%"" class=""section"">"
         For Each chant In (From x In liste Where x.Section = sectionId)
-            retour &= "<tr>"
-            retour &= "<td style=""width: 150px"">" & chant.Code & "</td>"
-            retour &= "<td style=""text-align: left;"">" & chant.Title & "</td>"
-            retour &= "<td style=""width: 150px"">" & chant.Tone & "</td>"
-            retour &= "</tr>"
+            retour &= AddLine(chant.Code, chant.Title, chant.Tone)
         Next
+        retour &= AddLine("&nbsp;", "", "")
         retour &= "</table>"
+        Return retour
+    End Function
+
+    Private Function AddLine(code As String, title As String, tone As String) As String
+        Dim retour As String
+        retour = "<tr>"
+        retour &= String.Format("<td style=""width: 150px"">{0}</td>", code)
+        retour &= String.Format("<td style=""text-align: left;"">{0}</td>", title)
+        retour &= String.Format("<td style=""width: 150px"">{0}</td>", tone)
+        retour &= "</tr>"
         Return retour
     End Function
 End Class
