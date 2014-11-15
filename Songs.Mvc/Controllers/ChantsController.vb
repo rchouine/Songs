@@ -22,8 +22,8 @@ Namespace Controllers
             'Session.Add("USER_PWD", "")
             'Session.Add("USER_ID", 1)
             'Session.Add("USER_LEVEL", 0)
-            'Session.Add("USER_NAME", "rachou")
-            'Session.Add("USER_FNAME", "rachou")
+            'Session.Add("USER_NAME", "Schwinn")
+            'Session.Add("USER_FNAME", "Ralphy")
 
             If String.IsNullOrEmpty(Session("USER_ID")) Then
                 Return RedirectToAction("Enregistrement", "Utilisateurs")

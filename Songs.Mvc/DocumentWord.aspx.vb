@@ -1,71 +1,76 @@
-﻿Public Class DocumentWord
-    Inherits System.Web.UI.Page
+﻿Imports System.Web.Helpers
+Imports Songs.Controller
+Imports Songs.Model
 
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+Public Class DocumentWord
+    Inherits Page
 
-        Dim selectedDate = System.Web.Helpers.Json.Decode(Of DateTime)(Request.QueryString.Item("selDate"))
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 
-        Dim selCtrl As New Songs.Controller.SelectionController
+        Dim selectedDate = Json.Decode(Of DateTime)(Request.QueryString.Item("selDate"))
+
+        Dim selCtrl As New SelectionController
         Dim listeChants = selCtrl.GetList(CInt(Session("USER_ID")), selectedDate)
 
+        HttpContext.Current.Response.Clear()
         HttpContext.Current.Response.ContentType = "application/msword"
-        HttpContext.Current.Response.ContentEncoding = System.Text.UnicodeEncoding.UTF8
+        HttpContext.Current.Response.ContentEncoding = UnicodeEncoding.UTF8
         HttpContext.Current.Response.Charset = "UTF-8"
 
-        Response.Write("<html>")
-        Response.Write("<head>")
-        Response.Write("<META HTTP-EQUIV=Content-Type CONTENT=text/html; charset=UTF-8>")
-        Response.Write("<meta name=ProgId content=Word.Document>")
-        Response.Write("<meta name=Generator content=Microsoft Word 9>")
-        Response.Write("<meta name=Originator content=Microsoft Word 9>")
-        Response.Write("<style>")
-        Response.Write("@page Section1 {size:841.7pt 595.45pt;mso-page-orientation:landscape;margin:1.0in 1.0in 1.0in 1.0in;mso-header-margin:.5in;mso-footer-margin:.5in;mso-paper-source:0;}")
-        Response.Write("div.Section1 {page:Section1;}")
-        Response.Write(".section, .section tr td { border-spacing: 0; border-collapse: collapse;border: 1px solid gray; text-align: center; }")
-        Response.Write("</style>")
-        Response.Write("</head>")
-        Response.Write("<body><div class=""Section1"">")
+        Dim strDoc As New System.Text.StringBuilder("")
+        strDoc.Append("<html " & _
+                "xmlns:o='urn:schemas-microsoft-com:office:office' " & _
+                "xmlns:w='urn:schemas-microsoft-com:office:word'" & _
+                "xmlns='http://www.w3.org/TR/REC-html40'>" & _
+                "<head><title>Time</title>")
 
-        Response.Write("<h1 style=""text-align: center"">Liste de chants</h1>")
-        Response.Write("<table style=""width: 100%;""><tr><td><h3>Animateur: " & Session("USER_FNAME") & " " & Session("USER_NAME") & "</h3></td>" & _
-                          "<td style=""text-align: right""><h3>Date: " & Format(selectedDate, "yyyy-MM-dd") & "</h3></td></tr></table>")
+        'The setting specifies document's view after it is downloaded as Print instead of the default Web Layout
+        strDoc.Append("<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>90</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->")
+        strDoc.Append("<META HTTP-EQUIV=Content-Type CONTENT=text/html; charset=UTF-8>")
 
-        Response.Write("<br /><b>Chants avant la réunion</b>")
-        Response.Write("<table width=""100%"" class=""section"">")
-        For Each chant In (From x In listeChants Where x.Section = 1)
-            Response.Write("<tr>")
-            Response.Write("<td style=""width: 150px"">" & chant.Code & "</td>")
-            Response.Write("<td style=""text-align: left;"">" & chant.Title & "</td>")
-            Response.Write("<td style=""width: 150px"">" & chant.Tone & "</td>")
-            Response.Write("</tr>")
-        Next
-        Response.Write("</table>")
+        strDoc.Append("<style>")
+        strDoc.Append("@page Section1 {size:841.7pt 595.45pt;mso-page-orientation:landscape;margin:1.0in 1.0in 1.0in 1.0in;mso-header-margin:.5in;mso-footer-margin:.5in;mso-paper-source:0;}")
+        strDoc.Append("div.Section1 {page:Section1;}")
+        strDoc.Append(".section, .section tr td { border-spacing: 0; border-collapse: collapse;border: 1px solid gray; text-align: center; }")
+        strDoc.Append("</style></head>")
 
-        Response.Write("<br /><b>Chants pendant la réunion</b>")
-        Response.Write("<table width=""100%"" class=""section"">")
-        For Each chant In (From x In listeChants Where x.Section = 2)
-            Response.Write("<tr>")
-            Response.Write("<td style=""width: 150px"">" & chant.Code & "</td>")
-            Response.Write("<td style=""text-align: left;"">" & chant.Title & "</td>")
-            Response.Write("<td style=""width: 150px"">" & chant.Tone & "</td>")
-            Response.Write("</tr>")
-        Next
-        Response.Write("</table>")
+        strDoc.Append("<body><div class=""Section1"">")
+        strDoc.Append("<h1 style=""text-align: center"">Liste de chants</h1>")
+        strDoc.Append("<table style=""width: 100%;""><tr>")
+        strDoc.Append("<td><h2>Animateur: " & Session("USER_FNAME") & " " & Session("USER_NAME") & "</h2></td>")
+        strDoc.Append("<td style=""text-align: right""><h2>Date: " & Format(selectedDate, "yyyy-MM-dd") & "</h2></td>")
+        strDoc.Append("</tr></table>")
 
-        Response.Write("<br /><b>Chants après la réunion</b>")
-        Response.Write("<table width=""100%"" class=""section"">")
-        For Each chant In (From x In listeChants Where x.Section = 3)
-            Response.Write("<tr>")
-            Response.Write("<td style=""width: 150px"">" & chant.Code & "</td>")
-            Response.Write("<td style=""text-align: left;"">" & chant.Title & "</td>")
-            Response.Write("<td style=""width: 150px"">" & chant.Tone & "</td>")
-            Response.Write("</tr>")
-        Next
-        Response.Write("</table>")
+        strDoc.Append("<br /><b>Chants avant la réunion</b>")
+        strDoc.Append(AddSection(listeChants, 1))
 
-        Response.Write("</div></body>")
-        Response.Write("</html>")
-        HttpContext.Current.Response.Flush()
+        strDoc.Append("<br /><b>Chants pendant la réunion</b>")
+        strDoc.Append(AddSection(listeChants, 2))
+
+        strDoc.Append("<br /><b>Offrande - Communion - Autre</b>")
+        strDoc.Append(AddSection(listeChants, 3))
+
+        strDoc.Append("</div></body>")
+        strDoc.Append("</html>")
+
+        'Force this content to be downloaded as a Word document with the name of your choice
+        Response.AppendHeader("Content-Type", "application/msword")
+        Response.AppendHeader("Content-disposition", "attachment; filename=ListeChants.doc")
+        Response.Write(strDoc)
+        Response.Flush()
     End Sub
 
+    Private Function AddSection(liste As IEnumerable(Of SelectedSong), sectionId As Integer) As String
+        Dim retour As String
+        retour = "<table width=""100%"" class=""section"">"
+        For Each chant In (From x In liste Where x.Section = sectionId)
+            retour &= "<tr>"
+            retour &= "<td style=""width: 150px"">" & chant.Code & "</td>"
+            retour &= "<td style=""text-align: left;"">" & chant.Title & "</td>"
+            retour &= "<td style=""width: 150px"">" & chant.Tone & "</td>"
+            retour &= "</tr>"
+        Next
+        retour &= "</table>"
+        Return retour
+    End Function
 End Class

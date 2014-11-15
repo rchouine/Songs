@@ -28,7 +28,7 @@
         <tr>
             <td><label style="padding-left: 4px;">Date:</label> </td>
             <td><div id='datepicker'></div></td>
-            <td><button id="btnWord">Télécharger</button></td>
+            <td><input type="button" id="btnWord" value="Télécharger" /></td>
         </tr>
     </table>
     

@@ -177,6 +177,11 @@ End Code
     $("#btnRecherche").click(function () {
         RefreshGrid();
     });
+    $("#TexteRecherche").keydown(function( event ) {
+        if ( event.which == 13 ) {
+            RefreshGrid();
+        }
+    });
 
     $(document).ready(function () {
 
