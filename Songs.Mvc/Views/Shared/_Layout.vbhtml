@@ -9,14 +9,13 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
 
-        @Styles.Render("~/Content/Site.css")
-        @Styles.Render("~/Scripts/jquery-ui-1.11.2/themes/cupertino/jquery-ui.min.css")
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/cupertino/jquery-ui.min.css")
 
-        @Scripts.Render("~/Scripts/jquery-2.1.1.min.js")
-        @Scripts.Render("~/Scripts/jquery-ui-1.11.2/jquery-ui.min.js")
-        @Scripts.Render("~/Scripts/jquery.validate.min.js")
-        @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
-        @Scripts.Render("~/Scripts/modernizr-2.8.3.js")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/modernizr")
 
     </head>
     <body>
