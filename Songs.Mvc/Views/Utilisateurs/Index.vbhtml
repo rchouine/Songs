@@ -92,7 +92,7 @@
                 { text: 'Prénom', datafield: 'FirstName', width: '32%' },
                 { text: 'Nom', datafield: 'Name', width: '30%' },
                 {
-                    text: '', datafield: 'edit', width: '8%', columntype: 'number', cellsrenderer: function () {
+                    text: '', width: '8%', sortable: false, cellsrenderer: function () {
                         return '<div><img src="../../Images/pictosBoutons/supprimer.gif" class="btnDelete" /></div>';
                     }
                 },

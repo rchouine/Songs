@@ -41,66 +41,45 @@
         @*<div id="divSortable" class="sortableItem ui-widget-content">Test</div>*@
     </div>
  
-    <script>
+<script>
 
+    var compteurSelection = 0;
     function CreateSelectedSong(parentContainerName, id, code, title, tone) {
-        var html = "<div id='divSortable' class='sortableItem ui-widget-content'>" +
-        "<div style='display: none'>" + id + "</div>" +
-        "<div style='float: left; width: 50px;'>" + code + "</div>" +
-        "<div style='float: left; padding-left: 10px;'>" + title + "</div>" +
-        "<div style='float: right;' id='cboSelTone" + id + "' class='cboSelTone'></div>" +
-        "</div>";
+        var uniqueName = "txtTone_" + compteurSelection++;
 
-        $("#" + parentContainerName).html($("#" + parentContainerName).html() + html);
-        CreateToneCboForSelection(id, tone);
+        var html = "<div id='divSortable' class='sortableItem ui-widget-content'>" +
+            "<div style='display: none'>" + id + "</div>" +
+            "<div style='float: left; width: 50px;'>" + code + "</div>" +
+            "<div style='float: left; padding-left: 10px;'>" + title + "</div>" +
+            "<div style='float: right;'><input type='text' id='" + uniqueName + "' /></div>" +
+            "</div>";
+
+        $("#" + parentContainerName).append(html);
+        CreateToneJqxInput(uniqueName, id, tone);
     }
 
-    function CreateToneCboForSelection(songId, selectedValue) {
+    function CreateToneJqxInput(ctrlName, songId, selectedValue) {
+        var $ctrl = $("#" + ctrlName);
+        $ctrl.jqxInput({ width: '50', height: '16' });
+        $ctrl.val(selectedValue);
+        $ctrl.attr("songId", songId);
 
-        InitializeDropDown(songId, selectedValue);
-
-        //Valider si on perd la fonctionalité du dropdown lors du prochain click
-        $(".cboSelTone").click(function () {
-            if ($("#" + this.id).jqxDropDownList('getItems') == null) {
-                //Si on a perdu les items, il faut tout reconfigurer
-                InitializeDropDown($(this).attr("songId"), this.innerText);
-                $("#" + this.id).jqxDropDownList('open');
-            }
+        $ctrl.on('change', function () {
+            $.ajax({
+                url: '@Url.Action("ChangerTonalite", "Chants")',
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                data: { songId: $(this).attr("songId"), newTone: $(this).val() },
+            });
         });
     }
 
     $("#btnWord").click(function () {
         window.open("/DocumentWord.aspx?selDate=" + JSON.stringify($("#datepicker").jqxDateTimeInput('value')), "DocumentWord")
-        @*$.ajax({
-                url: '@Url.Action("CreerDocumentWord", "Selections")',
-                type: 'GET',
-                dataType: 'json',
-                cache: false,
-                data: { selDate: JSON.stringify($("#datepicker").jqxDateTimeInput('value')) },
-            });*@
     });
 
-
-    function InitializeDropDown(songId, selectedValue) {
-        $("#cboSelTone" + songId).jqxDropDownList({ source: tonalites, width: '50', height: '16' });
-        $("#cboSelTone" + songId).val(selectedValue);
-        $("#cboSelTone" + songId).attr("songId", songId);
-        $("#cboSelTone" + songId).on('change', function (event) {
-            var args = event.args;
-            if (args) {
-                var value = args.item.value;
-                $.ajax({
-                    url: '@Url.Action("ChangerTonalite", "Chants")',
-                    type: 'GET',
-                    dataType: 'json',
-                    cache: false,
-                    data: { songId: $(this).attr("songId"), newTone: args.item.value },
-                });
-
-            }
-        });
-    }
-
+    //Implementer le controle de date
     $("#datepicker").jqxDateTimeInput({
         width: 100,
         height: 20,
@@ -153,15 +132,19 @@
             return "SelectionApres";
     }
 
+    //Récupère les chants d'une section en ordre
     function GetNewOrder(sectionName) {
         var ids = [];
         $("#" + sectionName).children(".sortableItem").each(function (index, value) {
-            var id = $(value).children()[0].innerText;
-            ids.push(id);
+            if ($(value).children().length > 0) {
+                var id = $(value).children()[0].innerText;
+                ids.push(id);
+            }
         });
         return ids;
     }
 
+    //Rendre la sélection ordonnable
     $(function () {
         $(".divSelectionSection").sortable({
             //Supprimer l'item si il est sorti de la zone de drop
@@ -173,6 +156,7 @@
             beforeStop: function (e, ui) {
                 if (sortableIn == 0) {
                     ui.item.remove();
+                    SaveNewOrder();
                 }
             },
             connectWith: '.divSelectionSection',
@@ -187,4 +171,4 @@
     //Initialiser laa sélection du jour
     ChargerListe();
 
-    </script>
+</script>

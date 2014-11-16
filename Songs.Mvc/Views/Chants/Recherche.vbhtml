@@ -25,6 +25,8 @@ End Code
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxgrid.edit.js"></script>
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxdragdrop.js"></script>
 
+<script type="text/javascript" src="~/Scripts/JQWidgets/jqxinput.js"></script>
+
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxdatetimeinput.js"></script>
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxcalendar.js"></script>
 <script type="text/javascript" src="~/Scripts/JQWidgets/jqxtooltip.js"></script>
@@ -141,6 +143,7 @@ End Code
 
 <script type="text/javascript">
 
+    var dropTarget = "";
     var tonalites = ["", "Ab", "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
 
     function ResizeGrid() {
@@ -173,6 +176,7 @@ End Code
     function RefreshGrid() {
         source.url = GetDataUrl();
         $("#jqxgrid").jqxGrid("updatebounddata");
+        $("#jqxgrid").jqxGrid("clearselection");
     }
     $("#btnRecherche").click(function () {
         RefreshGrid();
@@ -202,21 +206,18 @@ End Code
 
         var columns = [
                 { text: 'Id', datafield: 'Id', hidden: true },
-                { text: 'Code', datafield: 'Code', width: '16%', editable: false },
+                { text: 'Code', datafield: 'Code', width: '16%', cellbeginedit: function () { return false; }},
                 @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
                     @<Text>
-                        { text: 'Titre', datafield: 'Title', width: '66%', editable: false },
+                        { text: 'Titre', datafield: 'Title', width: '66%', cellbeginedit: function () { return false; } },
                     </Text>
                 Else
                      @<Text>
-                        { text: 'Titre', datafield: 'Title', width: '72%', editable: false },
+                        { text: 'Titre', datafield: 'Title', width: '72%', cellbeginedit: function () { return false; } },
                     </Text>
                 End If
                 {
-                    text: 'Ton', datafield: 'Tone', width: '12%', columntype: 'dropdownlist',
-                    createeditor: function (row, column, editor) {
-                        editor.jqxDropDownList({ placeHolder: '', autoDropDownHeight: false, source: tonalites });
-                    },
+                    text: 'Ton', datafield: 'Tone', width: '12%',
                     // update the editor's value before saving it.
                     cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
                         var songId = $("#jqxgrid").jqxGrid('getcellvalue', row, 'Id');
@@ -232,7 +233,7 @@ End Code
                 @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
                     @<Text>
                     {
-                        text: '', datafield: 'edit', width: '5%', columntype: 'number', cellsrenderer: function () {
+                        text: '', width: '5%', sortable: false, cellsrenderer: function () {
                             return '<div><img src="../../Images/pictosBoutons/modifier.gif" class="btnEdit" /></div>';
                         }
                     },
@@ -257,7 +258,7 @@ End Code
                 if ($('#jqxgrid').jqxGrid('groups').length > 0) {
                     gridCells = $('#jqxgrid').find('.jqx-grid-group-cell');
                 }
-                // initialize the jqxDragDrop plug-in. Set its drop target to the second Grid.
+                // initialize the jqxDragDrop plug-in. Set its drop target to divSelection.
                 gridCells.jqxDragDrop({
                     appendTo: 'body',  dragZIndex: 99999,
                     dropAction: 'none',
@@ -265,7 +266,13 @@ End Code
                         feedback.height(25);
                         feedback.width(300);
                     },
-                    dropTarget: $('#divSelection'), revert: true
+                    dropTarget: '.divSelectionSection',
+                    onDropTargetEnter: function (target) {
+                        dropTarget = target.context.id;
+                    },
+                    onDropTargetLeave: function (target) {
+                        dropTarget = "";
+                    },
                 });
 
                 // Set the dragged object.
@@ -297,27 +304,15 @@ End Code
                 gridCells.off('dragEnd');
                 gridCells.on('dragEnd', function (event) {
                     var value = $(this).jqxDragDrop('data');
-                    var position = $.jqx.position(event.args);
-                    var pageX = position.left;
-                    var pageY = position.top;
-                    var $form = $("#divSelection");
-                    var targetX = $form.offset().left;
-                    var targetY = $form.offset().top;
-                    var width = $form.width();
-                    var height = $form.height();
-                    // fill the form if the user dropped the dragged item over it.
-                    if (pageX >= targetX && pageX <= targetX + width) {
-                        if (pageY >= targetY && pageY <= targetY + height) {
-                            CreateSelectedSong("SelectionPendant", value.Id, value.Code, value.Title, value.Tone)
-                            $(this).jqxDragDrop('feedback').html("");
-                            SaveNewOrder();
-                        }
-                    }
-                    $form.css('cursor', 'auto');
-                });
-            },
-            ready: function () {
 
+                    if (dropTarget != "") {
+                        CreateSelectedSong(dropTarget, value.Id, value.Code, value.Title, value.Tone);
+                        dropTarget = "";
+                        $(this).jqxDragDrop('feedback').html("");
+                        SaveNewOrder();
+                    }
+                    body.style.cursor = 'default';
+                });
             },
         });
         $("#jqxgrid").bind('bindingcomplete', function () {
