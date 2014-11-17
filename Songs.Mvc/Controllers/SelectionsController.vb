@@ -30,8 +30,10 @@ Namespace Controllers
             Next
 
             Dim selCtrl As New SelectionController
-            selCtrl.Delete(CInt(Session("USER_ID")), newDate)
-            selCtrl.Save(CInt(Session("USER_ID")), newDate, liste)
+            Using scope As New Transactions.CommittableTransaction
+                selCtrl.Delete(CInt(Session("USER_ID")), newDate)
+                selCtrl.Save(CInt(Session("USER_ID")), newDate, liste)
+            End Using
             Return Json(True, JsonRequestBehavior.AllowGet)
         End Function
     End Class

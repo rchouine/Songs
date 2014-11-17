@@ -7,9 +7,6 @@ Namespace Controllers
     Public Class UtilisateursController
         Inherits Web.Mvc.Controller
 
-        '
-        ' GET: /Utilisateurs
-
         Function ConvertUserToModel(unUser As User) As UtilisateurModel
             Dim newUser As New UtilisateurModel
             newUser.Id = unUser.Id

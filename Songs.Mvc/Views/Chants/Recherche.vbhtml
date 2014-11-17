@@ -2,7 +2,6 @@
 @ModelType  ChantsViewModel
 
 @Code
-    'ViewData("Title") = "Chants"
     Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
 
@@ -76,7 +75,7 @@ End Code
                                         @Html.DropDownList("categorie", New SelectList(Model.Categories, "Id", "Name"))
                                     </td>
                                     @If Session("USER_LEVEL") < Songs.Model.UserLevel.User Then
-                                        @<td style="text-align: right; vertical-align: bottom;"><input type="Button" value="Ajouter un chant" onclick="javascript: Modifier(0);" /></td>
+                                        @<td style="text-align: right; vertical-align: bottom;"><input type="Button" id="btnAddSong" value="Ajouter un chant" /></td>
                                     End If
                                 </tr>
                                 <tr>
@@ -129,7 +128,7 @@ End Code
                             <td style="width: 10px;"><label for="rbBemol" style="font-size: inherit; font-weight: inherit;">b</label></td>
                             <td style="width: 10px;"><input type="radio" id="rbSharp" name="rbFlat" title="Afficher en dièse" /></td>
                             <td style="width: 10px;"><label for="rbSharp" style="font-size: inherit; font-weight: inherit;">#</label></td>
-                            <td style="width: 80%; text-align: right;"><button id="ChordPro">Fenetre</button></td>
+                            <td style="width: 80%; text-align: right;"><input type="button" id="ChordPro" value="Pleine fenêtre" /></td>
                         </tr>
                     </table>
                     <hr />
@@ -380,8 +379,8 @@ End Code
         ongletsChants.tabs();
 
         $("#ChordPro").click(function (event) {
-            var h = $(window).height() - 50;
-            var w = $(window).width() - 200;
+            var h = $(window).height() - 0;
+            var w = $(window).width() - 0;
 
             var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
             $.post(url, function (data) {
@@ -433,9 +432,11 @@ End Code
                             }
                         },
                         {
+                            id: "dialogDefaultButton",
                             text: "Ok",
                             title: "Fermer cette fenêtre",
                             style: "float: right",
+                            focused: true,
                             click: function () {
                                 $(this).dialog("close");
                             }
@@ -445,6 +446,7 @@ End Code
 
                 $(".ui-dialog-buttonset").width("100%");
                 $("#dialogChordPro").dialog("open");
+                $("#dialogDefaultButton").focus();
             });
 
             function ShiftSong() {
@@ -456,6 +458,11 @@ End Code
             }
 
         });
+    });
+
+    
+    $("#btnAddSong").click(function (event) {
+        Modifier(0);
     });
 
 

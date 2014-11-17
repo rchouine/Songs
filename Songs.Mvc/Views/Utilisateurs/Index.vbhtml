@@ -1,5 +1,9 @@
 ﻿@ModelType IEnumerable(Of Songs.Model.User)
 
+@Code
+    Layout = "~/Views/Shared/_Layout.vbhtml"
+End Code
+
 <link href="~/Content/JQWidgets/jqx.base.css" rel="stylesheet" />
 <link href="~/Content/JQWidgets/jqx.web.css" rel="stylesheet" />
 
