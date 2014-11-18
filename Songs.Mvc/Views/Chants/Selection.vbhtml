@@ -12,7 +12,7 @@
         margin: 0 3px 3px 3px;
         padding: 3px 0;
     }
-    #divSortable {
+    #divSortable, .sortableItem {
         margin: 0 3px;
         padding: 0.2em;
         font-size: 1.0em;
@@ -24,11 +24,12 @@
     }
 </style>
     
-    <table>
+    <table style="width: 100%;">
         <tr>
             <td><label style="padding-left: 4px;">Date:</label> </td>
             <td><div id='datepicker'></div></td>
             <td><input type="button" id="btnWord" value="Télécharger" /></td>
+            <td style="width:50%; text-align: right;"><input type="button" id="ChordPro" value="Accords" /></td>
         </tr>
     </table>
     
@@ -47,15 +48,15 @@
     function CreateSelectedSong(parentContainerName, id, code, title, tone) {
         var uniqueName = "txtTone_" + compteurSelection++;
 
-        var html = "<div id='divSortable' class='sortableItem ui-widget-content'>" +
+        var html = "<div id='div_" + uniqueName + "' songId='" + id + "' class='sortableItem ui-widget-content'>" +
             "<div style='display: none'>" + id + "</div>" +
             "<div style='float: left; width: 50px;'>" + code + "</div>" +
             "<div style='float: left; padding-left: 10px;'>" + title + "</div>" +
-            "<div style='float: right;'><input type='text' id='" + uniqueName + "' /></div>" +
+            "<div style='float: right;'><input type='text' id='input_" + uniqueName + "' /></div>" +
             "</div>";
 
         $("#" + parentContainerName).append(html);
-        CreateToneJqxInput(uniqueName, id, tone);
+        CreateToneJqxInput("input_" + uniqueName, id, tone);
     }
 
     function CreateToneJqxInput(ctrlName, songId, selectedValue) {

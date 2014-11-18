@@ -96,11 +96,12 @@ End Code
             </fieldset>
             @Html.Hidden("id", "0")
             @Html.Hidden("shift", "0")
+            @Html.Hidden("txtSelectionCourante")
+            @Html.Hidden("songId")
 
             <div id="divGrille" style="float: left;">
                 <div id="jqxgrid"></div>
             </div>
-            @Html.Hidden("songId")
         </td>
         <td style="vertical-align: top; padding: 10px;">
             <div id="dialogChordPro" title="ChordPro" style="display: none;">
@@ -128,7 +129,7 @@ End Code
                             <td style="width: 10px;"><label for="rbBemol" style="font-size: inherit; font-weight: inherit;">b</label></td>
                             <td style="width: 10px;"><input type="radio" id="rbSharp" name="rbFlat" title="Afficher en dièse" /></td>
                             <td style="width: 10px;"><label for="rbSharp" style="font-size: inherit; font-weight: inherit;">#</label></td>
-                            <td style="width: 80%; text-align: right;"><input type="button" id="ChordPro" value="Pleine fenêtre" /></td>
+                            <td style="width: 80%; text-align: right;"></td>
                         </tr>
                     </table>
                     <hr />
@@ -379,6 +380,16 @@ End Code
         ongletsChants.tabs();
 
         $("#ChordPro").click(function (event) {
+
+            var firstSong;
+            if ($("#SelectionAvant").children(".sortableItem").length > 0)
+                firstSong = $("#SelectionAvant").children(".sortableItem").first();
+            else
+                firstSong = $("#SelectionPendant").children(".sortableItem").first();
+
+            $("#txtSelectionCourante").val(firstSong.attr("id"));
+            $('#songId').val(firstSong.attr("songId"));
+
             var h = $(window).height() - 0;
             var w = $(window).width() - 0;
 
@@ -432,6 +443,46 @@ End Code
                             }
                         },
                         {
+                            text: "Préc.",
+                            title: "Chant précédent",
+                            style: "float: left; margin-left: 20px;",
+                            click: function () {
+
+                                var current = $("#" + $("#txtSelectionCourante").val());
+                                var prev = current.prev(".sortableItem");
+
+                                if (prev.length == 0) {
+                                    prev = current.parent().prev().prev(".divSelectionSection").children(".sortableItem").last();
+                                }
+
+                                if (prev.length != 0) {
+                                    $("#txtSelectionCourante").val(prev.attr("id"));
+                                    $('#songId').val(prev.attr("songId"));
+                                    ShiftSong();
+                                }
+                            }
+                        },
+                        {
+                            text: "Suiv.",
+                            title: "Chant suivant",
+                            style: "float: left",
+                            click: function () {
+
+                                var current = $("#" + $("#txtSelectionCourante").val());
+                                var next = current.next(".sortableItem");
+
+                                if (next.length == 0) {
+                                    next = current.parent().next().next(".divSelectionSection").children(".sortableItem").first();
+                                }
+
+                                if (next.length != 0) {
+                                    $("#txtSelectionCourante").val(next.attr("id"));
+                                    $('#songId').val(next.attr("songId"));
+                                    ShiftSong();
+                                }
+                            }
+                        },
+                        {
                             id: "dialogDefaultButton",
                             text: "Ok",
                             title: "Fermer cette fenêtre",
@@ -453,6 +504,7 @@ End Code
                 var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
                 $.post(url, function (data) {
                     $('#shift').val(data[1]);
+                    $('#dialogChordPro').dialog('option', 'title', data[2]);
                     $('#dialogContentChordPro').html(data[4]);
                 });
             }
@@ -460,11 +512,9 @@ End Code
         });
     });
 
-    
     $("#btnAddSong").click(function (event) {
         Modifier(0);
     });
-
 
     function Modifier(id) {
         var url = "/Chants/Modifier?id=" + id;
