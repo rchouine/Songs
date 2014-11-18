@@ -96,7 +96,6 @@ End Code
             </fieldset>
             @Html.Hidden("id", "0")
             @Html.Hidden("shift", "0")
-            @Html.Hidden("txtSelectionCourante")
             @Html.Hidden("songId")
 
             <div id="divGrille" style="float: left;">
@@ -143,6 +142,7 @@ End Code
 
 <script type="text/javascript">
 
+    var selectionCourante;
     var dropTarget = "";
     var tonalites = ["", "Ab", "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
 
@@ -381,14 +381,12 @@ End Code
 
         $("#ChordPro").click(function (event) {
 
-            var firstSong;
             if ($("#SelectionAvant").children(".sortableItem").length > 0)
-                firstSong = $("#SelectionAvant").children(".sortableItem").first();
+                selectionCourante = $("#SelectionAvant").children(".sortableItem").first();
             else
-                firstSong = $("#SelectionPendant").children(".sortableItem").first();
+                selectionCourante = $("#SelectionPendant").children(".sortableItem").first();
 
-            $("#txtSelectionCourante").val(firstSong.attr("id"));
-            $('#songId').val(firstSong.attr("songId"));
+            $('#songId').val(selectionCourante.attr("songId"));
 
             var h = $(window).height() - 0;
             var w = $(window).width() - 0;
@@ -448,16 +446,15 @@ End Code
                             style: "float: left; margin-left: 20px;",
                             click: function () {
 
-                                var current = $("#" + $("#txtSelectionCourante").val());
-                                var prev = current.prev(".sortableItem");
+                                var prev = selectionCourante.prev(".sortableItem");
 
                                 if (prev.length == 0) {
-                                    prev = current.parent().prev().prev(".divSelectionSection").children(".sortableItem").last();
+                                    prev = selectionCourante.parent().prev().prev(".divSelectionSection").children(".sortableItem").last();
                                 }
 
                                 if (prev.length != 0) {
-                                    $("#txtSelectionCourante").val(prev.attr("id"));
-                                    $('#songId').val(prev.attr("songId"));
+                                    selectionCourante = prev;
+                                    $('#songId').val(selectionCourante.attr("songId"));
                                     ShiftSong();
                                 }
                             }
@@ -468,16 +465,15 @@ End Code
                             style: "float: left",
                             click: function () {
 
-                                var current = $("#" + $("#txtSelectionCourante").val());
-                                var next = current.next(".sortableItem");
+                                var next = selectionCourante.next(".sortableItem");
 
                                 if (next.length == 0) {
-                                    next = current.parent().next().next(".divSelectionSection").children(".sortableItem").first();
+                                    next = selectionCourante.parent().next().next(".divSelectionSection").children(".sortableItem").first();
                                 }
 
                                 if (next.length != 0) {
-                                    $("#txtSelectionCourante").val(next.attr("id"));
-                                    $('#songId').val(next.attr("songId"));
+                                    selectionCourante = next;
+                                    $('#songId').val(selectionCourante.attr("songId"));
                                     ShiftSong();
                                 }
                             }
