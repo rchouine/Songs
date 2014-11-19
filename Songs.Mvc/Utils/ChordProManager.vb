@@ -13,6 +13,8 @@ Namespace Utils
         End Enum
 
         Private _tons As String(,)
+        Private EnglistTones As New List(Of String) From {"A", "B", "C", "D", "E", "F", "G"}
+        Private FrenchTones As New List(Of String) From {"LA", "SI", "DO", "RE", "MI", "FA", "SOL"}
 
         Public Sub New()
             InitilaiseTons()
@@ -273,5 +275,61 @@ Namespace Utils
             Return -1
 
         End Function
+
+        Function PurifyTone(tone As String) As String
+            tone = tone.Replace("b", "¤")
+            tone = tone.ToUpper
+            tone = tone.Replace("É", "E")
+            tone = tone.Replace("SOL", "SO")
+            Dim retour As String
+            Select Case Left(tone, 2)
+                Case "DO" : retour = "C"
+                Case "RE" : retour = "D"
+                Case "MI" : retour = "E"
+                Case "FA" : retour = "F"
+                Case "SO" : retour = "G"
+                Case "LA" : retour = "A"
+                Case "SI" : retour = "B"
+                Case Else
+                    If EnglistTones.Contains(Left(tone, 1)) Then
+                        retour = Left(tone, 1)
+                    Else
+                        retour = String.Empty
+                    End If
+            End Select
+
+            If tone.Length > 2 Then
+                If tone.Substring(2, 1) = "#" Then
+                    retour &= "#"
+                ElseIf tone.Substring(2, 1) = "¤" Then
+                    retour &= "b"
+                End If
+            ElseIf tone.Length > 1 Then
+                If tone.Substring(1, 1) = "#" Then
+                    retour &= "#"
+                ElseIf tone.Substring(1, 1) = "¤" Then
+                    retour &= "b"
+                End If
+            End If
+
+            Return retour
+        End Function
+
+        Function FindShiftValue(oldTone As String, newTone As String) As Integer
+            Dim oldIndex = RechercheTon(oldTone)
+            Dim newIndex = RechercheTon(newTone)
+            Return (newIndex - oldIndex + 12) Mod 12
+        End Function
+
+        Function ExtractSongTone(chordProSong As String) As String
+            Dim posDebut = chordProSong.IndexOf("["c)
+            Dim posFin = chordProSong.IndexOf("]"c)
+            If posDebut > 0 AndAlso posFin > 0 Then
+                Return chordProSong.Substring(posDebut + 1, posFin - posDebut - 1)
+            Else
+                Return String.Empty
+            End If
+        End Function
+
     End Class
 End Namespace

@@ -47,11 +47,16 @@ Namespace Controllers
             Return Json(liste, JsonRequestBehavior.AllowGet)
         End Function
 
-        Function Chant(id As Integer, shift As Integer, sharp As Integer) As JsonResult
+        Function Chant(id As Integer, shift As Integer, sharp As Integer, Optional tone As String = "") As JsonResult
             Dim songCtrl As New SongController
             Dim chantTrouve = songCtrl.GetById(id)
 
             Dim ctrl As New ChordProManager
+            If tone <> String.Empty Then
+                Dim oldtone = ctrl.PurifyTone(ctrl.ExtractSongTone(chantTrouve.ChordPro))
+                Dim newtone = ctrl.PurifyTone(tone)
+                shift = ctrl.FindShiftValue(oldtone, newtone)
+            End If
 
             Dim retour(4) As String
             retour(0) = id

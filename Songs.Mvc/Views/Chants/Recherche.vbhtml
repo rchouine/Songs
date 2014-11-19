@@ -253,7 +253,7 @@ End Code
             localization: localizationobj,
             columns: columns,
             rendered: function () {
-                // select all grid cells.
+                // select all grid cells for Drag-Drop
                 var gridCells = $('#jqxgrid').find('.jqx-grid-cell');
                 if ($('#jqxgrid').jqxGrid('groups').length > 0) {
                     gridCells = $('#jqxgrid').find('.jqx-grid-group-cell');
@@ -325,8 +325,9 @@ End Code
         });
         $("#jqxgrid").on('rowselect', function (event) {
             var value = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Id');
+            var tone = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Tone');
             $("#songId").val(value);
-            updateSong(value, 0);
+            updateSong(value, 0, tone);
         });
         $("#jqxgrid").on("sort", function (event) {
             SetEditButton();
@@ -357,8 +358,10 @@ End Code
             updateSong($('#songId').val(), eval($('#shift').val()));
         });
 
-        function updateSong(id, shift) {
+        function updateSong(id, shift, tone) {
             var url = "/Chants/Chant?id=" + id + "&shift=" + shift + "&sharp=" + getSharp();
+            if (tone != null)
+                url += "&tone=" + escape(tone);
             $.post(url, function (data) {
                 $('#songId').val(data[0]);
                 $('#shift').val(data[1]);
@@ -391,7 +394,7 @@ End Code
             var h = $(window).height() - 0;
             var w = $(window).width() - 0;
 
-            var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
+            var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp() + "&tone=" + selectionCourante.attr("tone");
             $.post(url, function (data) {
                 $('#dialogContentChordPro').html(data[4]);
                 $("#dialogChordPro").dialog({
@@ -455,7 +458,7 @@ End Code
                                 if (prev.length != 0) {
                                     selectionCourante = prev;
                                     $('#songId').val(selectionCourante.attr("songId"));
-                                    ShiftSong();
+                                    ShiftSong(selectionCourante.attr("tone"));
                                 }
                             }
                         },
@@ -474,7 +477,7 @@ End Code
                                 if (next.length != 0) {
                                     selectionCourante = next;
                                     $('#songId').val(selectionCourante.attr("songId"));
-                                    ShiftSong();
+                                    ShiftSong(selectionCourante.attr("tone"));
                                 }
                             }
                         },
@@ -496,8 +499,11 @@ End Code
                 $("#dialogDefaultButton").focus();
             });
 
-            function ShiftSong() {
+            function ShiftSong(tone) {
                 var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
+                if (tone != null)
+                    url += "&tone=" + escape(tone);
+
                 $.post(url, function (data) {
                     $('#shift').val(data[1]);
                     $('#dialogChordPro').dialog('option', 'title', data[2]);

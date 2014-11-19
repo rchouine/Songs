@@ -48,7 +48,7 @@
     function CreateSelectedSong(parentContainerName, id, code, title, tone) {
         var uniqueName = "txtTone_" + compteurSelection++;
 
-        var html = "<div id='div_" + uniqueName + "' songId='" + id + "' class='sortableItem ui-widget-content'>" +
+        var html = "<div id='div_" + uniqueName + "' songId='" + id + "' tone='" + tone + "' class='sortableItem ui-widget-content'>" +
             "<div style='display: none'>" + id + "</div>" +
             "<div style='float: left; width: 50px;'>" + code + "</div>" +
             "<div style='float: left; padding-left: 10px;'>" + title + "</div>" +
@@ -66,6 +66,7 @@
         $ctrl.attr("songId", songId);
 
         $ctrl.on('change', function () {
+            $(this).parent().parent().attr("tone", $(this).val())
             $.ajax({
                 url: '@Url.Action("ChangerTonalite", "Chants")',
                 type: 'GET',
