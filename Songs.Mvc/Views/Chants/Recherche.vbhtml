@@ -99,12 +99,12 @@ End Code
             @Html.Hidden("songId")
 
             <div id="divGrille" style="float: left;">
-                <div id="jqxgrid"></div>
+                <div id="jqxgrid" style="z-index: 1;"></div>
             </div>
         </td>
         <td style="vertical-align: top; padding: 10px;">
-            <div id="dialogChordPro" title="ChordPro" style="display: none;">
-                <div id="dialogContentChordPro"></div>
+            <div id="dialogChordPro" title="ChordPro" style="display: none; z-index: 400;">
+                <div id="dialogContentChordPro" style="z-index: 400;"></div>
             </div>
             <div id="dialogChant" title="Modification" style="display: none;">
                 <div id="dialogContentChant"></div>
@@ -144,7 +144,6 @@ End Code
 
     var selectionCourante;
     var dropTarget = "";
-    var tonalites = ["", "Ab", "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
 
     function ResizeGrid() {
         var h = $(window).height();
@@ -496,6 +495,7 @@ End Code
                 });
 
                 $(".ui-dialog-buttonset").width("100%");
+                $(".ui-dialog").css("z-index", 9999);
                 $("#dialogChordPro").dialog("open");
                 $("#dialogDefaultButton").focus();
             });

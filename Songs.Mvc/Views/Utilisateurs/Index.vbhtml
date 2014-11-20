@@ -165,6 +165,7 @@ End Code
                     }
                 ]
             });
+            $(".ui-dialog").css("z-index", 9999);
             leDlg.dialog("open");
         });
     }
