@@ -361,7 +361,7 @@ End Code
         function updateSong(id, shift, tone) {
             var url = "/Chants/Chant?id=" + id + "&shift=" + shift + "&sharp=" + getSharp();
             if (tone != null)
-                url += "&tone=" + escape(tone);
+                url += "&tone=" + escape(tone.replace("é", "e"));
             $.post(url, function (data) {
                 $('#songId').val(data[0]);
                 $('#shift').val(data[1]);
@@ -394,8 +394,9 @@ End Code
             var h = $(window).height() - 0;
             var w = $(window).width() - 0;
 
-            var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp() + "&tone=" + selectionCourante.attr("tone");
+            var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp() + "&tone=" + escape(selectionCourante.attr("tone").replace("é", "e"));
             $.post(url, function (data) {
+                $('#shift').val(data[1]);
                 $('#dialogContentChordPro').html(data[4]);
                 $("#dialogChordPro").dialog({
                     autoOpen: false,
@@ -502,7 +503,7 @@ End Code
             function ShiftSong(tone) {
                 var url = "/Chants/Chant?id=" + $('#songId').val() + "&shift=" + $('#shift').val() + "&sharp=" + getSharp();
                 if (tone != null)
-                    url += "&tone=" + escape(tone);
+                    url += "&tone=" + escape(tone.replace("é", "e"));
 
                 $.post(url, function (data) {
                     $('#shift').val(data[1]);
