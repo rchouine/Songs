@@ -28,6 +28,13 @@ Namespace Utils
             tone.Should.Be("A")
         End Sub
 
+        <TestMethod()> Public Sub PurifyTone_lowercase()
+            Dim cpMan As New ChordProManager
+            Dim tone = cpMan.PurifyTone("c")
+
+            tone.Should.Be("C")
+        End Sub
+
         <TestMethod()> Public Sub PurifyTone_minor()
             Dim cpMan As New ChordProManager
             Dim tone = cpMan.PurifyTone("Am")
@@ -64,6 +71,27 @@ Namespace Utils
             tone.Should.Be("Gb")
         End Sub
 
+        <TestMethod()> Public Sub PurifyTone_Separates_B_from_b()
+            Dim cpMan As New ChordProManager
+            Dim tone = cpMan.PurifyTone("bmineur")
+
+            tone.Should.Be("B")
+        End Sub
+
+        <TestMethod()> Public Sub PurifyTone_Separates_Bb_from_bb()
+            Dim cpMan As New ChordProManager
+            Dim tone = cpMan.PurifyTone("bb")
+
+            tone.Should.Be("Bb")
+        End Sub
+
+        <TestMethod()> Public Sub PurifyTone_StopAfterSlash()
+            Dim cpMan As New ChordProManager
+            Dim tone = cpMan.PurifyTone("C/b")
+
+            tone.Should.Be("C")
+        End Sub
+
         <TestMethod()> Public Sub PurifyTone_withCrap()
             Dim cpMan As New ChordProManager
             Dim tone = cpMan.PurifyTone("Solsus4")
@@ -89,6 +117,19 @@ Namespace Utils
             Dim shift As Integer = cpMan.FindShiftValue("Bb", "G")
             shift.Should.Be(9)
         End Sub
+
+
+        '<TestMethod()> Public Sub RechercheTon()
+        '    Dim cpMan As New ChordProManager
+        '    Dim i = cpMan.RechercheTon("Db")
+        '    i.Should.Be(4)
+        'End Sub
+
+        '<TestMethod()> Public Sub RechercheTon_crap()
+        '    Dim cpMan As New ChordProManager
+        '    Dim i = cpMan.RechercheTon("zzz")
+        '    i.Should.Be(-1)
+        'End Sub
 
     End Class
 End Namespace

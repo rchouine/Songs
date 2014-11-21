@@ -4,51 +4,8 @@ Namespace Utils
 
     Public Class ChordProManager
 
-        Private Enum TypeLigne
-            Titre = 1
-            SousTitre = 2
-            Parole = 3
-            Commentaire = 5
-            NonAffichable = 10
-        End Enum
-
-        Private _tons As String(,)
-        Private EnglistTones As New List(Of String) From {"A", "B", "C", "D", "E", "F", "G"}
-        Private FrenchTones As New List(Of String) From {"LA", "SI", "DO", "RE", "MI", "FA", "SOL"}
-
-        Public Sub New()
-            InitilaiseTons()
-        End Sub
-
-        Private Sub InitilaiseTons()
-            ReDim _tons(11, 1)
-
-            _tons(0, 0) = "A"
-            _tons(1, 0) = "A#"
-            _tons(2, 0) = "B"
-            _tons(3, 0) = "C"
-            _tons(4, 0) = "C#"
-            _tons(5, 0) = "D"
-            _tons(6, 0) = "D#"
-            _tons(7, 0) = "E"
-            _tons(8, 0) = "F"
-            _tons(9, 0) = "F#"
-            _tons(10, 0) = "G"
-            _tons(11, 0) = "G#"
-
-            _tons(0, 1) = "A"
-            _tons(1, 1) = "Bb"
-            _tons(2, 1) = "B"
-            _tons(3, 1) = "C"
-            _tons(4, 1) = "Db"
-            _tons(5, 1) = "D"
-            _tons(6, 1) = "Eb"
-            _tons(7, 1) = "E"
-            _tons(8, 1) = "F"
-            _tons(9, 1) = "Gb"
-            _tons(10, 1) = "G"
-            _tons(11, 1) = "Ab"
-        End Sub
+        Private SharpTones As New List(Of String) From {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"}
+        Private FlatTones As New List(Of String) From {"A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"}
 
         Public Function Shift(ByVal data As String, ByVal nb As Integer, ByVal displaySharp As Boolean) As String
             Dim resultat As String = String.Empty
@@ -71,7 +28,7 @@ Namespace Utils
                             If data.Substring(i + 1, 1) = "#" OrElse data.Substring(i + 1, 1) = "b" Then
                                 pos = RechercheTon(data.Substring(i, 2))
                                 If pos > -1 Then
-                                    resultat &= _tons((pos + nb + 12) Mod 12, If(displaySharp, 0, 1))
+                                    resultat &= GetShiftedTone(pos + nb, displaySharp)
                                 Else
                                     resultat &= data.Substring(i, 1)
                                 End If
@@ -79,7 +36,7 @@ Namespace Utils
                             Else
                                 pos = RechercheTon(data.Substring(i, 1))
                                 If pos > -1 Then
-                                    resultat &= _tons((pos + nb + 12) Mod 12, If(displaySharp, 0, 1))
+                                    resultat &= GetShiftedTone(pos + nb, displaySharp)
                                 Else
                                     resultat &= data.Substring(i, 1)
                                 End If
@@ -90,6 +47,14 @@ Namespace Utils
                 End Select
             Next
             Return resultat
+        End Function
+
+        Private Function GetShiftedTone(position As Integer, displaySharp As Boolean) As String
+            If displaySharp Then
+                Return SharpTones.Item((position + 12) Mod 12)
+            Else
+                Return FlatTones.Item((position + 12) Mod 12)
+            End If
         End Function
 
         Public Function GetChordsHtml(ByVal data As String) As String
@@ -110,7 +75,7 @@ Namespace Utils
             Dim oldChorusEnCours As Boolean = False
             Dim accordEnCours As Boolean = False
             Dim baliseNonGereEnCours As Boolean = False
-            Dim type As TypeLigne
+            Dim affichable As Boolean
             Dim tmpData As String(,)
             Dim iCell As Integer
             Dim currentContainer As Control = mainContainer
@@ -122,7 +87,7 @@ Namespace Utils
             Dim lignes As String() = data.Split(CChar(vbCr))
 
             For Each ligne As String In lignes
-                type = TypeLigne.Parole
+                affichable = True
                 iCell = 0
                 ReDim tmpData(2, iCell)
 
@@ -131,29 +96,26 @@ Namespace Utils
                     Select Case ligne.Substring(i, 1)
                         Case "{"
                             If ligne.Length > 7 AndAlso ligne.Substring(i, 7).ToLower = "{title:" Then
-                                type = TypeLigne.Titre
                                 i = i + 6
                                 tmpData(2, iCell) = "title"
 
                             ElseIf ligne.Length > 10 AndAlso ligne.Substring(i, 10).ToLower = "{subtitle:" Then
-                                type = TypeLigne.SousTitre
                                 i = i + 9
                                 tmpData(2, iCell) = "subtitle"
 
                             ElseIf ligne.Length > 3 AndAlso ligne.Substring(i, 3).ToLower = "{c:" Then
-                                type = TypeLigne.Commentaire
                                 i = i + 2
                                 tmpData(2, iCell) = "c"
 
                             ElseIf ligne.Substring(i, 5).ToLower = "{soc}" Then
                                 chorusEnCours = True
                                 i = i + 4
-                                type = TypeLigne.NonAffichable
+                                affichable = False
 
                             ElseIf ligne.Substring(i, 5).ToLower = "{eoc}" Then
                                 chorusEnCours = False
                                 i = i + 4
-                                type = TypeLigne.NonAffichable
+                                affichable = False
 
                             Else
                                 baliseNonGereEnCours = True
@@ -211,7 +173,7 @@ Namespace Utils
                     oldChorusEnCours = chorusEnCours
                 End If
 
-                If type <> TypeLigne.NonAffichable Then
+                If affichable Then
                     'ligne(vide)
                     If tmpData(0, 0) = String.Empty AndAlso tmpData(1, 0) = String.Empty Then
                         Using newLine As New Panel
@@ -240,9 +202,8 @@ Namespace Utils
                             End Using
 
                             Using newRowLyric As New TableRow
-                                If type = TypeLigne.Parole Then
-                                    newRowLyric.CssClass = "lyrics"
-                                End If
+                                newRowLyric.CssClass = "lyrics"
+
                                 For i = 0 To iCell
                                     Using newCellLyric As New TableCell
                                         If tmpData(2, i) = "title" Then
@@ -266,18 +227,18 @@ Namespace Utils
         End Sub
 
         Private Function RechercheTon(ton As String) As Integer
-            Dim i As Integer
-            For i = 0 To UBound(_tons)
-                If ton = _tons(i, 0) OrElse ton = _tons(i, 1) Then
-                    Return i
-                End If
-            Next
-            Return -1
-
+            Dim retour = SharpTones.IndexOf(ton)
+            If retour = -1 Then
+                retour = FlatTones.IndexOf(ton)
+            End If
+            Return retour
         End Function
 
         Function PurifyTone(tone As String) As String
-            tone = tone.Replace("b", "¤")
+            Dim pos = tone.IndexOf("/")
+            If pos > 0 Then
+                tone = Left(tone, pos)
+            End If
             tone = tone.ToUpper
             tone = tone.Replace("É", "E")
             tone = tone.Replace("SOL", "SO")
@@ -291,28 +252,31 @@ Namespace Utils
                 Case "LA" : retour = "A"
                 Case "SI" : retour = "B"
                 Case Else
-                    If EnglistTones.Contains(Left(tone, 1)) Then
+                    If SharpTones.Contains(Left(tone, 1)) Then
                         retour = Left(tone, 1)
                     Else
-                        retour = String.Empty
+                        Return String.Empty
                     End If
             End Select
 
+            Return retour & GetSharpOrFlat(tone)
+        End Function
+
+        Private Function GetSharpOrFlat(tone As String) As String
             If tone.Length > 2 Then
                 If tone.Substring(2, 1) = "#" Then
-                    retour &= "#"
-                ElseIf tone.Substring(2, 1) = "¤" Then
-                    retour &= "b"
+                    Return "#"
+                ElseIf tone.Substring(2, 1) = "B" Then
+                    Return "b"
                 End If
             ElseIf tone.Length > 1 Then
                 If tone.Substring(1, 1) = "#" Then
-                    retour &= "#"
-                ElseIf tone.Substring(1, 1) = "¤" Then
-                    retour &= "b"
+                    Return "#"
+                ElseIf tone.Substring(1, 1) = "B" Then
+                    Return "b"
                 End If
             End If
-
-            Return retour
+            Return String.Empty
         End Function
 
         Function FindShiftValue(oldTone As String, newTone As String) As Integer

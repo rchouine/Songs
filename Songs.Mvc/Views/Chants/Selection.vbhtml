@@ -139,7 +139,7 @@
         var ids = [];
         $("#" + sectionName).children(".sortableItem").each(function (index, value) {
             if ($(value).children().length > 0) {
-                var id = $(value).children()[0].innerText;
+                var id = $(value).children().first().text();
                 ids.push(id);
             }
         });

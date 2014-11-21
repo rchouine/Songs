@@ -259,7 +259,8 @@ End Code
                 }
                 // initialize the jqxDragDrop plug-in. Set its drop target to divSelection.
                 gridCells.jqxDragDrop({
-                    appendTo: 'body',  dragZIndex: 99999,
+                    appendTo: 'body',
+                    dragZIndex: 99999,
                     dropAction: 'none',
                     initFeedback: function (feedback) {
                         feedback.height(25);
@@ -559,6 +560,7 @@ End Code
                     },
                 ]
             });
+            $(".ui-dialog").css("z-index", 9999);
             leDlg.dialog("open");
         });
     }
