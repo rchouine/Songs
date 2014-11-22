@@ -389,6 +389,9 @@ End Code
             else
                 selectionCourante = $("#SelectionPendant").children(".sortableItem").first();
 
+            if (selectionCourante.length == 0)
+                return;
+
             $('#songId').val(selectionCourante.attr("songId"));
 
             var h = $(window).height() - 0;
