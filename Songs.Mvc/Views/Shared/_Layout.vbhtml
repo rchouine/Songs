@@ -36,6 +36,9 @@
                             @If Session("USER_LEVEL") IsNot Nothing AndAlso Session("USER_LEVEL") < UserLevel.PowerUser Then
                                 @<li>@Html.ActionLink("Utilisateurs", "Index", "Utilisateurs")</li>
                             End If
+                            @If Session("USER_ID") IsNot Nothing Then
+                                @<li>@Html.ActionLink("Quoi de neuf", "QuoiDeNeuf", "Chants")</li>
+                            End If
                         </ul>
                     </nav>
                 </div>

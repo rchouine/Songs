@@ -785,6 +785,7 @@
     <Content Include="Views\Chants\Chant.vbhtml" />
     <Content Include="Views\Chants\EditorTemplates\SongCategotyViewModel.vbhtml" />
     <Content Include="Views\Chants\EditorTemplates\TypeRechercheViewModel.vbhtml" />
+    <Content Include="Views\Shared\QuoiDeNeuf.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

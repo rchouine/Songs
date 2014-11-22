@@ -5,6 +5,7 @@ Namespace Controllers
     Public Class SelectionsController
         Inherits Web.Mvc.Controller
 
+
         Function GetSelections(selDate As String) As JsonResult
             Dim newDate = Helpers.Json.Decode(Of DateTime)(selDate)
             Dim selCtrl As New SelectionController

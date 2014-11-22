@@ -8,6 +8,10 @@ Namespace Controllers
     Public Class ChantsController
         Inherits Web.Mvc.Controller
 
+        Function QuoiDeNeuf() As ActionResult
+            Return View()
+        End Function
+
         Private Function GetCategoryList(addTous As Boolean) As List(Of Category)
             Dim ctrl As New CategoryController
             Dim retour = ctrl.GetList
