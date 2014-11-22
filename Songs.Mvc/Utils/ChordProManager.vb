@@ -4,6 +4,19 @@ Namespace Utils
 
     Public Class ChordProManager
 
+        Private Enum LineType As Integer
+            Title
+            SubTitle
+            Comment
+            Lyric
+        End Enum
+
+        Private Class LineData
+            Property Chord As String = String.Empty
+            Property Text As String = String.Empty
+            Property Type As LineType = LineType.Lyric
+        End Class
+
         Private SharpTones As New List(Of String) From {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"}
         Private FlatTones As New List(Of String) From {"A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"}
 
@@ -76,8 +89,6 @@ Namespace Utils
             Dim accordEnCours As Boolean = False
             Dim baliseNonGereEnCours As Boolean = False
             Dim affichable As Boolean
-            Dim tmpData As String(,)
-            Dim iCell As Integer
             Dim currentContainer As Control = mainContainer
 
             currentContainer.Controls.Clear()
@@ -86,36 +97,40 @@ Namespace Utils
             data = data.Trim
             Dim lignes As String() = data.Split(CChar(vbCr))
 
+            Dim lineDatas As New List(Of LineData)
             For Each ligne As String In lignes
                 affichable = True
-                iCell = 0
-                ReDim tmpData(2, iCell)
+
+                lineDatas.Clear()
+                Dim firstLineData As New LineData
+                Dim newLineData = firstLineData
+                lineDatas.Add(newLineData)
 
                 'Parcourir la ligne
                 For i = 0 To ligne.Length - 1
                     Select Case ligne.Substring(i, 1)
                         Case "{"
                             If ligne.Length > 7 AndAlso ligne.Substring(i, 7).ToLower = "{title:" Then
+                                newLineData.Type = LineType.Title
                                 i = i + 6
-                                tmpData(2, iCell) = "title"
 
                             ElseIf ligne.Length > 10 AndAlso ligne.Substring(i, 10).ToLower = "{subtitle:" Then
+                                newLineData.Type = LineType.SubTitle
                                 i = i + 9
-                                tmpData(2, iCell) = "subtitle"
 
                             ElseIf ligne.Length > 3 AndAlso ligne.Substring(i, 3).ToLower = "{c:" Then
+                                newLineData.Type = LineType.Comment
                                 i = i + 2
-                                tmpData(2, iCell) = "c"
 
                             ElseIf ligne.Substring(i, 5).ToLower = "{soc}" Then
+                                affichable = False
                                 chorusEnCours = True
                                 i = i + 4
-                                affichable = False
 
                             ElseIf ligne.Substring(i, 5).ToLower = "{eoc}" Then
+                                affichable = False
                                 chorusEnCours = False
                                 i = i + 4
-                                affichable = False
 
                             Else
                                 baliseNonGereEnCours = True
@@ -124,35 +139,35 @@ Namespace Utils
                         Case "}"
                             baliseNonGereEnCours = False
                             'Si on a un commentaire terminé et que la ligne ne l'est pas
-                            If tmpData(2, iCell) = "c" AndAlso i < ligne.Length Then
-                                iCell = iCell + 1
-                                ReDim Preserve tmpData(2, iCell)
+                            If newLineData.Type = LineType.Comment AndAlso i < ligne.Length Then
+                                newLineData = New LineData
+                                lineDatas.Add(newLineData)
                             End If
 
                         Case "["
                             accordEnCours = True
-                            If tmpData(1, iCell) <> String.Empty Then
-                                iCell = iCell + 1
-                                ReDim Preserve tmpData(2, iCell)
+                            If Not String.IsNullOrEmpty(newLineData.Text) Then
+                                newLineData = New LineData
+                                lineDatas.Add(newLineData)
                             End If
 
                         Case "]"
                             accordEnCours = False
-                            tmpData(0, iCell) &= "&nbsp;"
+                            newLineData.Chord &= "&nbsp;"
 
                         Case Else
                             If Not baliseNonGereEnCours Then
                                 If accordEnCours Then
                                     If ligne.Substring(i, 1) = " " Then
-                                        tmpData(0, iCell) &= "&nbsp;"
+                                        newLineData.Chord &= "&nbsp;"
                                     ElseIf ligne.Substring(i, 1) <> vbLf Then
-                                        tmpData(0, iCell) &= ligne.Substring(i, 1)
+                                        newLineData.Chord &= ligne.Substring(i, 1)
                                     End If
                                 Else
                                     If ligne.Substring(i, 1) = " " Then
-                                        tmpData(1, iCell) &= "&nbsp;"
+                                        newLineData.Text &= "&nbsp;"
                                     ElseIf ligne.Substring(i, 1) <> vbLf Then
-                                        tmpData(1, iCell) &= ligne.Substring(i, 1)
+                                        newLineData.Text &= ligne.Substring(i, 1)
                                     End If
                                 End If
                             End If
@@ -175,7 +190,7 @@ Namespace Utils
 
                 If affichable Then
                     'ligne(vide)
-                    If tmpData(0, 0) = String.Empty AndAlso tmpData(1, 0) = String.Empty Then
+                    If String.IsNullOrEmpty(firstLineData.Chord) AndAlso String.IsNullOrEmpty(firstLineData.Text) Then
                         Using newLine As New Panel
                             Using newText As New Literal
                                 newText.Text = "&nbsp;"
@@ -185,16 +200,16 @@ Namespace Utils
                         End Using
                     Else
                         Using newTable As New Table
-                            If tmpData(2, 0) = "title" OrElse tmpData(2, 0) = "subtitle" Then
+                            If firstLineData.Type = LineType.Title OrElse firstLineData.Type = LineType.SubTitle Then
                                 newTable.CssClass = "titleTable"
                             Else
                                 newTable.CssClass = "songTable"
                             End If
                             Using newRowChord As New TableRow
                                 newRowChord.CssClass = "chords"
-                                For i = 0 To iCell
+                                For Each item In lineDatas
                                     Using newCellChord As New TableCell
-                                        newCellChord.Text = tmpData(0, i)
+                                        newCellChord.Text = item.Chord
                                         newRowChord.Cells.Add(newCellChord)
                                     End Using
                                 Next
@@ -204,16 +219,16 @@ Namespace Utils
                             Using newRowLyric As New TableRow
                                 newRowLyric.CssClass = "lyrics"
 
-                                For i = 0 To iCell
+                                For Each item In lineDatas
                                     Using newCellLyric As New TableCell
-                                        If tmpData(2, i) = "title" Then
+                                        If item.Type = LineType.Title Then
                                             newCellLyric.CssClass = "titre"
-                                        ElseIf tmpData(2, i) = "subtitle" Then
+                                        ElseIf item.Type = LineType.SubTitle Then
                                             newCellLyric.CssClass = "sousTitre"
-                                        ElseIf tmpData(2, i) = "c" Then
+                                        ElseIf item.Type = LineType.Comment Then
                                             newCellLyric.CssClass = "commentaire"
                                         End If
-                                        newCellLyric.Text = tmpData(1, i)
+                                        newCellLyric.Text = item.Text
                                         newRowLyric.Cells.Add(newCellLyric)
                                     End Using
                                 Next

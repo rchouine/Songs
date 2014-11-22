@@ -6,16 +6,16 @@ Namespace Utils
     <TestClass()> Public Class ChordProManagerTest
 
         <TestMethod()> Public Sub ShiftSongOverAnOctave()
-            Dim oldData = "aaa[A]...[C]xxxx iii[Ab]xxxx ccc[A#]fffff[D]gggg xxxx g[C#]zzz[G]ooo"
-            Dim newData = "aaa[B]...[D]xxxx iii[A#]xxxx ccc[C]fffff[E]gggg xxxx g[D#]zzz[A]ooo"
+            Dim oldData = "aaa[A]...xxxx [Ab]iii[A#]xxxx ff[C]fff[D]gggg [E]xxxx[F] g[C#]zzz[G]ooo"
+            Dim newData = "aaa[B]...xxxx [A#]iii[C]xxxx ff[D]fff[E]gggg [F#]xxxx[G] g[D#]zzz[A]ooo"
             Dim cpMan As New ChordProManager
             Dim result = cpMan.Shift(oldData, 14, True)
             result.Should.Be(newData)
         End Sub
 
         <TestMethod()> Public Sub ShiftSong_withFlat()
-            Dim oldData = "aaa[A]...[C]xxxx iii[Ab]xxxx ccc[A#]fffff[D]gggg xxxx g[C#]zzz[G]ooo"
-            Dim newData = "aaa[B]...[D]xxxx iii[Bb]xxxx ccc[C]fffff[E]gggg xxxx g[Eb]zzz[A]ooo"
+            Dim oldData = "aaa[A]...xxxx [Ab]iii[A#]xxxx ff[C]fff[D]gggg [E]xxxx[F] g[C#]zzz[G]ooo"
+            Dim newData = "aaa[B]...xxxx [Bb]iii[C]xxxx ff[D]fff[E]gggg [Gb]xxxx[G] g[Eb]zzz[A]ooo"
             Dim cpMan As New ChordProManager
             Dim result = cpMan.Shift(oldData, 14, False)
             result.Should.Be(newData)
