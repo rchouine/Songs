@@ -5,6 +5,11 @@ Namespace Controllers
     Public Class SelectionsController
         Inherits Web.Mvc.Controller
 
+        Function GetSpecialDates() As JsonResult
+            Dim selCtrl As New SelectionController
+            Dim liste = selCtrl.GetDates(CInt(Session("USER_ID")))
+            Return Json(liste, JsonRequestBehavior.AllowGet)
+        End Function
 
         Function GetSelections(selDate As String) As JsonResult
             Dim newDate = Helpers.Json.Decode(Of DateTime)(selDate)

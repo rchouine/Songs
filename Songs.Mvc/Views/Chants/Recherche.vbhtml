@@ -249,6 +249,7 @@ End Code
             columnsresize: true,
             sortable: true,
             editable: true,
+            editmode: 'click',
             localization: localizationobj,
             columns: columns,
             rendered: function () {
@@ -310,6 +311,7 @@ End Code
                         dropTarget = "";
                         $(this).jqxDragDrop('feedback').html("");
                         SaveNewOrder();
+                        ManageSpecialDate();
                     }
                     body.style.cursor = 'default';
                 });
@@ -319,10 +321,10 @@ End Code
             //Set editButton function
             SetEditButton();
         });
-        $("#jqxgrid").on('rowclick', function () {
-            // put the focus back to the Grid. Otherwise, the focus goes to the drag feedback element.
-            $("#jqxgrid").jqxGrid('focus');
-        });
+        //$("#jqxgrid").on('rowclick', function () {
+        //    // put the focus back to the Grid. Otherwise, the focus goes to the drag feedback element.
+        //    $("#jqxgrid").jqxGrid('focus');
+        //});
         $("#jqxgrid").on('rowselect', function (event) {
             var value = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Id');
             var tone = $("#jqxgrid").jqxGrid('getcellvalue', event.args.rowindex, 'Tone');

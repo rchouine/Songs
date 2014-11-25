@@ -22,6 +22,9 @@
         margin: 0;
         border: none;
     }
+    .specialDate {
+        background-color: yellow;
+    }
 </style>
     
     <table style="width: 100%;">
@@ -92,6 +95,39 @@
         ChargerListe();
     });
 
+    //Charger les dates qui ont des listes
+    $.ajax({
+        url: '@Url.Action("GetSpecialDates", "Selections")',
+        type: 'GET',
+        cache: false,
+    }).done(function (data) {
+        if (data.length > 0)
+            for (var i = 0; i < data.length; i++) {
+                var date = new Date(parseInt(data[i].substr(6)));
+                $(".jqx-calendar").jqxCalendar('addSpecialDate', date, 'specialDate', '');
+            }
+    });
+
+    function ManageSpecialDate() {
+        var nbSongs = GetNewOrder("SelectionAvant").length + GetNewOrder("SelectionPendant").length + GetNewOrder("SelectionApres").length;
+        var selectedDate = $("#datepicker").jqxDateTimeInput('value');
+        var specialDates = $(".jqx-calendar").jqxCalendar('specialDates');
+        var found = false;
+        for (var i = 0; i < specialDates.length; i++) {
+            if (specialDates[i].Date.valueOf() == selectedDate.valueOf()) {
+                found = true;
+                if (nbSongs == 0) {
+                    specialDates.splice($.inArray(specialDates[i], specialDates), 1);
+                    $(".jqx-calendar").jqxCalendar('specialDates', specialDates);
+                }
+            }    
+        }
+        if (nbSongs > 0 && !found) {
+            $(".jqx-calendar").jqxCalendar('addSpecialDate', selectedDate, 'specialDate', '');
+        }
+
+    }
+
     function ChargerListe() {
         $("#SelectionAvant").empty();
         $("#SelectionPendant").empty();
@@ -159,6 +195,7 @@
                 if (sortableIn == 0) {
                     ui.item.remove();
                     SaveNewOrder();
+                    ManageSpecialDate();
                 }
             },
             connectWith: '.divSelectionSection',
